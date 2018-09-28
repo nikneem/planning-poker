@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+    scrumpoker.nl:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - ASPNETCORE_HTTPS_PORT=44372
+        ports:
+            - '54000:80'
+            - '55000:443'
+        volumes:
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+    api.scrumpoker.nl:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - ASPNETCORE_HTTPS_PORT=44371
+        ports:
+            - '54001:80'
+            - '55001:443'
+        volumes:
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+

@@ -4,6 +4,12 @@
 .gitignore
 .vs
 .vscode
+docker-compose.yml
+docker-compose.*.yml
 */bin
 */obj
-**/.toolstarget
+
+node_modules
+npm-debug.log
+Dockerfile*
+docker-compose*

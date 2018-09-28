@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+    scrumpoker.nl:
+        image: scrumpoker.nl
+        hostname: scrumpoker.nl
+        build:
+            context: .
+            dockerfile: HexMaster.ScrumPoker.Client/Dockerfile
+        depends_on:
+            - api.scrumpoker.nl
+        networks:
+            - scrumpoker
+
+    api.scrumpoker.nl:
+        image: api.scrumpoker.nl
+        hostname: api.scrumpoker.nl
+        build:
+            context: .
+            dockerfile: HexMaster.ScrumPoker.Api/Dockerfile
+        depends_on:
+            - mongo
+        networks:
+            - scrumpoker
+
+    mongo:
+        image: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
+        ports:
+            - '27017:27017'
+        networks:
+            - scrumpoker
+
+networks:
+    scrumpoker:
+        driver: 'bridge'

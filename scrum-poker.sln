@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexMaster.ScrumPoker.Api", "HexMaster.ScrumPoker.Api\HexMaster.ScrumPoker.Api.csproj", "{BD5C38CD-7BDE-43CC-AAF6-A24538AD3EC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexMaster.ScrumPoker.Client", "HexMaster.ScrumPoker.Client\HexMaster.ScrumPoker.Client.csproj", "{8FA3ADFA-A8EA-44D8-A169-FE9294E16457}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EC802F40-E472-433E-A79F-AF1FC197CFB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{BD5C38CD-7BDE-43CC-AAF6-A24538AD3EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD5C38CD-7BDE-43CC-AAF6-A24538AD3EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD5C38CD-7BDE-43CC-AAF6-A24538AD3EC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FA3ADFA-A8EA-44D8-A169-FE9294E16457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FA3ADFA-A8EA-44D8-A169-FE9294E16457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FA3ADFA-A8EA-44D8-A169-FE9294E16457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA3ADFA-A8EA-44D8-A169-FE9294E16457}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC802F40-E472-433E-A79F-AF1FC197CFB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC802F40-E472-433E-A79F-AF1FC197CFB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC802F40-E472-433E-A79F-AF1FC197CFB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC802F40-E472-433E-A79F-AF1FC197CFB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

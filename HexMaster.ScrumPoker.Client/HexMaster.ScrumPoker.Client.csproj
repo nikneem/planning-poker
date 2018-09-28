@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <UserSecretsId>d89bb44b-23a0-46ac-a18b-a35844bec5d8</UserSecretsId>
+    <UserSecretsId>e470583c-8ab9-499d-90c6-657a08d9f074</UserSecretsId>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
