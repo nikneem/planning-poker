@@ -234,8 +234,8 @@ body {
   
   .page-content {
     position: relative;
-    background: #22252a;
-    min-height: 100vh;
+    background: $body-bg;
+    min-height: calc(100vh - 90px);
     width: calc(100% - 280px);
     padding: 0;
     padding-bottom: 70px;
@@ -253,7 +253,7 @@ body {
   }
   
   .footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
   }
@@ -414,15 +414,10 @@ body {
   }
   
   nav.navbar .sidebar-toggle {
-    width: 36px;
-    height: 36px;
-    line-height: 29px;
-    text-align: center;
     border-radius: 50%;
-    background: #282b2f;
-    color: #8a8d93;
-    font-size: 1.1rem;
-    border: 2px solid #3d4148;
+    background: transparent;
+    color: $body-color;
+    border: transparent;
     outline: none;
   }
   

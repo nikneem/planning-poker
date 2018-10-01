@@ -21,8 +21,14 @@
             <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
 
             <!-- Sign up button -->
-            <button class="btn btn-primary m-4 mb-0" type="button">Join</button>
-            <button class="btn btn-primary m-4 mb-0" type="button">Create</button>
+            <button class="btn btn-primary m-4 mb-0" type="button">
+              <a [routerLink]="['/poker/join']">
+                Join
+              </a> </button>
+            <button class="btn btn-primary m-4 mb-0" type="button">
+              <a [routerLink]="['/poker/create']">
+                Create
+              </a> </button>
 
           </form>
           <!-- Default form register -->
