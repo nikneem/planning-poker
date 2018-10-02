@@ -9,7 +9,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HexMaster.ScrumPoker.Client
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EC802F40-E472-433E-A79F-AF1FC197CFB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexMaster.ScrumPoker.Live", "HexMaster.ScrumPoker.Live\HexMaster.ScrumPoker.Live.csproj", "{A5E4F190-AAC9-4EB8-9E1A-C404893BFC00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HexMaster.ScrumPoker.Live", "HexMaster.ScrumPoker.Live\HexMaster.ScrumPoker.Live.csproj", "{A5E4F190-AAC9-4EB8-9E1A-C404893BFC00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Building Blocks", "Building Blocks", "{3F36DF75-74F2-443C-B0FC-294E250C0073}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBusServiceBus", "BuildingBlocks\EventBusServiceBus\EventBusServiceBus.csproj", "{D9E923CA-B949-40C5-A80B-E46DA4337FE2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBusRabbitMQ", "BuildingBlocks\EventBusRabbitMQ\EventBusRabbitMQ.csproj", "{0ABC6130-1598-44B0-A568-5FB3D58C7E39}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus", "BuildingBlocks\EventBus\EventBus.csproj", "{4CE241F6-580E-4521-B575-BDC61FB3842E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexMaster.Helpers", "..\HexMaster.Helpers\HexMaster.Helpers.csproj", "{51D60B59-46C2-4235-938B-37D7A380235A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +43,31 @@ Global
 		{A5E4F190-AAC9-4EB8-9E1A-C404893BFC00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5E4F190-AAC9-4EB8-9E1A-C404893BFC00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5E4F190-AAC9-4EB8-9E1A-C404893BFC00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9E923CA-B949-40C5-A80B-E46DA4337FE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E923CA-B949-40C5-A80B-E46DA4337FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E923CA-B949-40C5-A80B-E46DA4337FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E923CA-B949-40C5-A80B-E46DA4337FE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ABC6130-1598-44B0-A568-5FB3D58C7E39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ABC6130-1598-44B0-A568-5FB3D58C7E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ABC6130-1598-44B0-A568-5FB3D58C7E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ABC6130-1598-44B0-A568-5FB3D58C7E39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CE241F6-580E-4521-B575-BDC61FB3842E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CE241F6-580E-4521-B575-BDC61FB3842E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CE241F6-580E-4521-B575-BDC61FB3842E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CE241F6-580E-4521-B575-BDC61FB3842E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51D60B59-46C2-4235-938B-37D7A380235A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51D60B59-46C2-4235-938B-37D7A380235A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51D60B59-46C2-4235-938B-37D7A380235A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51D60B59-46C2-4235-938B-37D7A380235A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D9E923CA-B949-40C5-A80B-E46DA4337FE2} = {3F36DF75-74F2-443C-B0FC-294E250C0073}
+		{0ABC6130-1598-44B0-A568-5FB3D58C7E39} = {3F36DF75-74F2-443C-B0FC-294E250C0073}
+		{4CE241F6-580E-4521-B575-BDC61FB3842E} = {3F36DF75-74F2-443C-B0FC-294E250C0073}
+		{51D60B59-46C2-4235-938B-37D7A380235A} = {3F36DF75-74F2-443C-B0FC-294E250C0073}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9D2C46C-BF94-4E30-8DA7-BD65299E85F4}

@@ -21,7 +21,9 @@
             <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
 
             <!-- Sign up button -->
-            <button class="btn btn-primary m-4 mb-0" type="button">
+            <button (click)="signinWithGoogle()">Sign in with Google</button>
+            <button class=" btn
+              btn-primary m-4 mb-0" type="button">
               <a [routerLink]="['/poker/join']">
                 Join
               </a> </button>

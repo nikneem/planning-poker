@@ -5,6 +5,7 @@ import { HomeComponent } from './poker/home/home.component';
 import { LandingComponent } from './public/landing/landing.component';
 import { CreateComponent } from './poker/create/create.component';
 import { JoinComponent } from './poker/join/join.component';
+import { PbiComponent } from './poker/pbi/pbi.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,7 @@ const routes: Routes = [
       },
       {
         path: 'pbi/:id',
-        component: JoinComponent
+        component: PbiComponent
       },
       {
         path: 'home',
