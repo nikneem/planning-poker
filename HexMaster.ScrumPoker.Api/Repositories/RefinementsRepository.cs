@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using HexMaster.Helpers.Configuration;
 using HexMaster.Helpers.Infrastructure.Enums;
 using HexMaster.Helpers.Mongo;
+using HexMaster.ScrumPoker.Api.Contracts.Repositories;
 using HexMaster.ScrumPoker.Api.DomainModels;
 using HexMaster.ScrumPoker.Api.Entity;
 using HexMaster.ScrumPoker.Api.Mapping;
@@ -9,10 +11,9 @@ using MongoDB.Driver;
 
 namespace HexMaster.ScrumPoker.Api.Repositories
 {
-    public class RefinementsRepository : MongoRepositoryBase<RefinementEntity>
+    public class RefinementsRepository : MongoRepositoryBase<RefinementEntity>, IRefinementsRepository
     {
 
-        private const string DatabaseName = "PlanningPoker";
         private const string CollectionName = "Refinements";
 
         public async Task<Refinement> Get(Guid id)
@@ -53,7 +54,7 @@ namespace HexMaster.ScrumPoker.Api.Repositories
             return updated;
         }
 
-        public RefinementsRepository(string connectionString) : base(connectionString, DatabaseName, CollectionName)
+        public RefinementsRepository(MongoDbSettings connectionSettings) : base(connectionSettings, CollectionName)
         {
         }
     }

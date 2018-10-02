@@ -7,41 +7,43 @@ import { AppComponent } from './app.component';
 import { UserInterfaceModule } from './user-interface/user-interface.module';
 import { PokerModule } from './poker/poker.module';
 import { PublicModule } from './public/public.module';
-
-import {
-  SocialLoginModule,
-  AuthServiceConfig,
-  GoogleLoginProvider
-} from 'angularx-social-login';
+import { AuthService } from './services/auth.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { environment } from '../environments/environment';
+
+import { StoreModule } from '@ngrx/store';
+import { storeFreeze } from 'ngrx-store-freeze';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { INITIAL_APPSTORE, reducers } from './state/app.state';
+import { UserEffects } from './state/user/user.effects';
+
+let metaReducers = [];
+if (environment.production === false) {
+  metaReducers = [storeFreeze];
+}
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers: metaReducers,
+      initialState: INITIAL_APPSTORE
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 5 }),
+    EffectsModule.forRoot([UserEffects]),
     UserInterfaceModule,
     PokerModule,
-    PublicModule,
-    SocialLoginModule
+    PublicModule
   ],
   providers: [
-    {
-      provide: AuthServiceConfig,
-      useFactory: provideConfig
-    }
+    AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
-
-let config = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider(environment.google_client_id)
-  }
-]);
-
-export function provideConfig() {
-  return config;
-}

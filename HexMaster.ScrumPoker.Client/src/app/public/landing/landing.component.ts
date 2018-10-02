@@ -1,39 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { AuthService } from '../../services/auth.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../state/app.state';
+import { GetUserProfile } from '../../state/user/user.actions';
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
-  constructor(private socialAuthService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private store: Store<AppState>
+  ) {}
 
-  public signinWithGoogle() {
-    let socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-
-    this.socialAuthService
-      .signIn(socialPlatformProvider)
-      .then((userData) => {
-        //on success
-        //this will return user data from google. What you need is a user token which you will send it to the server
-        console.log(userData);
-        debugger;
-        //this.sendToRestApiMethod(userData.idToken);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
   }
-  //   sendToRestApiMethod(token: string) : void {
-  //     this.http.post(“url to google login in your rest api”, { token: token } }
-  //       .subscribe(onSuccess => {
-  //        //login was successful
-  //        //save the token that you got from your REST API in your preferred location i.e. as a Cookie or LocalStorage as you do with normal login
-  //      }, onFail => {
-  //         //login was unsuccessful
-  //         //show an error message
-  //      }
-  //    );
-  //  }
-  ngOnInit() {}
+  authenticate() {
+    this.authService.login();
+  }
+
+  ngOnInit() {
+    if (this.isAuthenticated()) {
+      this.store.dispatch(new GetUserProfile());
+    }
+  }
 }

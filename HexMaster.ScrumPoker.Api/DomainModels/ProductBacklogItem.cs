@@ -13,12 +13,12 @@ namespace HexMaster.ScrumPoker.Api.DomainModels
         public string Description { get; set; }
         public string LinkUrl { get; set; }
         public bool IsRefined { get; set; }
-        public int StoryPoints { get; set; }
+        public int? StoryPoints { get; set; }
         public double? Average => Votes?.Average(x => x.StoryPoints);
         public List<Vote> Votes { get; set; }
 
         public ProductBacklogItem(Guid id, string name, string title, string description, string link, bool isRefined,
-            int storyPoints, List<Vote> votes) : base(id)
+            int? storyPoints, List<Vote> votes) : base(id)
         {
             Name = name;
             Title = title;

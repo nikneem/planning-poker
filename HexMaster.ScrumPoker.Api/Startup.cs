@@ -9,6 +9,9 @@ using HexMaster.BuildingBlocks.EventBus.Abstractions;
 using HexMaster.BuildingBlocks.EventBus.Configuration;
 using HexMaster.BuildingBlocks.EventBusRabbitMQ;
 using HexMaster.BuildingBlocks.EventBusServiceBus;
+using HexMaster.Helpers.Configuration;
+using HexMaster.ScrumPoker.Api.Contracts.Repositories;
+using HexMaster.ScrumPoker.Api.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,11 +38,19 @@ namespace HexMaster.ScrumPoker.Api
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
 
-            var settingsSection = Configuration.GetSection("ApplicationSettings");
+            var settingsSection = Configuration.GetSection("EventBus");
             var eventBusSettings = settingsSection.Get<EventBusSettings>();
             services.Configure<EventBusSettings>(settingsSection);
 
+            var mongoSettingsSection = Configuration.GetSection(MongoDbSettings.SettingName);
+            var mongoSettings = mongoSettingsSection.Get<MongoDbSettings>();
+            services.Configure<MongoDbSettings>(mongoSettingsSection);
+
+            services.AddScoped<IRefinementsRepository, RefinementsRepository>();
+
             services.AddMemoryCache();
+            services.AddMvcCore()
+                .AddJsonFormatters();
 
             services.AddCors(options =>
             {

@@ -33,7 +33,7 @@ namespace HexMaster.ScrumPoker.Live
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
 
-            var settingsSection = Configuration.GetSection("ApplicationSettings");
+            var settingsSection = Configuration.GetSection("EventBus");
             var eventBusSettings = settingsSection.Get<EventBusSettings>();
             services.Configure<EventBusSettings>(settingsSection);
 

@@ -13,8 +13,7 @@ namespace HexMaster.ScrumPoker.Api.Entity
         public string Description { get; set; }
         public string LinkUrl { get; set; }
         public bool IsRefined { get; set; }
-        public int StoryPoints { get; set; }
-        public decimal Average { get; set; }
+        public int? StoryPoints { get; set; }
         public List<VoteEntity> Votes { get; set; }
     }
 }

@@ -6,11 +6,17 @@ import { LandingComponent } from './public/landing/landing.component';
 import { CreateComponent } from './poker/create/create.component';
 import { JoinComponent } from './poker/join/join.component';
 import { PbiComponent } from './poker/pbi/pbi.component';
+import { CallbackComponent } from './public/callback/callback.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LandingComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'callback',
+    component: CallbackComponent,
     pathMatch: 'full'
   },
   {
