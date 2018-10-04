@@ -6,9 +6,10 @@ import { CreateComponent } from './create/create.component';
 import { RouterModule } from '@angular/router';
 import { PbiComponent } from './pbi/pbi.component';
 import { ScrollbarModule } from 'ngx-scrollbar';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, ScrollbarModule],
+  imports: [CommonModule, RouterModule, ScrollbarModule, ReactiveFormsModule],
   declarations: [HomeComponent, JoinComponent, CreateComponent, PbiComponent]
 })
 export class PokerModule {}
