@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  FormArray,
+  Validators
+} from '@angular/forms';
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
@@ -8,20 +14,22 @@ import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 export class CreateComponent implements OnInit {
   public refinementForm: FormGroup;
   invitees: FormArray;
+  pbis: FormArray;
+
   constructor(private fb: FormBuilder) {
     this.ConstructForm();
   }
 
   ConstructForm() {
     this.refinementForm = this.fb.group({
-      name: [''],
+      name: ['', [Validators.required, Validators.minLength(4)]],
       invitees: this.fb.array([this.CreateInvitee()]),
-      pbis: this.fb.array([])
+      pbis: this.fb.array([this.CreatePbi()])
     });
   }
   CreateInvitee(): FormGroup {
     return this.fb.group({
-      email: ['']
+      email: ['', [Validators.required, Validators.minLength(4)]]
     });
   }
   AddInvitee() {
@@ -35,14 +43,25 @@ export class CreateComponent implements OnInit {
 
   CreatePbi(): FormGroup {
     return this.fb.group({
-      title: [''],
+      title: ['', [Validators.required, Validators.minLength(4)]],
       description: [''],
       url: ['']
     });
   }
+  AddPbi() {
+    this.pbis = this.refinementForm.get('pbis') as FormArray;
+    this.pbis.push(this.CreatePbi());
+  }
+  RemovePbi(index: number) {
+    this.pbis = this.refinementForm.get('pbis') as FormArray;
+    this.pbis.removeAt(index);
+  }
 
   SubmitCreate() {
     console.log(this.refinementForm.value);
+  }
+  get name() {
+    return this.refinementForm.get('name');
   }
 
   ngOnInit() {}
