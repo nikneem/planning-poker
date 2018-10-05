@@ -1,0 +1,15 @@
+<span class="heading">Main</span>
+<ul class="list-unstyled">
+  <li routerLinkActive="active"><a routerLink="home"><i class="fa fa-dashboard"></i>Home</a></li>
+  <li routerLinkActive="active"><a routerLink="create"><i class="fa fa-magic"></i>Create refinement</a></li>
+  <li routerLinkActive="active"><a routerLink="join"><i class="fa fa-group"></i>Join refinement</a></li>
+</ul>
+<span class="heading" *ngIf="refinement">{{refinement.name}}</span>
+<ul class="list-unstyled" *ngIf="refinement">
+  <li routerLinkActive="active" *ngFor="let pbi of refinement.productBacklogItems">
+    <a [routerLink]="['pbi', pbi.id]">
+      <i class="fa fa-check-circle-o"></i>
+      {{pbi.title}}
+    </a>
+  </li>
+</ul>

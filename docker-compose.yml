@@ -1,27 +1,52 @@
 version: '3.4'
 
 services:
-    scrumpoker.nl:
-        image: scrumpoker.nl
-        hostname: scrumpoker.nl
+    spa.planningpoker:
+        image: spa.planningpoker
+        hostname: spa.planningpoker
         build:
             context: .
-            dockerfile: HexMaster.ScrumPoker.Client/Dockerfile
+            dockerfile: HexMaster.PlanningPoker.Spa/Dockerfile
         depends_on:
-            - api.scrumpoker.nl
+            - api.planningpoker
         networks:
-            - scrumpoker
+            - planningpoker
 
-    api.scrumpoker.nl:
-        image: api.scrumpoker.nl
-        hostname: api.scrumpoker.nl
+    api.planningpoker:
+        image: api.planningpoker
+        hostname: api.planningpoker
         build:
             context: .
-            dockerfile: HexMaster.ScrumPoker.Api/Dockerfile
+            dockerfile: HexMaster.PlanningPoker.Api/Dockerfile
+        depends_on:
+            - refinements.planningpoker
+            - live.planningpoker
+        networks:
+            - planningpoker
+
+    refinements.planningpoker:
+        image: refinements.planningpoker
+        hostname: refinements.planningpoker
+        build:
+            context: .
+            dockerfile: HexMaster.PlanningPoker.Refinements/Dockerfile
         depends_on:
             - mongo
+            - rabbitmq
         networks:
-            - scrumpoker
+            - planningpoker
+
+    live.planningpoker:
+        image: live.planningpoker
+        hostname: live.planningpoker
+        build:
+            context: .
+            dockerfile: HexMaster.PlanningPoker.Live/Dockerfile
+        depends_on:
+            - mongo
+            - rabbitmq
+        networks:
+            - planningpoker
 
     mongo:
         image: mongo
@@ -33,7 +58,7 @@ services:
         ports:
             - '27017:27017'
         networks:
-            - scrumpoker
+            - planningpoker
 
     rabbitmq:
         image: 'rabbitmq:3-management'
@@ -46,8 +71,8 @@ services:
             - '15672:15672'
             - '5672:5672'
         networks:
-            - scrumpoker
+            - planningpoker
 
 networks:
-    scrumpoker:
+    planningpoker:
         driver: 'bridge'

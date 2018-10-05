@@ -1,0 +1,98 @@
+<div class="page-header">
+  <div class="container-fluid">
+    <h2 class="h5 no-margin-bottom">Create</h2>
+  </div>
+</div>
+<app-spinner [isLoading]="isLoading"></app-spinner>
+<section class="no-padding-top no-padding-bottom" *ngIf="refinementForm && !isLoading">
+  <form [formGroup]="refinementForm" (ngSubmit)="SubmitCreate()" no-validate>
+    <div class="container-fluid">
+
+      <div class="row">
+        <!-- Basic Form-->
+        <div class="col-12">
+          <div class="block">
+
+            <button type="submit" class="btn btn-primary" [disabled]="refinementForm.pristine || !refinementForm.valid">Create</button>
+            <h2>Create a new refinement</h2>
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="title">
+                  <strong class="d-block">Refinement details</strong>
+                  <span class="d-block">Enter the basic details of your refinement here</span></div>
+                <div class="block-body">
+                  <div class="form-group">
+                    <input id="name" type="text" placeholder="Title" class="form-control" formControlName="name" />
+                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                      <div *ngIf="name.errors.required">
+                        <small>Name is required.</small>
+                      </div>
+                      <div *ngIf="name.errors.minlength">
+                        <small>Name must be at least 4 characters long.</small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div formArrayName="invitees" *ngFor="let invitee of refinementForm.get('invitees').controls; let inviteeIndex = index;">
+                    <div class="form-group" [formGroupName]="inviteeIndex">
+                      <div class="input-group">
+                        <input type="email" placeholder="Invitee e-mail address" class="form-control" formControlName="email">
+                        <div class="input-group-append" *ngIf="inviteeIndex>0">
+                          <button type="button" class="btn btn-danger" title="Delete invitee" (click)="RemoveInvitee(inviteeIndex)"><i
+                              class="fa fa-close"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-12">
+                      <div class="i-checks">
+                        <input id="checkboxCustom1" type="checkbox" value="" class="checkbox-template">
+                        <label for="checkboxCustom1">Remember the invitees for the next time I visit</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" class="clearfix">
+                    <input type="button" value="Add invitee" class="btn btn-secondary float-right" (click)="AddInvitee()">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6  col-sm-12">
+                <div class="title">
+                  <strong class="d-block">Refinement content</strong>
+                  <span class="d-block">Enter information about the content you want to refine</span>
+                </div>
+                <div class="block-body pbis">
+                  <div formArrayName="productBacklogItems" *ngFor="let pbi of refinementForm.get('productBacklogItems').controls; let pbiIndex = index;">
+                    <div class="form-group form-block" [formGroupName]="pbiIndex">
+                      <div class="input-group">
+                        <input type="text" placeholder="PBI Title" class="form-control" formControlName="title">
+                        <div class="input-group-append" *ngIf="pbiIndex>0">
+                          <button type="button" class="btn btn-danger" title="Delete invitee" (click)="RemovePbi(pbiIndex)"><i
+                              class="fa fa-close"></i></button>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <input type="text" placeholder="Description" class="form-control" formControlName="description">
+                      </div>
+                      <div class="form-group">
+                        <input type="url" placeholder="URL" class="form-control" formControlName="url">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" class="clearfix">
+                    <input type="button" value="Add PBI" class="btn btn-secondary float-right" (click)="AddPbi()">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</section>

@@ -1,0 +1,23 @@
+.scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  .card {
+    display: inline-block;
+    padding: 10px;
+    .card-container {
+      padding: 5px;
+      .poker-card {
+        width: 100px;
+        height: 120px;
+      }
+    }
+    .dark {
+      opacity: 0.25;
+    }
+    .dark:hover {
+      opacity: 0.5;
+    }
+  }
+}

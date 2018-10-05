@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Base\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -20,10 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\HexMaster.Helpers\HexMaster.Helpers.csproj" />
     <ProjectReference Include="..\BuildingBlocks\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
     <ProjectReference Include="..\BuildingBlocks\EventBusServiceBus\EventBusServiceBus.csproj" />
     <ProjectReference Include="..\BuildingBlocks\EventBus\EventBus.csproj" />
+    <ProjectReference Include="..\HexMaster.Helpers\HexMaster.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

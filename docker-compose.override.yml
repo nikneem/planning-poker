@@ -1,11 +1,11 @@
 version: '3.4'
 
 services:
-    scrumpoker.nl:
+    spa.planningpoker:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=https://+:443;http://+:80
-            - ASPNETCORE_HTTPS_PORT=44372
+            - ASPNETCORE_HTTPS_PORT=44338
         ports:
             - '54000:80'
             - '55000:443'
@@ -13,14 +13,38 @@ services:
             - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
-    api.scrumpoker.nl:
+    api.planningpoker:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=https://+:443;http://+:80
-            - ASPNETCORE_HTTPS_PORT=44371
+            - ASPNETCORE_HTTPS_PORT=44322
         ports:
-            - '54001:80'
-            - '55001:443'
+            - '54400:80'
+            - '55500:443'
+        volumes:
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+    refinements.planningpoker:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - ASPNETCORE_HTTPS_PORT=44359
+        ports:
+            - '54401:80'
+            - '55501:443'
+        volumes:
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+    live.planningpoker:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - ASPNETCORE_HTTPS_PORT=44384
+        ports:
+            - '54402:80'
+            - '55502:443'
         volumes:
             - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
