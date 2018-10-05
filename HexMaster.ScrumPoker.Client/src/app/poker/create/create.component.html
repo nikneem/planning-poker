@@ -3,7 +3,8 @@
     <h2 class="h5 no-margin-bottom">Create</h2>
   </div>
 </div>
-<section class="no-padding-top no-padding-bottom" *ngIf="refinementForm">
+<app-spinner [isLoading]="isLoading"></app-spinner>
+<section class="no-padding-top no-padding-bottom" *ngIf="refinementForm && !isLoading">
   <form [formGroup]="refinementForm" (ngSubmit)="SubmitCreate()" no-validate>
     <div class="container-fluid">
 
@@ -63,7 +64,7 @@
                   <span class="d-block">Enter information about the content you want to refine</span>
                 </div>
                 <div class="block-body pbis">
-                  <div formArrayName="pbis" *ngFor="let pbi of refinementForm.get('pbis').controls; let pbiIndex = index;">
+                  <div formArrayName="productBacklogItems" *ngFor="let pbi of refinementForm.get('productBacklogItems').controls; let pbiIndex = index;">
                     <div class="form-group form-block" [formGroupName]="pbiIndex">
                       <div class="input-group">
                         <input type="text" placeholder="PBI Title" class="form-control" formControlName="title">

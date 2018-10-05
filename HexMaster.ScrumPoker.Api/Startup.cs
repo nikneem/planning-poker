@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using HexMaster.BuildingBlocks.EventBus;
@@ -11,16 +8,15 @@ using HexMaster.BuildingBlocks.EventBusRabbitMQ;
 using HexMaster.BuildingBlocks.EventBusServiceBus;
 using HexMaster.Helpers.Configuration;
 using HexMaster.ScrumPoker.Api.Contracts.Repositories;
+using HexMaster.ScrumPoker.Api.Contracts.Services;
 using HexMaster.ScrumPoker.Api.Repositories;
+using HexMaster.ScrumPoker.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
 namespace HexMaster.ScrumPoker.Api
@@ -47,6 +43,8 @@ namespace HexMaster.ScrumPoker.Api
             services.Configure<MongoDbSettings>(mongoSettingsSection);
 
             services.AddScoped<IRefinementsRepository, RefinementsRepository>();
+
+            services.AddTransient<IRefinementsService, RefinementsService>();
 
             services.AddMemoryCache();
             services.AddMvcCore()

@@ -26,7 +26,16 @@ namespace HexMaster.ScrumPoker.Api.DomainModels
             LinkUrl = link;
             IsRefined = isRefined;
             StoryPoints = storyPoints;
-            Votes = votes;
+            Votes = votes ?? new List<Vote>();
+        }
+
+        public ProductBacklogItem(string title, string description, string link) : base(Guid.NewGuid(), TrackingState.Added)
+        {
+            Title = title;
+            Name = title;
+            Description = description;
+            LinkUrl = link;
+            Votes = new List<Vote>();
         }
     }
 }

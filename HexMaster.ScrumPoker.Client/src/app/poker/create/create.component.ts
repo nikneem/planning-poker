@@ -6,6 +6,10 @@ import {
   FormArray,
   Validators
 } from '@angular/forms';
+import Refinement from '../../models/refinement.dto';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../state/app.state';
+import { CreateRefinement } from '../../state/refinement/refinement.actions';
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
@@ -14,17 +18,23 @@ import {
 export class CreateComponent implements OnInit {
   public refinementForm: FormGroup;
   invitees: FormArray;
-  pbis: FormArray;
+  productBacklogItems: FormArray;
 
-  constructor(private fb: FormBuilder) {
+  public isLoading: boolean;
+
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {
+    const self = this;
     this.ConstructForm();
+    this.store
+      .select((state) => state.refinementState.isLoading)
+      .subscribe((value) => (self.isLoading = value));
   }
 
   ConstructForm() {
     this.refinementForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(4)]],
       invitees: this.fb.array([this.CreateInvitee()]),
-      pbis: this.fb.array([this.CreatePbi()])
+      productBacklogItems: this.fb.array([this.CreatePbi()])
     });
   }
   CreateInvitee(): FormGroup {
@@ -49,16 +59,22 @@ export class CreateComponent implements OnInit {
     });
   }
   AddPbi() {
-    this.pbis = this.refinementForm.get('pbis') as FormArray;
-    this.pbis.push(this.CreatePbi());
+    this.productBacklogItems = this.refinementForm.get(
+      'productBacklogItems'
+    ) as FormArray;
+    this.productBacklogItems.push(this.CreatePbi());
   }
   RemovePbi(index: number) {
-    this.pbis = this.refinementForm.get('pbis') as FormArray;
-    this.pbis.removeAt(index);
+    this.productBacklogItems = this.refinementForm.get(
+      'productBacklogItems'
+    ) as FormArray;
+    this.productBacklogItems.removeAt(index);
   }
 
   SubmitCreate() {
-    console.log(this.refinementForm.value);
+    const refinement = new Refinement(this.refinementForm.value);
+    console.log(refinement);
+    this.store.dispatch(new CreateRefinement(refinement));
   }
   get name() {
     return this.refinementForm.get('name');

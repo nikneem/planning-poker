@@ -19,6 +19,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { INITIAL_APPSTORE, reducers } from './state/app.state';
 import { UserEffects } from './state/user/user.effects';
+import { RefinementEffects } from './state/refinement/refinement.effects';
+import { SharedcomponentsModule } from './sharedcomponents/sharedcomponents.module';
 
 let metaReducers = [];
 if (environment.production === false) {
@@ -37,10 +39,11 @@ if (environment.production === false) {
       initialState: INITIAL_APPSTORE
     }),
     StoreDevtoolsModule.instrument({ maxAge: 5 }),
-    EffectsModule.forRoot([UserEffects]),
+    EffectsModule.forRoot([UserEffects, RefinementEffects]),
     UserInterfaceModule,
     PokerModule,
-    PublicModule
+    PublicModule,
+    SharedcomponentsModule
   ],
   providers: [
     AuthService,

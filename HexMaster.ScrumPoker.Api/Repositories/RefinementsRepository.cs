@@ -7,6 +7,7 @@ using HexMaster.ScrumPoker.Api.Contracts.Repositories;
 using HexMaster.ScrumPoker.Api.DomainModels;
 using HexMaster.ScrumPoker.Api.Entity;
 using HexMaster.ScrumPoker.Api.Mapping;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace HexMaster.ScrumPoker.Api.Repositories
@@ -54,7 +55,7 @@ namespace HexMaster.ScrumPoker.Api.Repositories
             return updated;
         }
 
-        public RefinementsRepository(MongoDbSettings connectionSettings) : base(connectionSettings, CollectionName)
+        public RefinementsRepository(IOptions<MongoDbSettings> settingsOptions) : base(settingsOptions, CollectionName)
         {
         }
     }
