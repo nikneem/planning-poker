@@ -1,6 +1,18 @@
 version: '3.4'
 
 services:
+    spa.planningpoker:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - ASPNETCORE_HTTPS_PORT=44338
+        ports:
+            - '54000:80'
+            - '55000:443'
+        volumes:
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
     api.planningpoker:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development

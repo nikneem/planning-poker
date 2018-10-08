@@ -1,6 +1,17 @@
 version: '3.4'
 
 services:
+    spa.planningpoker:
+        image: spa.planningpoker
+        hostname: spa.planningpoker
+        build:
+            context: .
+            dockerfile: HexMaster.PlanningPoker.Spa/Dockerfile
+        depends_on:
+            - api.planningpoker
+        networks:
+            - planningpoker
+
     api.planningpoker:
         image: api.planningpoker
         hostname: api.planningpoker
