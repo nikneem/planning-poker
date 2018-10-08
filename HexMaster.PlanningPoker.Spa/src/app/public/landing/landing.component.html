@@ -11,36 +11,52 @@
           <p>Privacy is OK! So we don't ask for a lot of details.
             You do however, need to identify yourself so we don't
             confuse you with somebody else...
-
             <button class="btn btn-primary m-4 mb-0" type="button" (click)="authenticate()">Identify</button>
           </p>
         </div>
         <div class="startpane" *ngIf="isAuthenticated()">
           <h1><strong>Scrum</strong>Poker</h1>
           <!-- Default form register -->
-          <form class="text-center">
+          <form class="text-center" [formGroup]="joinForm" (ngSubmit)="SubmitJoin()" no-validate>
             <div class="form-row mb-4">
               <div class="col">
                 <!-- First name -->
-                <input type="text" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name">
+                <input [attr.autofocus]="firstName === null ? '' : null" type="text" id="defaultRegisterFormFirstName"
+                  class="form-control" placeholder="First name" formControlName="firstName">
               </div>
               <div class="col">
                 <!-- Last name -->
-                <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name">
+                <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name"
+                  formControlName="lastName">
               </div>
             </div>
 
-            <!-- E-mail -->
-            <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
+            <input [attr.autofocus]="firstName !== null ? '' : null" type="text" id="defaultRegisterFormEmail" class="form-control mb-4 session-code"
+              placeholder="Session Code" formControlName="sessionCode">
 
             <!-- Sign up button -->
-            <button class="btn btn-primary m-4 mb-0" type="button" [routerLink]="['/poker/join']">Join</button>
-            <button class="btn btn-primary m-4 mb-0" type="button" [routerLink]="['/poker/create']">Create</button>
+            <button class="btn btn-primary m-4 mb-0" type="submit" [disabled]="joinForm.pristine || !joinForm.valid">Join</button>
 
           </form>
           <!-- Default form register -->
         </div>
       </div>
     </div>
+  </div>
+</div>
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="display-4">Planning Poker</h1>
+    <p class="lead">
+      Planning poker, also called Scrum poker, is a consensus-based, gamified technique for estimating,
+      mostly used to estimate effort or relative size of development goals in software development.</p>
+    <hr class="my-4">
+    <p>
+      We take away the pain of having to buy planning poker cards and allow you to poker digitally.
+      You can immidiately start pokering, or define an entire refinement session.
+    </p>
+    <p class="lead">
+      <button class="btn btn-primary btn-lg" type="button" (click)="authenticate()">Log in and try</button>
+    </p>
   </div>
 </div>

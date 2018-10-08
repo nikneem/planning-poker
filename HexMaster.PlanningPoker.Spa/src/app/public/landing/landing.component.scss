@@ -1,25 +1,33 @@
+.bg {
+  /* The image used */
+  background-image: url('/assets/images/scrum-poker.jpg');
 
-.bg { 
-    /* The image used */
-    background-image: url("/assets/images/scrum-poker.jpg");
+  /* Full height */
+  height: 100%;
+  width: 100%;
 
-    /* Full height */
-    height: 100%; 
-    width: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    .startpane {
-        background-color: rgba(0,0,0,.75);
-        border-radius: 20px;
-        padding: 20px;
-        color: #eee;
-        text-align: center;
-        h1{ font-weight: 200;      }       
-        strong{font-weight: 400;}
-
+  .startpane {
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 20px;
+    padding: 20px;
+    color: #eee;
+    text-align: center;
+    h1 {
+      font-weight: 200;
     }
+    strong {
+      font-weight: 400;
+    }
+  }
+}
+.jumbotron {
+  margin: 20px;
+}
+input.session-code {
+  text-align: center;
 }

@@ -21,6 +21,7 @@ import { INITIAL_APPSTORE, reducers } from './state/app.state';
 import { UserEffects } from './state/user/user.effects';
 import { RefinementEffects } from './state/refinement/refinement.effects';
 import { SharedcomponentsModule } from './sharedcomponents/sharedcomponents.module';
+import { RefinementModule } from './refinement/refinement.module';
 
 let metaReducers = [];
 if (environment.production === false) {
@@ -43,7 +44,8 @@ if (environment.production === false) {
     UserInterfaceModule,
     PokerModule,
     PublicModule,
-    SharedcomponentsModule
+    SharedcomponentsModule,
+    RefinementModule
   ],
   providers: [
     AuthService,
