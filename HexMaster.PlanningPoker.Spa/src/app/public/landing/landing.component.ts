@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app.state';
 import { GetUserProfile } from '../../state/user/user.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import JoinSessionDto from '../../models/poker.dto';
+import { PokerSessionJoinRequest } from 'src/app/models/poker.dto';
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
@@ -33,7 +33,7 @@ export class LandingComponent implements OnInit {
   }
 
   SubmitJoin() {
-    const joinSessionDto = new JoinSessionDto(this.joinForm.value);
+    const joinSessionDto = new PokerSessionJoinRequest(this.joinForm.value);
     localStorage.setItem('firstName', joinSessionDto.firstName);
     localStorage.setItem('lastName', joinSessionDto.lastName);
   }

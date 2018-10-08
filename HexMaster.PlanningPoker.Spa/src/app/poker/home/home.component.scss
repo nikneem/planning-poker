@@ -1,0 +1,22 @@
+div.cards-holder {
+  img {
+    width: 40px;
+    height: 60px;
+    opacity: 0.5;
+    cursor: pointer;
+  }
+  img:hover {
+    opacity: 1;
+  }
+}
+div.small-cards-holder {
+  img {
+    width: 40px;
+    height: 60px;
+    opacity: 0.2;
+    cursor: pointer;
+  }
+  img:hover {
+    opacity: 1;
+  }
+}
