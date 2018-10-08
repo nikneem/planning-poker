@@ -6,7 +6,7 @@
     <ProjectGuid>ec802f40-e472-433e-a79f-af1fc197cfb4</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>https://localhost:55000</DockerServiceUrl>
-    <DockerServiceName>scrum-poker</DockerServiceName>
+    <DockerServiceName>api.planningpoker</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

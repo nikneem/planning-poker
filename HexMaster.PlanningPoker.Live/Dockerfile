@@ -1,9 +1,9 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.1.5-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 57505
 EXPOSE 44384
 
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM microsoft/dotnet:2.1.5-aspnetcore-runtime AS build
 WORKDIR /src
 COPY ["HexMaster.PlanningPoker.Live/HexMaster.PlanningPoker.Live.csproj", "HexMaster.PlanningPoker.Live/"]
 RUN dotnet restore "HexMaster.PlanningPoker.Live/HexMaster.PlanningPoker.Live.csproj"

@@ -1,6 +1,6 @@
 {
-  "name": "ppclient",
-  "version": "0.0.0",
+  "name": "planningpoker",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
