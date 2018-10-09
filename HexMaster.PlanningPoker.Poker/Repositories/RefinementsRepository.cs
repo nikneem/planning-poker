@@ -16,6 +16,8 @@ namespace HexMaster.PlanningPoker.Poker.Repositories
 
         private const string CollectionName = "PokerSessions";
 
+
+
         public async Task<PokerSession> Get(string sessionCode)
         {
             var filter = Builders<PokerSessionEntity>.Filter.Eq(nameof(PokerSessionEntity.SessionCode), sessionCode);
@@ -36,8 +38,24 @@ namespace HexMaster.PlanningPoker.Poker.Repositories
 
             return false;
         }
+        public async Task<bool> Update(PokerSession model)
+        {
+            bool updated = false;
+            if (model.State == TrackingState.Modified)
+            {
+                var entity = model.ToEntity();
+                var filter = Builders<PokerSessionEntity>.Filter.Eq(nameof(PokerSessionEntity.Id), model.Id);
+                var result = await Collection.ReplaceOneAsync(filter, entity);
+                updated = result.IsAcknowledged;
+            }
 
+            if (model.State == TrackingState.Touched)
+            {
+                updated = true;
+            }
 
+            return updated;
+        }
 
         public PokerSessionsRepository(IOptions<MongoDbSettings> settingsOptions) : base(settingsOptions, CollectionName)
         {

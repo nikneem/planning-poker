@@ -6,6 +6,7 @@ namespace HexMaster.PlanningPoker.Poker.Contracts.Repositories
     public interface IPokerSessionsRepository
     {
         Task<bool> Create(PokerSession model);
+        Task<bool> Update(PokerSession model);
         Task<PokerSession> Get(string sessionCode);
     }
 }

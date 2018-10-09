@@ -15,8 +15,7 @@ import { PokerEffects } from '../state/poker/poker.effects';
     RouterModule,
     ScrollbarModule,
     ReactiveFormsModule,
-    SharedcomponentsModule,
-    EffectsModule.forFeature([PokerEffects])
+    SharedcomponentsModule
   ],
   declarations: [HomeComponent],
   providers: [PokerSessionService]

@@ -5,6 +5,7 @@ using System.Linq;
 using HexMaster.Helpers.DomainModels;
 using HexMaster.Helpers.Infrastructure.Enums;
 using HexMaster.PlanningPoker.Poker.Infrastructure.Enums;
+using HexMaster.PlanningPoker.Poker.Services;
 
 namespace HexMaster.PlanningPoker.Poker.DomainModels
 {
@@ -26,6 +27,7 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
             if (_participants.All(p => p.Id != participant.Id))
             {
                 _participants.Add(participant);
+                SetState(TrackingState.Modified);
             }
            }
         public void SetName(string value)
@@ -75,6 +77,7 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
         private PokerSession() : base(Guid.NewGuid(), TrackingState.Added)
         {
             _participants=new List<Participant>();
+            SessionCode = Randomizer.GetRandomRefinementCode();
         }
 
         public static PokerSession Create(string firstName, string lastName, string sessionName, ControlType type, StartType start)

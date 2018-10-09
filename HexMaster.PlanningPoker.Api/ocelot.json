@@ -13,6 +13,18 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/pokersessions/join",
+      "UpstreamHttpMethod": [ "POST", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/pokersessions/join",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "poker.planningpoker",
+          "Port": 80
+        }
+      ]
+    },
+    {
       "DownstreamPathTemplate": "/api/refinements",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

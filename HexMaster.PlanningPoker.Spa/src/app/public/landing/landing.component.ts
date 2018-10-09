@@ -5,6 +5,8 @@ import { AppState } from '../../state/app.state';
 import { GetUserProfile } from '../../state/user/user.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PokerSessionJoinRequest } from 'src/app/models/poker.dto';
+import { JoinSession } from 'src/app/state/poker/poker.actions';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
@@ -14,6 +16,7 @@ export class LandingComponent implements OnInit {
   joinForm: FormGroup;
   firstName: string;
   constructor(
+    private router: Router,
     private authService: AuthService,
     private store: Store<AppState>,
     private fb: FormBuilder
@@ -36,6 +39,8 @@ export class LandingComponent implements OnInit {
     const joinSessionDto = new PokerSessionJoinRequest(this.joinForm.value);
     localStorage.setItem('firstName', joinSessionDto.firstName);
     localStorage.setItem('lastName', joinSessionDto.lastName);
+    this.store.dispatch(new JoinSession(joinSessionDto));
+    this.router.navigate(['/poker/home']);
   }
 
   isAuthenticated(): boolean {

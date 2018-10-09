@@ -24,9 +24,21 @@ namespace HexMaster.PlanningPoker.Poker.Services
             return null;
         }
 
-        public Task<PokerSessionDto> Join(PokerSessionJoinRequestDto model)
+        public async Task<PokerSessionDto> Join(PokerSessionJoinRequestDto model)
         {
-            throw new NotImplementedException();
+            var pokerSession = await Repository.Get(model.SessionCode);
+            if (pokerSession != null)
+            {
+                var participant = Participant.Create(model.FirstName, model.LastName);
+                pokerSession.AddParticipant(participant);
+            }
+
+            if (await Repository.Update(pokerSession))
+            {
+                return pokerSession.ToDataTransferObject();
+            }
+
+            return null;
         }
 
         public PokerSessionsService(IPokerSessionsRepository repository)
