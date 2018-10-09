@@ -36,6 +36,18 @@ services:
         networks:
             - planningpoker
 
+    poker.planningpoker:
+        image: poker.planningpoker
+        hostname: poker.planningpoker
+        build:
+            context: .
+            dockerfile: HexMaster.PlanningPoker.Poker/Dockerfile
+        depends_on:
+            - mongo
+            - rabbitmq
+        networks:
+            - planningpoker
+
     live.planningpoker:
         image: live.planningpoker
         hostname: live.planningpoker

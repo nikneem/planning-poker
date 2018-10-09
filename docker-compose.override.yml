@@ -37,14 +37,26 @@ services:
             - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
+    poker.planningpoker:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - ASPNETCORE_HTTPS_PORT=44358
+        ports:
+            - '54402:80'
+            - '55502:443'
+        volumes:
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
     live.planningpoker:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=https://+:443;http://+:80
             - ASPNETCORE_HTTPS_PORT=44384
         ports:
-            - '54402:80'
-            - '55502:443'
+            - '54403:80'
+            - '55503:443'
         volumes:
             - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
