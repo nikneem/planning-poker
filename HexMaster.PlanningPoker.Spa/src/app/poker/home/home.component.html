@@ -1,6 +1,6 @@
 <div class="page-header">
   <div class="container-fluid">
-    <h2 class="h5 no-margin-bottom">Dashboard</h2>
+    <h2 class="h5 no-margin-bottom">Planning Poker</h2>
   </div>
 </div>
 <section class="no-padding-top no-padding-bottom" *ngIf="errorMessage && !isLoading">
@@ -9,7 +9,7 @@
   </div>
 </section>
 <app-spinner [isLoading]="isLoading"></app-spinner>
-<section class="no-padding-top no-padding-bottom">
+<section class="no-padding-top no-padding-bottom" *ngIf="pokerSession">
   <div class="public-user-block block">
     <div class="row d-flex align-items-center">
       <div class="col-6 col-xl-3 d-flex align-items-center">
@@ -101,7 +101,7 @@
   </div>
 </section>
 
-<section class="no-padding-top no-padding-bottom">
+<section class="no-padding-top no-padding-bottom" *ngIf="pokerSession">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3 col-sm-6">
@@ -153,6 +153,72 @@
           </div>
           <div class="progress progress-template">
             <div role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="no-padding-top no-padding-bottom" *ngIf="!pokerSession && createForm">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="block">
+          <div class="title"><strong>Start a new poker session</strong></div>
+          <div class="block-body">
+            <form class="form-horizontal" [formGroup]="createForm" (ngSubmit)="submitCreate()" no-validate>
+              <div class="form-group row">
+                <label class="col-sm-3 form-control-label">Your name</label>
+                <div class="col-sm-9">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <input type="text" placeholder="First name" class="form-control" formControlName="firstName">
+                    </div>
+                    <div class="col-md-6">
+                      <input type="text" placeholder="Last name" class="form-control" formControlName="lastName">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="form-group row">
+                <label class="col-sm-3 form-control-label">Poker session name</label>
+                <div class="col-sm-9">
+                  <input type="text" placeholder="My session name" class="form-control" formControlName="sessionName">
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="form-group row">
+                <label class="col-sm-3 form-control-label">Settings</label>
+                <div class="col-sm-9">
+                  <div class="i-checks">
+                    <input id="radioCustom1" type="radio" value="single" formControlName="controlType" class="radio-template">
+                    <label for="radioCustom1">Only I am in control of this session</label>
+                  </div>
+                  <div class="i-checks">
+                    <input id="radioCustom2" type="radio" value="shared" formControlName="controlType" class="radio-template">
+                    <label for="radioCustom2">Everyone with the session code can control this session</label>
+                  </div>
+                  <div class="i-checks">
+                    <input id="radioCustom1" type="radio" value="automatically" formControlName="startType" class="radio-template">
+                    <label for="radioCustom1">Session is available right away</label>
+                  </div>
+                  <div class="i-checks">
+                    <input id="radioCustom2" type="radio" value="manual" formControlName="startType" class="radio-template">
+                    <label for="radioCustom2">I manually start the session before it comes available</label>
+                  </div>
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="form-group row">
+                <div class="col-sm-9 ml-auto">
+                  <input type="submit" class="btn btn-primary" [disabled]="createForm.pristine || !createForm.valid || isLoading"
+                    value="Create session" />
+                </div>
+              </div>
+
+            </form>
           </div>
         </div>
       </div>

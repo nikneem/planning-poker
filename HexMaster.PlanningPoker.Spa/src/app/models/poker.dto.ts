@@ -11,7 +11,9 @@ export class PokerSessionCreateRequest {
   public firstName: string;
   public lastName: string;
   public sessionName: string;
-  public constructor(init?: Partial<PokerSessionJoinRequest>) {
+  public controlType: string;
+  public startType: string;
+  public constructor(init?: Partial<PokerSessionCreateRequest>) {
     Object.assign(this, init);
   }
 }

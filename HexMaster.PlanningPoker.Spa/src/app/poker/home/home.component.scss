@@ -20,3 +20,10 @@ div.small-cards-holder {
     opacity: 1;
   }
 }
+
+input.ng-touched.ng-invalid {
+  border-color: red;
+}
+input.ng-dirty.ng-invalid {
+  border-color: red;
+}

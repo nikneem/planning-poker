@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
-import { PokerSession } from 'src/app/models/poker.dto';
+import {
+  PokerSession,
+  PokerSessionCreateRequest
+} from 'src/app/models/poker.dto';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CreateSession } from 'src/app/state/poker/poker.actions';
 
 @Component({
   selector: 'app-home',
@@ -12,8 +17,9 @@ export class HomeComponent implements OnInit {
   pokerSession: PokerSession;
   isLoading: boolean = true;
   errorMessage: string;
+  createForm: FormGroup;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private fb: FormBuilder) {
     const self = this;
     this.store
       .select((state) => state.pokerState.currentSession)
@@ -26,5 +32,24 @@ export class HomeComponent implements OnInit {
       .subscribe((value) => (self.errorMessage = value));
   }
 
-  ngOnInit() {}
+  initializeForm() {
+    const firstName = localStorage.getItem('firstName');
+    const lastName = localStorage.getItem('lastName');
+    this.createForm = this.fb.group({
+      firstName: [firstName, [Validators.required]],
+      lastName: [lastName],
+      sessionName: ['', [Validators.required]],
+      controlType: ['shared'],
+      startType: ['automatically']
+    });
+  }
+  submitCreate() {
+    const createRequest = new PokerSessionCreateRequest(this.createForm.value);
+    console.log(createRequest);
+    this.store.dispatch(new CreateSession(createRequest));
+  }
+
+  ngOnInit() {
+    this.initializeForm();
+  }
 }
