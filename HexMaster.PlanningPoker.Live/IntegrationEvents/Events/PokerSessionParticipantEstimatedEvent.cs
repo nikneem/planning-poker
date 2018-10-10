@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HexMaster.BuildingBlocks.EventBus.Events;
 
-namespace HexMaster.PlanningPoker.Poker.IntegrationEvents.Events
+namespace HexMaster.PlanningPoker.Live.IntegrationEvents.Events
 {
     public class PokerSessionParticipantEstimatedEvent : IntegrationEvent
     {

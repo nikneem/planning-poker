@@ -3,7 +3,9 @@ import {
   pokerActionTypes,
   CreateSession,
   CreateSessionSuccess,
-  CreateSessionFailed
+  CreateSessionFailed,
+  JoinSessionSuccess,
+  JoinSessionFailed
 } from './poker.actions';
 
 export function PokerReducer(state: PokerState, action: any) {
@@ -70,17 +72,17 @@ function joinSessionHandler(
 
 function joinSessionSuccessHandler(
   state: PokerState,
-  action: CreateSessionSuccess
+  action: JoinSessionSuccess
 ): PokerState {
   const copyState: PokerState = Object.assign({}, state);
   copyState.isLoading = false;
-  copyState.currentSession = action.session;
+  copyState.currentSession = action.pokerSession;
   return copyState;
 }
 
 function joinSessionFailedHandler(
   state: PokerState,
-  action: CreateSessionFailed
+  action: JoinSessionFailed
 ): PokerState {
   const copyState: PokerState = Object.assign({}, state);
   copyState.isLoading = false;

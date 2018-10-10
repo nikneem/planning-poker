@@ -1,6 +1,8 @@
 <div class="page-header">
   <div class="container-fluid">
-    <h2 class="h5 no-margin-bottom">Planning Poker</h2>
+    <h2 class="h5 no-margin-bottom" *ngIf="!pokerSession">Planning Poker</h2>
+    <h2 class="h5 no-margin-bottom" *ngIf="pokerSession">{{pokerSession.name}}
+      <span class="pull-right">Code: {{pokerSession.sessionCode}}</span></h2>
   </div>
 </div>
 <section class="no-padding-top no-padding-bottom" *ngIf="errorMessage && !isLoading">
@@ -13,8 +15,11 @@
   <div class="public-user-block block">
     <div class="row d-flex align-items-center">
       <div class="col-6 col-xl-3 d-flex align-items-center">
-        <div class="avatar"> <img src="/assets/images/profile-placeholder.png" alt="..." class="img-fluid"></div><a
-          href="#" class="name"><strong class="d-block">Tomas Hecktor</strong><span class="d-block">@tomhecktor</span></a>
+        <div class="avatar">
+          <img src="/assets/images/profile-placeholder.png" title="{{pokerSession.me.displayName}}" class="img-fluid">
+        </div>
+        <strong class="d-block">{{pokerSession.me.displayName}}</strong>
+        <!-- <span class="d-block">@tomhecktor</span> -->
       </div>
       <div class="col-6 col-xl-3 text-center">
         <div class="contributions">Connected</div>
@@ -35,59 +40,13 @@
       </div>
     </div>
   </div>
-  <div class="public-user-block block">
+  <div class="public-user-block block" *ngFor="let participant of pokerSession.others">
     <div class="row d-flex align-items-center">
       <div class="col-3 d-flex align-items-center">
-        <div class="avatar"> <img src="/assets/images/profile-placeholder.png" alt="..." class="img-fluid"></div><a
-          href="#" class="name"><strong class="d-block">Emmerson Fittipaldi</strong><span class="d-block">@fittipaldie</span></a>
-      </div>
-      <div class="col-3 text-center">
-        <div class="contributions">Connected</div>
-      </div>
-      <div class="col-6">
-        <div class="details d-flex small-cards-holder pull-right">
-          <div class="item"><img src="/assets/images/cards/back.svg" /></div>
+        <div class="avatar">
+          <img src="/assets/images/profile-placeholder.png" alt="..." class="img-fluid">
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="public-user-block block">
-    <div class="row d-flex align-items-center">
-      <div class="col-3 d-flex align-items-center">
-        <div class="avatar"> <img src="/assets/images/profile-placeholder.png" alt="..." class="img-fluid"></div><a
-          href="#" class="name"><strong class="d-block">Ayrton Senna</strong><span class="d-block">@asenna</span></a>
-      </div>
-      <div class="col-3 text-center">
-        <div class="contributions">Connected</div>
-      </div>
-      <div class="col-6">
-        <div class="details d-flex small-cards-holder pull-right">
-          <div class="item"><img src="/assets/images/cards/back.svg" /></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="public-user-block block">
-    <div class="row d-flex align-items-center">
-      <div class="col-3 d-flex align-items-center">
-        <div class="avatar"> <img src="/assets/images/profile-placeholder.png" alt="..." class="img-fluid"></div><a
-          href="#" class="name"><strong class="d-block">Emmerson Fittipaldi</strong><span class="d-block">@fittipaldie</span></a>
-      </div>
-      <div class="col-3 text-center">
-        <div class="contributions">Connected</div>
-      </div>
-      <div class="col-6">
-        <div class="details d-flex small-cards-holder pull-right">
-          <div class="item"><img src="/assets/images/cards/back.svg" /></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="public-user-block block">
-    <div class="row d-flex align-items-center">
-      <div class="col-3 d-flex align-items-center">
-        <div class="avatar"> <img src="/assets/images/profile-placeholder.png" alt="..." class="img-fluid"></div><a
-          href="#" class="name"><strong class="d-block">Ayrton Senna</strong><span class="d-block">@asenna</span></a>
+        <strong class="d-block">{{participant.displayName}}</strong>
       </div>
       <div class="col-3 text-center">
         <div class="contributions">Connected</div>

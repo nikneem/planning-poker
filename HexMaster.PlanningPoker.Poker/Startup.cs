@@ -12,6 +12,7 @@ using HexMaster.BuildingBlocks.EventBusServiceBus;
 using HexMaster.Helpers.Configuration;
 using HexMaster.PlanningPoker.Poker.Contracts.Repositories;
 using HexMaster.PlanningPoker.Poker.Contracts.Services;
+using HexMaster.PlanningPoker.Poker.IntegrationEvents;
 using HexMaster.PlanningPoker.Poker.Repositories;
 using HexMaster.PlanningPoker.Poker.Services;
 using Microsoft.AspNetCore.Builder;
@@ -49,6 +50,7 @@ namespace HexMaster.PlanningPoker.Poker
             services.Configure<MongoDbSettings>(mongoSettingsSection);
 
             services.AddScoped<IPokerSessionsRepository, PokerSessionsRepository>();
+            services.AddScoped<IPlanningPokerEventsService, PlanningPokerEventsService>();
 
             services.AddTransient<IPokerSessionsService, PokerSessionsService>();
 

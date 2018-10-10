@@ -35,7 +35,7 @@ export class JoinSession implements Action {
 
 export class JoinSessionSuccess implements Action {
   readonly type = pokerActionTypes.joinSessionSuccess;
-  constructor(public refinement: PokerSession) {}
+  constructor(public pokerSession: PokerSession) {}
 }
 
 export class JoinSessionFailed implements Action {

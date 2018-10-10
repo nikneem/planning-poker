@@ -5,6 +5,8 @@ using HexMaster.PlanningPoker.Poker.Contracts.Repositories;
 using HexMaster.PlanningPoker.Poker.Contracts.Services;
 using HexMaster.PlanningPoker.Poker.DataTransferObjects;
 using HexMaster.PlanningPoker.Poker.DomainModels;
+using HexMaster.PlanningPoker.Poker.IntegrationEvents;
+using HexMaster.PlanningPoker.Poker.IntegrationEvents.Events;
 using HexMaster.PlanningPoker.Poker.Mapping;
 
 namespace HexMaster.PlanningPoker.Poker.Services
@@ -12,6 +14,7 @@ namespace HexMaster.PlanningPoker.Poker.Services
     public class PokerSessionsService: IPokerSessionsService
     {
         public IPokerSessionsRepository Repository { get; }
+        public IPlanningPokerEventsService EventService { get; }
 
         public async Task<PokerSessionDto> Create(PokerSessionCreateRequestDto model)
         {
@@ -36,6 +39,10 @@ namespace HexMaster.PlanningPoker.Poker.Services
 
                 if (await Repository.Update(pokerSession))
                 {
+                    var displayName = string.IsNullOrEmpty(participant.LastName)
+                        ? participant.FirstName
+                        : $"{participant.FirstName} {participant.LastName}";
+                    EventService.PublishThroughEventBusAsync(new PokerSessionParticipantJoinedEvent(pokerSession.Id, participant.Id, displayName));
                     return pokerSession.ToDataTransferObject(participant.Id);
                 }
             }
@@ -47,12 +54,18 @@ namespace HexMaster.PlanningPoker.Poker.Services
         {
             var pokerSession = await Repository.Get(dto.SessionId);
             pokerSession.SetEstimation(dto.ParticipantId, dto.Estimation);
-            return await Repository.Update(pokerSession);
+            var result = await Repository.Update(pokerSession);
+            if (result)
+            {
+                 EventService.PublishThroughEventBusAsync(new PokerSessionParticipantEstimatedEvent(pokerSession.Id, dto.ParticipantId, dto.Estimation));
+            }
+            return result;
         }
 
-        public PokerSessionsService(IPokerSessionsRepository repository)
+        public PokerSessionsService(IPokerSessionsRepository repository, IPlanningPokerEventsService eventService)
         {
             Repository = repository;
+            EventService = eventService;
         }
     }
 }

@@ -7,6 +7,8 @@ import {
 } from 'src/app/models/poker.dto';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateSession } from 'src/app/state/poker/poker.actions';
+import { HubConnection } from '@aspnet/signalr';
+import * as signalR from '@aspnet/signalr';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +20,8 @@ export class HomeComponent implements OnInit {
   isLoading: boolean = true;
   errorMessage: string;
   createForm: FormGroup;
+
+  private pokerSessionHubConnection: HubConnection | undefined;
 
   constructor(private store: Store<AppState>, private fb: FormBuilder) {
     const self = this;
@@ -43,6 +47,29 @@ export class HomeComponent implements OnInit {
       startType: ['automatically']
     });
   }
+
+  registerSignalRListener(userId: string) {
+    this.pokerSessionHubConnection = new signalR.HubConnectionBuilder()
+      .withUrl('http://localhost:54403/pokersession')
+      .configureLogging(signalR.LogLevel.Information)
+      .build();
+
+    this.pokerSessionHubConnection
+      .start()
+      .then(() => {
+        this.pokerSessionHubConnection.on(
+          'notificationReceived',
+          (headline: string, message: string) => {
+            console.log(`Data received over SignalR: ${headline}`);
+            this.toastr.success(message, headline);
+          }
+        );
+
+        this.pokerSessionHubConnection.invoke('RegisterUserId', userId);
+      })
+      .catch((err) => console.error(err.toString()));
+  }
+
   submitCreate() {
     const createRequest = new PokerSessionCreateRequest(this.createForm.value);
     console.log(createRequest);

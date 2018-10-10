@@ -19,12 +19,14 @@ export class PokerSessionCreateRequest {
 }
 
 export class PokerSession {
-  public sessionId: string;
-  public sessionName: string;
+  public id: string;
+  public name: string;
+  public sessionCode: string;
   public me: Participant;
   public others: Array<Participant>;
   public lastActivity: Date;
   public firstActivity: Date;
+  public isStarted: boolean;
   public constructor(init?: Partial<PokerSession>) {
     Object.assign(this, init);
   }
