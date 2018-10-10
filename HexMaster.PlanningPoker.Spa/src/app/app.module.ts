@@ -22,6 +22,7 @@ import { UserEffects } from './state/user/user.effects';
 import { RefinementEffects } from './state/refinement/refinement.effects';
 import { SharedcomponentsModule } from './sharedcomponents/sharedcomponents.module';
 import { RefinementModule } from './refinement/refinement.module';
+import { PokerEffects } from './state/poker/poker.effects';
 
 let metaReducers = [];
 if (environment.production === false) {
@@ -40,7 +41,7 @@ if (environment.production === false) {
       initialState: INITIAL_APPSTORE
     }),
     StoreDevtoolsModule.instrument({ maxAge: 5 }),
-    EffectsModule.forRoot([UserEffects, RefinementEffects]),
+    EffectsModule.forRoot([UserEffects, RefinementEffects, PokerEffects]),
     UserInterfaceModule,
     PokerModule,
     PublicModule,

@@ -1,6 +1,30 @@
 {
   "ReRoutes": [
     {
+      "UpstreamPathTemplate": "/pokersessions",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/pokersessions",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "poker.planningpoker",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/pokersessions/join",
+      "UpstreamHttpMethod": [ "POST", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/pokersessions/join",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "poker.planningpoker",
+          "Port": 80
+        }
+      ]
+    },
+    {
       "DownstreamPathTemplate": "/api/refinements",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

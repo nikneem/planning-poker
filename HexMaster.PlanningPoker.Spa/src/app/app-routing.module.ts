@@ -3,10 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './user-interface/layout/layout.component';
 import { HomeComponent } from './poker/home/home.component';
 import { LandingComponent } from './public/landing/landing.component';
-import { CreateComponent } from './poker/create/create.component';
-import { JoinComponent } from './poker/join/join.component';
-import { PbiComponent } from './poker/pbi/pbi.component';
 import { CallbackComponent } from './public/callback/callback.component';
+import { CreateComponent } from './refinement/create/create.component';
+import { JoinComponent } from './refinement/join/join.component';
+import { PbiComponent } from './refinement/pbi/pbi.component';
 
 const routes: Routes = [
   {
@@ -24,6 +24,16 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
+        path: 'home',
+        component: HomeComponent
+      }
+    ]
+  },
+  {
+    path: 'refinement',
+    component: LayoutComponent,
+    children: [
+      {
         path: 'create',
         component: CreateComponent
       },
@@ -34,10 +44,6 @@ const routes: Routes = [
       {
         path: 'pbi/:id',
         component: PbiComponent
-      },
-      {
-        path: 'home',
-        component: HomeComponent
       }
     ]
   }

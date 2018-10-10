@@ -1,41 +1,75 @@
 <div class="page-header">
   <div class="container-fluid">
-    <h2 class="h5 no-margin-bottom">Dashboard</h2>
+    <h2 class="h5 no-margin-bottom" *ngIf="!pokerSession">Planning Poker</h2>
+    <h2 class="h5 no-margin-bottom" *ngIf="pokerSession">{{pokerSession.name}}
+      <span class="pull-right">Code: {{pokerSession.sessionCode}}</span></h2>
   </div>
 </div>
-
-<section class="no-padding-top no-padding-bottom">
+<section class="no-padding-top no-padding-bottom" *ngIf="errorMessage && !isLoading">
+  <div class="alert alert-danger">
+    <strong>Error!</strong> {{errorMessage}}
+  </div>
+</section>
+<app-spinner [isLoading]="isLoading"></app-spinner>
+<section class="no-padding-top no-padding-bottom" *ngIf="pokerSession">
   <div class="public-user-block block">
     <div class="row d-flex align-items-center">
-      <div class="col-lg-4 d-flex align-items-center">
-        <div class="order">4th</div>
-        <div class="avatar"> <img src="/assets/images/profile-placeholder.png" alt="..." class="img-fluid"></div><a
-          href="#" class="name"><strong class="d-block">Tomas Hecktor</strong><span class="d-block">@tomhecktor</span></a>
+      <div class="col-6 col-xl-3 d-flex align-items-center">
+        <div class="avatar">
+          <img src="/assets/images/profile-placeholder.png" title="{{pokerSession.me.displayName}}" class="img-fluid">
+        </div>
+        <strong class="d-block">{{pokerSession.me.displayName}}</strong>
+        <!-- <span class="d-block">@tomhecktor</span> -->
       </div>
-      <div class="col-lg-4 text-center">
-        <div class="contributions">410 Contributions</div>
+      <div class="col-6 col-xl-3 text-center">
+        <div class="contributions">Connected</div>
       </div>
-      <div class="col-lg-4">
-        <div class="details d-flex">
-          <div class="item"><i class="icon-info"></i><strong>110</strong></div>
-          <div class="item"><i class="fa fa-gg"></i><strong>200</strong></div>
-          <div class="item"><i class="icon-flow-branch"></i><strong>100</strong></div>
+      <div class="col-12 col-xl-6">
+        <div class="details d-flex cards-holder">
+          <div class="item"><img src="/assets/images/cards/half.svg" /></div>
+          <div class="item"><img src="/assets/images/cards/1.svg" /></div>
+          <div class="item"><img src="/assets/images/cards/2.svg" /></div>
+          <div class="item"><img src="/assets/images/cards/3.svg" /></div>
+          <div class="item"><img src="/assets/images/cards/5.svg" /></div>
+          <div class="item"><img src="/assets/images/cards/8.svg" /></div>
+          <div class="item"><img src="/assets/images/cards/13.svg" /></div>
+          <div class="item"><img src="/assets/images/cards/20.svg" /></div>
+          <div class="item"><img src="/assets/images/cards/40.svg" /></div>
+          <div class="item"><img src="/assets/images/cards/100.svg" /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="public-user-block block" *ngFor="let participant of pokerSession.others">
+    <div class="row d-flex align-items-center">
+      <div class="col-3 d-flex align-items-center">
+        <div class="avatar">
+          <img src="/assets/images/profile-placeholder.png" alt="..." class="img-fluid">
+        </div>
+        <strong class="d-block">{{participant.displayName}}</strong>
+      </div>
+      <div class="col-3 text-center">
+        <div class="contributions">Connected</div>
+      </div>
+      <div class="col-6">
+        <div class="details d-flex small-cards-holder pull-right">
+          <div class="item"><img src="/assets/images/cards/back.svg" /></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="no-padding-top no-padding-bottom">
+<section class="no-padding-top no-padding-bottom" *ngIf="pokerSession">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3 col-sm-6">
         <div class="statistic-block block">
           <div class="progress-details d-flex align-items-end justify-content-between">
             <div class="title">
-              <div class="icon"><i class="icon-user-1"></i></div><strong>New Clients</strong>
+              <div class="icon"><i class="icon-user-1"></i></div><strong>Average</strong>
             </div>
-            <div class="number dashtext-1">27</div>
+            <div class="number dashtext-1">19</div>
           </div>
           <div class="progress progress-template">
             <div role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
@@ -46,9 +80,9 @@
         <div class="statistic-block block">
           <div class="progress-details d-flex align-items-end justify-content-between">
             <div class="title">
-              <div class="icon"><i class="icon-contract"></i></div><strong>New Projects</strong>
+              <div class="icon"><i class="icon-contract"></i></div><strong>Advised</strong>
             </div>
-            <div class="number dashtext-2">375</div>
+            <div class="number dashtext-2">20</div>
           </div>
           <div class="progress progress-template">
             <div role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>
@@ -59,9 +93,9 @@
         <div class="statistic-block block">
           <div class="progress-details d-flex align-items-end justify-content-between">
             <div class="title">
-              <div class="icon"><i class="icon-paper-and-pencil"></i></div><strong>New Invoices</strong>
+              <div class="icon"><i class="icon-paper-and-pencil"></i></div><strong>Lowest (Ayton, Emmerson)</strong>
             </div>
-            <div class="number dashtext-3">140</div>
+            <div class="number dashtext-3">13</div>
           </div>
           <div class="progress progress-template">
             <div role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-3"></div>
@@ -72,12 +106,78 @@
         <div class="statistic-block block">
           <div class="progress-details d-flex align-items-end justify-content-between">
             <div class="title">
-              <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong>All Projects</strong>
+              <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong>Highest (Tomas, Henk)</strong>
             </div>
-            <div class="number dashtext-4">41</div>
+            <div class="number dashtext-4">40</div>
           </div>
           <div class="progress progress-template">
             <div role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="no-padding-top no-padding-bottom" *ngIf="!pokerSession && createForm">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="block">
+          <div class="title"><strong>Start a new poker session</strong></div>
+          <div class="block-body">
+            <form class="form-horizontal" [formGroup]="createForm" (ngSubmit)="submitCreate()" no-validate>
+              <div class="form-group row">
+                <label class="col-sm-3 form-control-label">Your name</label>
+                <div class="col-sm-9">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <input type="text" placeholder="First name" class="form-control" formControlName="firstName">
+                    </div>
+                    <div class="col-md-6">
+                      <input type="text" placeholder="Last name" class="form-control" formControlName="lastName">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="form-group row">
+                <label class="col-sm-3 form-control-label">Poker session name</label>
+                <div class="col-sm-9">
+                  <input type="text" placeholder="My session name" class="form-control" formControlName="sessionName">
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="form-group row">
+                <label class="col-sm-3 form-control-label">Settings</label>
+                <div class="col-sm-9">
+                  <div class="i-checks">
+                    <input id="radioCustom1" type="radio" value="single" formControlName="controlType" class="radio-template">
+                    <label for="radioCustom1">Only I am in control of this session</label>
+                  </div>
+                  <div class="i-checks">
+                    <input id="radioCustom2" type="radio" value="shared" formControlName="controlType" class="radio-template">
+                    <label for="radioCustom2">Everyone with the session code can control this session</label>
+                  </div>
+                  <div class="i-checks">
+                    <input id="radioCustom1" type="radio" value="automatically" formControlName="startType" class="radio-template">
+                    <label for="radioCustom1">Session is available right away</label>
+                  </div>
+                  <div class="i-checks">
+                    <input id="radioCustom2" type="radio" value="manual" formControlName="startType" class="radio-template">
+                    <label for="radioCustom2">I manually start the session before it comes available</label>
+                  </div>
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="form-group row">
+                <div class="col-sm-9 ml-auto">
+                  <input type="submit" class="btn btn-primary" [disabled]="createForm.pristine || !createForm.valid || isLoading"
+                    value="Create session" />
+                </div>
+              </div>
+
+            </form>
           </div>
         </div>
       </div>

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
-import { JoinComponent } from './join/join.component';
-import { CreateComponent } from './create/create.component';
 import { RouterModule } from '@angular/router';
-import { PbiComponent } from './pbi/pbi.component';
 import { ScrollbarModule } from 'ngx-scrollbar';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedcomponentsModule } from '../sharedcomponents/sharedcomponents.module';
+import { PokerSessionService } from '../services/poker.service';
+import { EffectsModule } from '@ngrx/effects';
+import { PokerEffects } from '../state/poker/poker.effects';
 
 @NgModule({
   imports: [
@@ -17,6 +17,7 @@ import { SharedcomponentsModule } from '../sharedcomponents/sharedcomponents.mod
     ReactiveFormsModule,
     SharedcomponentsModule
   ],
-  declarations: [HomeComponent, JoinComponent, CreateComponent, PbiComponent]
+  declarations: [HomeComponent],
+  providers: [PokerSessionService]
 })
 export class PokerModule {}

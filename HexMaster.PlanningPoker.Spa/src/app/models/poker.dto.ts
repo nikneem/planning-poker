@@ -7,10 +7,26 @@ export class PokerSessionJoinRequest {
   }
 }
 
+export class PokerSessionCreateRequest {
+  public firstName: string;
+  public lastName: string;
+  public sessionName: string;
+  public controlType: string;
+  public startType: string;
+  public constructor(init?: Partial<PokerSessionCreateRequest>) {
+    Object.assign(this, init);
+  }
+}
+
 export class PokerSession {
-  public sessionId: string;
+  public id: string;
+  public name: string;
+  public sessionCode: string;
   public me: Participant;
   public others: Array<Participant>;
+  public lastActivity: Date;
+  public firstActivity: Date;
+  public isStarted: boolean;
   public constructor(init?: Partial<PokerSession>) {
     Object.assign(this, init);
   }
@@ -19,7 +35,18 @@ export class PokerSession {
 export class Participant {
   public id: string;
   public displayName: string;
-  public constructor(init?: PokerSession) {
+  public estimation?: number;
+  public canEdit: boolean;
+  public constructor(init?: Partial<Participant>) {
+    Object.assign(this, init);
+  }
+}
+
+export class Estimation {
+  public sessionId: string;
+  public participantId: string;
+  public estimation: number;
+  public constructot(init?: Partial<Estimation>) {
     Object.assign(this, init);
   }
 }

@@ -4,7 +4,9 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app.state';
 import { GetUserProfile } from '../../state/user/user.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import JoinSessionDto from '../../models/poker.dto';
+import { PokerSessionJoinRequest } from 'src/app/models/poker.dto';
+import { JoinSession } from 'src/app/state/poker/poker.actions';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
@@ -12,8 +14,10 @@ import JoinSessionDto from '../../models/poker.dto';
 })
 export class LandingComponent implements OnInit {
   joinForm: FormGroup;
+  createForm: FormGroup;
   firstName: string;
   constructor(
+    private router: Router,
     private authService: AuthService,
     private store: Store<AppState>,
     private fb: FormBuilder
@@ -30,12 +34,21 @@ export class LandingComponent implements OnInit {
         [Validators.required, Validators.minLength(8), Validators.maxLength(8)]
       ]
     });
+    this.createForm = this.fb.group({
+      firstName: [this.firstName, [Validators.required]],
+      lastName: [lastName],
+      sessionName: ['', [Validators.required]],
+      controlType: ['shared'],
+      startType: ['automatically']
+    });
   }
 
   SubmitJoin() {
-    const joinSessionDto = new JoinSessionDto(this.joinForm.value);
+    const joinSessionDto = new PokerSessionJoinRequest(this.joinForm.value);
     localStorage.setItem('firstName', joinSessionDto.firstName);
     localStorage.setItem('lastName', joinSessionDto.lastName);
+    this.store.dispatch(new JoinSession(joinSessionDto));
+    this.router.navigate(['/poker/home']);
   }
 
   isAuthenticated(): boolean {
