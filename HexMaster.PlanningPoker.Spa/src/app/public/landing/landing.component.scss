@@ -1,3 +1,5 @@
+@import '../../../variables.scss';
+
 .bg {
   /* The image used */
   background-image: url('/assets/images/scrum-poker.jpg');
@@ -23,6 +25,9 @@
     strong {
       font-weight: 400;
     }
+    .tab-content {
+      text-align: left;
+    }
   }
 }
 .jumbotron {
@@ -30,4 +35,34 @@
 }
 input.session-code {
   text-align: center;
+}
+.tab-pane {
+  padding: 1rem;
+  border: none;
+}
+.nav-tabs {
+  border-bottom: none;
+}
+.nav-tabs {
+  .nav-item {
+    a {
+      color: $gray-500;
+    }
+    a:hover {
+      color: $white;
+    }
+    a.active {
+      color: $primary;
+    }
+  }
+  .nav-item:hover {
+    border-color: $primary;
+  }
+  .nav-link {
+    border: none;
+  }
+  .nav-link.active {
+    background-color: transparent;
+    border: none;
+  }
 }

@@ -17,27 +17,89 @@
         <div class="startpane" *ngIf="isAuthenticated()">
           <h1><strong>Scrum</strong>Poker</h1>
           <!-- Default form register -->
-          <form class="text-center" [formGroup]="joinForm" (ngSubmit)="SubmitJoin()" no-validate>
-            <div class="form-row mb-4">
-              <div class="col">
-                <!-- First name -->
-                <input [attr.autofocus]="firstName === null ? '' : null" type="text" id="defaultRegisterFormFirstName"
-                  class="form-control" placeholder="First name" formControlName="firstName">
-              </div>
-              <div class="col">
-                <!-- Last name -->
-                <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name"
-                  formControlName="lastName">
-              </div>
+
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#join" role="tab" aria-controls="join"
+                aria-selected="true">Join a session</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create"
+                aria-selected="false">Create a session</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="join" role="tabpanel" aria-labelledby="join-tab">
+              <form [formGroup]="joinForm" (ngSubmit)="SubmitJoin()" no-validate>
+                <div class="form-row mb-4">
+                  <div class="col">
+                    <!-- First name -->
+                    <input [attr.autofocus]="firstName === null ? '' : null" type="text" id="defaultRegisterFormFirstName"
+                      class="form-control" placeholder="First name" formControlName="firstName">
+                  </div>
+                  <div class="col">
+                    <!-- Last name -->
+                    <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name"
+                      formControlName="lastName">
+                  </div>
+                </div>
+
+                <input [attr.autofocus]="firstName !== null ? '' : null" type="text" id="defaultRegisterFormEmail"
+                  class="form-control mb-4 session-code" placeholder="Session Code" formControlName="sessionCode">
+
+                <!-- Sign up button -->
+                <button class="btn btn-primary m-4 mb-0" type="submit" [disabled]="joinForm.pristine || !joinForm.valid">Join</button>
+
+              </form>
             </div>
+            <div class="tab-pane fade" id="create" role="tabpanel" aria-labelledby="create-tab">
+              <form [formGroup]="createForm" (ngSubmit)="SubmitCreate()" no-validate *ngIf="createForm">
+                <div class="form-row mb-4">
+                  <div class="col">
+                    <!-- First name -->
+                    <input [attr.autofocus]="firstName === null ? '' : null" type="text" id="createFormFirstName" class="form-control"
+                      placeholder="First name" formControlName="firstName">
+                  </div>
+                  <div class="col">
+                    <!-- Last name -->
+                    <input type="text" id="createFormLastName" class="form-control" placeholder="Last name"
+                      formControlName="lastName">
+                  </div>
+                </div>
 
-            <input [attr.autofocus]="firstName !== null ? '' : null" type="text" id="defaultRegisterFormEmail" class="form-control mb-4 session-code"
-              placeholder="Session Code" formControlName="sessionCode">
+                <input [attr.autofocus]="firstName !== null ? '' : null" type="text" id="createFormEmail" class="form-control mb-4 session-code"
+                  placeholder="Session Name" formControlName="sessionName">
 
-            <!-- Sign up button -->
-            <button class="btn btn-primary m-4 mb-0" type="submit" [disabled]="joinForm.pristine || !joinForm.valid">Join</button>
 
-          </form>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <div class="i-checks">
+                      <input id="radioCustom1" type="radio" value="single" formControlName="controlType" class="radio-template">
+                      <label for="radioCustom1">Only I am in control of this session</label>
+                    </div>
+                    <div class="i-checks">
+                      <input id="radioCustom2" type="radio" value="shared" formControlName="controlType" class="radio-template">
+                      <label for="radioCustom2">Everyone with the session code can control this session</label>
+                    </div>
+                    <div class="i-checks">
+                      <input id="radioCustom1" type="radio" value="automatically" formControlName="startType" class="radio-template">
+                      <label for="radioCustom1">Session is available right away</label>
+                    </div>
+                    <div class="i-checks">
+                      <input id="radioCustom2" type="radio" value="manual" formControlName="startType" class="radio-template">
+                      <label for="radioCustom2">I manually start the session before it comes available</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Sign up button -->
+                <button class="btn btn-primary m-4 mb-0" type="submit" [disabled]="createForm.pristine || !createForm.valid">Create</button>
+
+              </form>
+            </div>
+          </div>
+
+
           <!-- Default form register -->
         </div>
       </div>

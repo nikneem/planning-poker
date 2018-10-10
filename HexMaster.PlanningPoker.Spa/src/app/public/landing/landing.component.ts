@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class LandingComponent implements OnInit {
   joinForm: FormGroup;
+  createForm: FormGroup;
   firstName: string;
   constructor(
     private router: Router,
@@ -32,6 +33,13 @@ export class LandingComponent implements OnInit {
         '',
         [Validators.required, Validators.minLength(8), Validators.maxLength(8)]
       ]
+    });
+    this.createForm = this.fb.group({
+      firstName: [this.firstName, [Validators.required]],
+      lastName: [lastName],
+      sessionName: ['', [Validators.required]],
+      controlType: ['shared'],
+      startType: ['automatically']
     });
   }
 
