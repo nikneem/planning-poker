@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using HexMaster.PlanningPoker.Poker.Contracts.Repositories;
 using HexMaster.PlanningPoker.Poker.Contracts.Services;
@@ -18,7 +19,7 @@ namespace HexMaster.PlanningPoker.Poker.Services
                 model.ControlType, model.StartType);
             if (await Repository.Create(pokerSession))
             {
-                return pokerSession.ToDataTransferObject();
+                return pokerSession.ToDataTransferObject(pokerSession.Participants.First().Id);
             }
 
             return null;
@@ -31,11 +32,12 @@ namespace HexMaster.PlanningPoker.Poker.Services
             {
                 var participant = Participant.Create(model.FirstName, model.LastName);
                 pokerSession.AddParticipant(participant);
-            }
 
-            if (await Repository.Update(pokerSession))
-            {
-                return pokerSession.ToDataTransferObject();
+
+                if (await Repository.Update(pokerSession))
+                {
+                    return pokerSession.ToDataTransferObject(participant.Id);
+                }
             }
 
             return null;

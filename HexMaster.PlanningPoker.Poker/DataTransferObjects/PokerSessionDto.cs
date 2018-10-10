@@ -9,10 +9,10 @@ namespace HexMaster.PlanningPoker.Poker.DataTransferObjects
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string SessionCode { get; set; }
-        public ControlType ControlType { get; set; }
-        public List<ParticipantDto> Participants { get; set; }
-        public DateTimeOffset CreatedOn { get; set; }
-        public DateTimeOffset? StartedOn { get; set; }
-        public DateTimeOffset ExpiresOn { get; set; }
+        public ParticipantDto Me { get; set; }
+        public List<ParticipantDto> Others { get; set; }
+        public DateTimeOffset LastActivity { get; set; }
+        public DateTimeOffset FirstActivity{ get; set; }
+        public bool IsStarted { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using HexMaster.Helpers.Infrastructure.Enums;
 using HexMaster.PlanningPoker.Poker.DataTransferObjects;
 using HexMaster.PlanningPoker.Poker.DomainModels;
@@ -53,19 +54,19 @@ namespace HexMaster.PlanningPoker.Poker.Mapping
         }
 
 
-        public static PokerSessionDto ToDataTransferObject(this PokerSession domainModel)
+        public static PokerSessionDto ToDataTransferObject(this PokerSession domainModel, Guid self)
         {
             var participants = domainModel.Participants.Select(ToDataTransferObject).ToList();
             return new PokerSessionDto()
             {
                 Id = domainModel.Id,
                 Name = domainModel.Name,
-                StartedOn = domainModel.StartedOn,
-                ControlType = domainModel.ControlType,
-                ExpiresOn = domainModel.ExpiresOn,
-                CreatedOn = domainModel.CreatedOn,
                 SessionCode = domainModel.SessionCode,
-                Participants = participants
+                FirstActivity = domainModel.CreatedOn,
+                IsStarted = domainModel.StartedOn.HasValue,
+                LastActivity = domainModel.CreatedOn,
+                Me = participants.FirstOrDefault(p => p.Id == self),
+                Others = participants.Where(p => p.Id != self).ToList()
             };
         }
         public static ParticipantDto ToDataTransferObject(this Participant domainModel)
