@@ -9,7 +9,7 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public bool IsOwner { get; private set; }
-        public int? PokerValue { get; private set; }
+        public decimal? Estimation { get; private set; }
         public bool IsConnected { get; private set; }
         public DateTimeOffset LastActivityOn { get; private set; }
 
@@ -34,18 +34,18 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
 
         public void ResetValue()
         {
-            if (PokerValue.HasValue)
+            if (Estimation.HasValue)
             {
-                PokerValue = null;
+                Estimation = null;
                 SetState(TrackingState.Modified);
             }
         }
 
-        public void SetPokerValue(int value)
+        public void SetPokerValue(decimal value)
         {
-            if (!Equals(PokerValue, value))
+            if (!Equals(Estimation, value))
             {
-                PokerValue = value;
+                Estimation = value;
                 SetState(TrackingState.Modified);
                 LastActivityOn=DateTimeOffset.UtcNow;
             }
@@ -71,13 +71,13 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
 
 
 
-        public Participant(Guid id, string firstName, string lastName, bool isOwner, bool isConnected, int? pokerCard, DateTimeOffset lastActivity) : base(id)
+        public Participant(Guid id, string firstName, string lastName, bool isOwner, bool isConnected, decimal? estimation, DateTimeOffset lastActivity) : base(id)
         {
             FirstName = firstName;
             LastName = lastName;
             IsOwner = isOwner;
             IsConnected = isConnected;
-            PokerValue = pokerCard;
+            Estimation = estimation;
             LastActivityOn = lastActivity;
         }
         private Participant() : base(Guid.NewGuid(), TrackingState.Added)
@@ -92,6 +92,11 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
             participant.SetLastname(lastName);
             participant.IsOwner = isOwner;
             return participant;
+        }
+
+        public void Delete()
+        {
+            SetState(TrackingState.Deleted);
         }
     }
 }

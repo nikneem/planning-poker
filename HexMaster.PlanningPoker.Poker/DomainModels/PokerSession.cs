@@ -20,16 +20,7 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
         public DateTimeOffset CreatedOn { get; private set; }
         public DateTimeOffset? StartedOn { get; private set; }
         public DateTimeOffset ExpiresOn { get; private set; }
-
-
-        public void AddParticipant(Participant participant)
-        {
-            if (_participants.All(p => p.Id != participant.Id))
-            {
-                _participants.Add(participant);
-                SetState(TrackingState.Modified);
-            }
-           }
+        
         public void SetName(string value)
         {
             SetState(TrackingState.Modified);
@@ -39,6 +30,25 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
                 SetState(TrackingState.Modified);
             }
         }
+
+        public void AddParticipant(Participant participant)
+        {
+            if (_participants.All(p => p.Id != participant.Id))
+            {
+                _participants.Add(participant);
+                SetState(TrackingState.Modified);
+            }
+           }
+        public void RemoveParticipant(Guid id)
+        {
+            var participant = _participants.FirstOrDefault(p => p.Id == id);
+            if (participant != null)
+            {
+                participant.Delete();
+                SetState(TrackingState.Modified);
+            }
+        }
+
         public void SetControlType(ControlType value)
         {
             SetState(TrackingState.Modified);
@@ -48,6 +58,7 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
                 SetState(TrackingState.Modified);
             }
         }
+
         public void Start()
         {
             if (!StartedOn.HasValue)
@@ -56,6 +67,7 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
                 SetState(TrackingState.Modified);
             }
         }
+
         public void Reset()
         {
             _participants.ForEach(p => p.ResetValue());
@@ -63,7 +75,21 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
             ExpiresOn = DateTimeOffset.UtcNow.AddHours(3);
         }
 
+        public void SetEstimation(Guid participantId, decimal estimation)
+        {
+            if (!estimation.InFibonacciRange())
+            {
+                throw new Exception("The estimation doesn't match one of the valid values");
+            }
 
+            var participant = _participants.FirstOrDefault(p => p.Id == participantId);
+            if (participant == null)
+            {
+                throw new Exception("The participant was not found");
+            }
+            participant.SetPokerValue(estimation);
+        }
+        
         public PokerSession(Guid id, string name, string sessionCode, ControlType control, List<Participant> participants, DateTimeOffset created, DateTimeOffset? started, DateTimeOffset expires) : base(id)
         {
             Name = name;

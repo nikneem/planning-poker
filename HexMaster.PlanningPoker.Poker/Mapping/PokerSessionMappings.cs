@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using HexMaster.Helpers.Infrastructure.Enums;
 using HexMaster.PlanningPoker.Poker.DataTransferObjects;
 using HexMaster.PlanningPoker.Poker.DomainModels;
 using HexMaster.PlanningPoker.Poker.Entities;
@@ -16,13 +17,15 @@ namespace HexMaster.PlanningPoker.Poker.Mapping
         }
         public static Participant ToDomainModel(this ParticipantEntity entity)
         {
-            return new Participant(entity.Id, entity.FirstName, entity.Lastname, entity.IsOwner, entity.IsConnected, entity.PokerValue, entity.LastActivityOn);
+            return new Participant(entity.Id, entity.FirstName, entity.Lastname, entity.IsOwner, entity.IsConnected, entity.Estimation, entity.LastActivityOn);
         }
 
 
         public static PokerSessionEntity ToEntity(this PokerSession domainModel)
         {
-            var participants = domainModel.Participants.Select(ToEntity).ToList();
+            var participants = domainModel.Participants
+                .Where(x=> x.State != TrackingState.Deleted)
+                .Select(ToEntity).ToList();
             return new PokerSessionEntity()
             {
                 Id = domainModel.Id,
@@ -45,7 +48,7 @@ namespace HexMaster.PlanningPoker.Poker.Mapping
                 IsConnected = domainModel.IsConnected,
                 IsOwner = domainModel.IsOwner,
                 LastActivityOn = domainModel.LastActivityOn,
-                PokerValue = domainModel.PokerValue
+                Estimation = domainModel.Estimation
             };
         }
 
@@ -75,7 +78,7 @@ namespace HexMaster.PlanningPoker.Poker.Mapping
                 IsConnected = domainModel.IsConnected,
                 IsOwner = domainModel.IsOwner,
                 LastActivityOn = domainModel.LastActivityOn,
-                PokerValue = domainModel.PokerValue
+                Estimation = domainModel.Estimation
             };
         }
         
