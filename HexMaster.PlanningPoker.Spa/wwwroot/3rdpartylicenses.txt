@@ -56,10 +56,6 @@ https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Obj
 
 https://developer.mozilla.org/en-US/docs/Project:Copyrights
 
-@angular/core@6.1.9
-MIT
-MIT
-
 tslib@1.9.3
 Apache-2.0
 Apache License
@@ -117,6 +113,10 @@ If the Work includes a "NOTICE" text file as part of its distribution, then any 
 9. Accepting Warranty or Additional Liability. While redistributing the Work or Derivative Works thereof, You may choose to offer, and charge a fee for, acceptance of support, warranty, indemnity, or other liability obligations and/or rights consistent with this License. However, in accepting such obligations, You may act only on Your own behalf and on Your sole responsibility, not on behalf of any other Contributor, and only if You agree to indemnify, defend, and hold each Contributor harmless for any liability incurred by, or claims asserted against, such Contributor by reason of your accepting any such warranty or additional liability.
 
 END OF TERMS AND CONDITIONS
+
+@angular/core@6.1.9
+MIT
+MIT
 
 rxjs@6.3.2
 Apache-2.0
@@ -384,7 +384,7 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-color-name@1.1.4
+color-name@1.1.3
 MIT
 The MIT License (MIT)
 Copyright (c) 2015 Dmitry Ivanov

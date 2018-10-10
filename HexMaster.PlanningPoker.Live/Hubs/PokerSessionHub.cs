@@ -23,9 +23,9 @@ namespace HexMaster.PlanningPoker.Live.Hubs
             await _context.Clients.Group(pokerSessionId.ToString()).SendAsync("participantJoined", participantId, displayName);
         }
         
-        public async Task RegisterParticipant(string userId)
+        public async Task RegisterParticipant(string pokerSession)
         {
-            await _context.Groups.AddToGroupAsync(Context.ConnectionId, userId);
+            await _context.Groups.AddToGroupAsync(Context.ConnectionId, pokerSession);
         }
 
 

@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   isLoading: boolean = true;
   errorMessage: string;
   createForm: FormGroup;
+  pokerSessionId: string;
 
   private pokerSessionHubConnection: HubConnection | undefined;
 
@@ -27,7 +28,15 @@ export class HomeComponent implements OnInit {
     const self = this;
     this.store
       .select((state) => state.pokerState.currentSession)
-      .subscribe((value) => (self.pokerSession = value));
+      .subscribe((value) => {
+        self.pokerSession = value;
+        if (self.pokerSession !== null) {
+          if (self.pokerSession.id !== self.pokerSessionId) {
+            self.registerSignalRListener();
+          }
+          self.pokerSessionId = self.pokerSession.id;
+        }
+      });
     this.store
       .select((state) => state.pokerState.isLoading)
       .subscribe((value) => (self.isLoading = value));
@@ -48,7 +57,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  registerSignalRListener(userId: string) {
+  registerSignalRListener() {
+    const self = this;
+
     this.pokerSessionHubConnection = new signalR.HubConnectionBuilder()
       .withUrl('http://localhost:54403/pokersession')
       .configureLogging(signalR.LogLevel.Information)
@@ -57,15 +68,18 @@ export class HomeComponent implements OnInit {
     this.pokerSessionHubConnection
       .start()
       .then(() => {
-        this.pokerSessionHubConnection.on(
-          'notificationReceived',
-          (headline: string, message: string) => {
-            console.log(`Data received over SignalR: ${headline}`);
-            this.toastr.success(message, headline);
-          }
-        );
+        // self.pokerSessionHubConnection.on(
+        //   'notificationReceived',
+        //   (headline: string, message: string) => {
+        //     console.log(`Data received over SignalR: ${headline}`);
+        //     self.toastr.success(message, headline);
+        //   }
+        // );
 
-        this.pokerSessionHubConnection.invoke('RegisterUserId', userId);
+        self.pokerSessionHubConnection.invoke(
+          'RegisterParticipant',
+          self.pokerSession.sessionCode
+        );
       })
       .catch((err) => console.error(err.toString()));
   }
