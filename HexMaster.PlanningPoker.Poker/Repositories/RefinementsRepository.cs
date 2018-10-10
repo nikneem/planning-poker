@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using HexMaster.Helpers.Configuration;
 using HexMaster.Helpers.Infrastructure.Enums;
 using HexMaster.Helpers.Mongo;
@@ -21,6 +22,15 @@ namespace HexMaster.PlanningPoker.Poker.Repositories
         public async Task<PokerSession> Get(string sessionCode)
         {
             var filter = Builders<PokerSessionEntity>.Filter.Eq(nameof(PokerSessionEntity.SessionCode), sessionCode);
+            var cursor = await Collection.FindAsync(filter);
+            var entity = cursor.FirstOrDefault();
+
+            return entity?.ToDomainModel();
+        }
+
+        public async Task<PokerSession> Get(Guid sessionId)
+        {
+            var filter = Builders<PokerSessionEntity>.Filter.Eq(nameof(PokerSessionEntity.Id), sessionId);
             var cursor = await Collection.FindAsync(filter);
             var entity = cursor.FirstOrDefault();
 

@@ -33,7 +33,18 @@ export class PokerSession {
 export class Participant {
   public id: string;
   public displayName: string;
-  public constructor(init?: PokerSession) {
+  public estimation?: number;
+  public canEdit: boolean;
+  public constructor(init?: Partial<Participant>) {
+    Object.assign(this, init);
+  }
+}
+
+export class Estimation {
+  public sessionId: string;
+  public participantId: string;
+  public estimation: number;
+  public constructot(init?: Partial<Estimation>) {
     Object.assign(this, init);
   }
 }

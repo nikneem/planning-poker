@@ -7,6 +7,6 @@ namespace HexMaster.PlanningPoker.Poker.Contracts.Services
     {
         Task<PokerSessionDto> Create(PokerSessionCreateRequestDto model);
         Task<PokerSessionDto> Join(PokerSessionJoinRequestDto model);
-
+        Task<bool> Estimate(PokerEstimationDto dto);
     }
 }

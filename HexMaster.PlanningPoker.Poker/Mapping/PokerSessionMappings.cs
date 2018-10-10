@@ -73,11 +73,8 @@ namespace HexMaster.PlanningPoker.Poker.Mapping
             return new ParticipantDto()
             {
                 Id = domainModel.Id,
-                FirstName = domainModel.FirstName,
-                Lastname = domainModel.LastName,
-                IsConnected = domainModel.IsConnected,
-                IsOwner = domainModel.IsOwner,
-                LastActivityOn = domainModel.LastActivityOn,
+                DisplayName = string.IsNullOrEmpty(domainModel.LastName) ? domainModel.FirstName : $"{domainModel.FirstName} {domainModel.LastName}",
+                CanEdit= domainModel.IsOwner,
                 Estimation = domainModel.Estimation
             };
         }

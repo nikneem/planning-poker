@@ -41,6 +41,13 @@ namespace HexMaster.PlanningPoker.Poker.Services
             return null;
         }
 
+        public async Task<bool> Estimate(PokerEstimationDto dto)
+        {
+            var pokerSession = await Repository.Get(dto.SessionId);
+            pokerSession.SetEstimation(dto.ParticipantId, dto.Estimation);
+            return await Repository.Update(pokerSession);
+        }
+
         public PokerSessionsService(IPokerSessionsRepository repository)
         {
             Repository = repository;
