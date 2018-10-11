@@ -23,6 +23,7 @@ import { RefinementEffects } from './state/refinement/refinement.effects';
 import { SharedcomponentsModule } from './sharedcomponents/sharedcomponents.module';
 import { RefinementModule } from './refinement/refinement.module';
 import { PokerEffects } from './state/poker/poker.effects';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 
 let metaReducers = [];
 if (environment.production === false) {
@@ -46,7 +47,8 @@ if (environment.production === false) {
     PokerModule,
     PublicModule,
     SharedcomponentsModule,
-    RefinementModule
+    RefinementModule,
+    StoreRouterConnectingModule
   ],
   providers: [
     AuthService,

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import * as auth0 from 'auth0-js';
+import { environment } from 'src/environments/environment';
 
 (window as any).global = window;
 
@@ -14,7 +15,7 @@ export class AuthService {
     clientID: 'Qtg56CUgysg5P1QjmDLH9pLBOOFJpgVN',
     domain: 'planning-poker.eu.auth0.com',
     responseType: 'token id_token',
-    redirectUri: 'http://localhost:4200/callback',
+    redirectUri: environment.callbackUrl,
     scope: 'openid'
   });
 
@@ -29,9 +30,9 @@ export class AuthService {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
-        this.router.navigate(['/poker/home']);
+        this.router.navigate(['']);
       } else if (err) {
-        this.router.navigate(['/poker/home']);
+        this.router.navigate(['']);
         console.log(err);
       }
     });

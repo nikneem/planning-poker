@@ -18,12 +18,14 @@ import {
 } from '../refinement/refinement.actions';
 import { PokerSessionService } from 'src/app/services/poker.service';
 import { PokerSession } from 'src/app/models/poker.dto';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class PokerEffects {
   constructor(
     private actions$: Actions,
-    private service: PokerSessionService
+    private service: PokerSessionService,
+    private router: Router
   ) {}
 
   @Effect()
@@ -37,7 +39,8 @@ export class PokerEffects {
           return new CreateSessionSuccess(data);
         })
         .catch((err) => of(new CreateSessionFailed(err)));
-    });
+    })
+    .do(() => this.router.navigate(['/poker/home']));
 
   @Effect()
   joinSession$: Observable<Action> = this.actions$
@@ -50,5 +53,6 @@ export class PokerEffects {
           return new JoinSessionSuccess(data);
         })
         .catch((err) => of(new JoinSessionFailed(err)));
-    });
+    })
+    .do(() => this.router.navigate(['/poker/home']));
 }
