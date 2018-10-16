@@ -12,7 +12,9 @@ export const pokerActionTypes = {
 
   joinSession: '[PokerActions] joinSession',
   joinSessionSuccess: '[PokerActions] joinSessionSuccess',
-  joinSessionFailed: '[PokerActions] joinSessionFailed'
+  joinSessionFailed: '[PokerActions] joinSessionFailed',
+
+  addParticipant: '[PokerActions] addParticipant'
 };
 
 export class CreateSession implements Action {
@@ -41,4 +43,9 @@ export class JoinSessionSuccess implements Action {
 export class JoinSessionFailed implements Action {
   readonly type = pokerActionTypes.joinSessionFailed;
   constructor(public error: any) {}
+}
+
+export class AddParticipant implements Action {
+  readonly type = pokerActionTypes.addParticipant;
+  constructor(public id: string, public name: string) {}
 }

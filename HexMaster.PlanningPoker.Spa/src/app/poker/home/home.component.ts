@@ -6,7 +6,10 @@ import {
   PokerSessionCreateRequest
 } from 'src/app/models/poker.dto';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreateSession } from 'src/app/state/poker/poker.actions';
+import {
+  CreateSession,
+  AddParticipant
+} from 'src/app/state/poker/poker.actions';
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
 
@@ -68,17 +71,17 @@ export class HomeComponent implements OnInit {
     this.pokerSessionHubConnection
       .start()
       .then(() => {
-        // self.pokerSessionHubConnection.on(
-        //   'notificationReceived',
-        //   (headline: string, message: string) => {
-        //     console.log(`Data received over SignalR: ${headline}`);
-        //     self.toastr.success(message, headline);
-        //   }
-        // );
-
+        self.pokerSessionHubConnection.on(
+          'participantJoined',
+          (id: string, name: string) => {
+            console.log(`New participant joined: ${name}`);
+            self.store.dispatch(new AddParticipant(id, name));
+          }
+        );
+        console.log(`Registering ${self.pokerSession.id}`);
         self.pokerSessionHubConnection.invoke(
           'RegisterParticipant',
-          self.pokerSession.sessionCode
+          self.pokerSession.id
         );
       })
       .catch((err) => console.error(err.toString()));

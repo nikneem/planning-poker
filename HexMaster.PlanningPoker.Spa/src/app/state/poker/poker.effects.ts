@@ -12,18 +12,16 @@ import {
   JoinSessionFailed
 } from './poker.actions';
 
-import {
-  CreateRefinementSuccess,
-  CreateRefinementFailed
-} from '../refinement/refinement.actions';
 import { PokerSessionService } from 'src/app/services/poker.service';
 import { PokerSession } from 'src/app/models/poker.dto';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class PokerEffects {
   constructor(
     private actions$: Actions,
-    private service: PokerSessionService
+    private service: PokerSessionService,
+    private router: Router
   ) {}
 
   @Effect()
@@ -36,6 +34,7 @@ export class PokerEffects {
         .map((data: PokerSession) => {
           return new CreateSessionSuccess(data);
         })
+        .do(() => this.router.navigate(['/poker/home']))
         .catch((err) => of(new CreateSessionFailed(err)));
     });
 
@@ -49,6 +48,7 @@ export class PokerEffects {
         .map((data: PokerSession) => {
           return new JoinSessionSuccess(data);
         })
+        .do(() => this.router.navigate(['/poker/home']))
         .catch((err) => of(new JoinSessionFailed(err)));
     });
 }

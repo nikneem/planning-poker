@@ -7,7 +7,7 @@ import {
 import { RefinementReducer } from './refinement/refinement.reducers';
 import { PokerState, INITIAL_POKER_STATE } from './poker/poker.state';
 import { PokerReducer } from './poker/poker.reducers';
-
+import { routerReducer } from '@ngrx/router-store';
 export interface AppState {
   userState: UserState;
   pokerState: PokerState;
@@ -23,5 +23,6 @@ export const INITIAL_APPSTORE: AppState = {
 export const reducers = {
   userState: UserReducer,
   pokerState: PokerReducer,
-  refinementState: RefinementReducer
+  refinementState: RefinementReducer,
+  routerReducer: routerReducer
 };

@@ -4,8 +4,11 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app.state';
 import { GetUserProfile } from '../../state/user/user.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PokerSessionJoinRequest } from 'src/app/models/poker.dto';
-import { JoinSession } from 'src/app/state/poker/poker.actions';
+import {
+  PokerSessionJoinRequest,
+  PokerSessionCreateRequest
+} from 'src/app/models/poker.dto';
+import { JoinSession, CreateSession } from 'src/app/state/poker/poker.actions';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-landing',
@@ -43,12 +46,17 @@ export class LandingComponent implements OnInit {
     });
   }
 
-  SubmitJoin() {
+  submitJoin() {
     const joinSessionDto = new PokerSessionJoinRequest(this.joinForm.value);
     localStorage.setItem('firstName', joinSessionDto.firstName);
     localStorage.setItem('lastName', joinSessionDto.lastName);
     this.store.dispatch(new JoinSession(joinSessionDto));
     this.router.navigate(['/poker/home']);
+  }
+  submitCreate() {
+    const createRequest = new PokerSessionCreateRequest(this.createForm.value);
+    console.log(createRequest);
+    this.store.dispatch(new CreateSession(createRequest));
   }
 
   isAuthenticated(): boolean {

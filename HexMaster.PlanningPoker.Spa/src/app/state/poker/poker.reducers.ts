@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { PokerState } from './poker.state';
 import {
   pokerActionTypes,
@@ -5,8 +6,10 @@ import {
   CreateSessionSuccess,
   CreateSessionFailed,
   JoinSessionSuccess,
-  JoinSessionFailed
+  JoinSessionFailed,
+  AddParticipant
 } from './poker.actions';
+import { Participant } from 'src/app/models/poker.dto';
 
 export function PokerReducer(state: PokerState, action: any) {
   {
@@ -23,6 +26,8 @@ export function PokerReducer(state: PokerState, action: any) {
         return joinSessionSuccessHandler(state, action);
       case pokerActionTypes.joinSessionFailed:
         return joinSessionFailedHandler(state, action);
+      case pokerActionTypes.addParticipant:
+        return addParticipantHandler(state, action);
       default:
         return state;
     }
@@ -88,5 +93,22 @@ function joinSessionFailedHandler(
   copyState.isLoading = false;
   copyState.currentSession = null;
   copyState.lastKnownError = action.error.message;
+  return copyState;
+}
+
+function addParticipantHandler(
+  state: PokerState,
+  action: AddParticipant
+): PokerState {
+  const copyState: PokerState = Object.assign({}, state);
+
+  var targetState = _.cloneDeep(copyState.currentSession);
+  var originalEntries = copyState.currentSession.others as Array<Participant>;
+  let newEntries = new Array<Participant>(...originalEntries);
+  newEntries.push(new Participant({ id: action.id, displayName: action.name }));
+  targetState.others = newEntries;
+
+  copyState.currentSession = targetState;
+
   return copyState;
 }

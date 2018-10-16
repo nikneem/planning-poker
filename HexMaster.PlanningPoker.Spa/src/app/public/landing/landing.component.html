@@ -1,7 +1,7 @@
 <div class="bg">
   <div class="container h-100">
     <div class="row align-items-center h-100">
-      <div class="col-6 mx-auto">
+      <div class="col-12 col-lg-8 col-xl-6 mx-auto">
         <div class="startpane" *ngIf="!isAuthenticated()">
           <h1><strong>Planning</strong>Poker</h1>
           <p><strong>Hey!</strong><br />
@@ -30,7 +30,7 @@
           </ul>
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="join" role="tabpanel" aria-labelledby="join-tab">
-              <form [formGroup]="joinForm" (ngSubmit)="SubmitJoin()" no-validate>
+              <form [formGroup]="joinForm" (ngSubmit)="submitJoin()" no-validate>
                 <div class="form-row mb-4">
                   <div class="col">
                     <!-- First name -->
@@ -53,7 +53,7 @@
               </form>
             </div>
             <div class="tab-pane fade" id="create" role="tabpanel" aria-labelledby="create-tab">
-              <form [formGroup]="createForm" (ngSubmit)="SubmitCreate()" no-validate *ngIf="createForm">
+              <form [formGroup]="createForm" (ngSubmit)="submitCreate()" no-validate *ngIf="createForm">
                 <div class="form-row mb-4">
                   <div class="col">
                     <!-- First name -->
