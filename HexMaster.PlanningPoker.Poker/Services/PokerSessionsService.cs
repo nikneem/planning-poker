@@ -11,7 +11,7 @@ using HexMaster.PlanningPoker.Poker.Mapping;
 
 namespace HexMaster.PlanningPoker.Poker.Services
 {
-    public class PokerSessionsService: IPokerSessionsService
+    public class PokerSessionsService : IPokerSessionsService
     {
         public IPokerSessionsRepository Repository { get; }
         public IPlanningPokerEventsService EventService { get; }
@@ -42,12 +42,64 @@ namespace HexMaster.PlanningPoker.Poker.Services
                     var displayName = string.IsNullOrEmpty(participant.LastName)
                         ? participant.FirstName
                         : $"{participant.FirstName} {participant.LastName}";
-                    EventService.PublishThroughEventBusAsync(new PokerSessionParticipantJoinedEvent(pokerSession.Id, participant.Id, displayName));
+                    EventService.PublishThroughEventBusAsync(
+                        new PokerSessionParticipantJoinedEvent(pokerSession.Id, participant.Id, displayName));
                     return pokerSession.ToDataTransferObject(participant.Id);
                 }
             }
 
             return null;
+        }
+
+        public async Task<bool> Leave(PokerSessionLeaveRequestDto model)
+        {
+            var pokerSession = await Repository.Get(model.PokerSessionId);
+            if (pokerSession != null)
+            {
+                pokerSession.RemoveParticipant(model.ParticipantId);
+                if (await Repository.Update(pokerSession))
+                {
+                    EventService.PublishThroughEventBusAsync(
+                        new PokerSessionParticipantLeftEvent(model.PokerSessionId, model.ParticipantId));
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public async Task<bool> Start(Guid pokerSessionId)
+        {
+            var pokerSession = await Repository.Get(pokerSessionId);
+            if (pokerSession != null)
+            {
+                pokerSession.Start();
+                if (await Repository.Update(pokerSession))
+                {
+                    EventService.PublishThroughEventBusAsync(
+                        new PokerSessionStartedEvent(pokerSessionId));
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public async Task<bool> Reset(Guid pokerSessionId)
+        {
+            var pokerSession = await Repository.Get(pokerSessionId);
+            if (pokerSession != null)
+            {
+                pokerSession.Reset();
+                if (await Repository.Update(pokerSession))
+                {
+                    EventService.PublishThroughEventBusAsync(
+                        new PokerSessionRoundResetEvent(pokerSessionId));
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public async Task<bool> Estimate(PokerEstimationDto dto)
@@ -57,8 +109,10 @@ namespace HexMaster.PlanningPoker.Poker.Services
             var result = await Repository.Update(pokerSession);
             if (result)
             {
-                 EventService.PublishThroughEventBusAsync(new PokerSessionParticipantEstimatedEvent(pokerSession.Id, dto.ParticipantId, dto.Estimation));
+                EventService.PublishThroughEventBusAsync(
+                    new PokerSessionParticipantEstimatedEvent(pokerSession.Id, dto.ParticipantId, dto.Estimation));
             }
+
             return result;
         }
 

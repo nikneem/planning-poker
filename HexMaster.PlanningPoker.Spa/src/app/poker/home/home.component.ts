@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
 import {
@@ -12,6 +12,7 @@ import {
 } from 'src/app/state/poker/poker.actions';
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
+import { CanDeactivate } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -35,7 +36,7 @@ export class HomeComponent implements OnInit {
         self.pokerSession = value;
         if (self.pokerSession !== null) {
           if (self.pokerSession.id !== self.pokerSessionId) {
-            self.registerSignalRListener();
+            self.unregisterSignalRListener();
           }
           self.pokerSessionId = self.pokerSession.id;
         }
@@ -47,7 +48,10 @@ export class HomeComponent implements OnInit {
       .select((state) => state.pokerState.lastKnownError)
       .subscribe((value) => (self.errorMessage = value));
   }
-
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    this.unregisterSignalRListener();
+  }
   initializeForm() {
     const firstName = localStorage.getItem('firstName');
     const lastName = localStorage.getItem('lastName');
@@ -86,6 +90,12 @@ export class HomeComponent implements OnInit {
       })
       .catch((err) => console.error(err.toString()));
   }
+  unregisterSignalRListener() {
+    if (this.pokerSessionHubConnection) {
+      this.pokerSessionHubConnection.stop();
+      this.pokerSessionHubConnection = null;
+    }
+  }
 
   submitCreate() {
     const createRequest = new PokerSessionCreateRequest(this.createForm.value);
@@ -95,5 +105,13 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
+  }
+}
+
+@Injectable()
+export class CanDeactivateGuard implements CanDeactivate<HomeComponent> {
+  canDeactivate(component: HomeComponent): boolean {
+    component.unregisterSignalRListener();
+    return true;
   }
 }
