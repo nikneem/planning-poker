@@ -5,7 +5,8 @@ import { environment } from '../../environments/environment';
 import {
   PokerSessionJoinRequest,
   PokerSession,
-  PokerSessionCreateRequest
+  PokerSessionCreateRequest,
+  PokerSessionLeaveRequest
 } from '../models/poker.dto';
 
 @Injectable({
@@ -18,12 +19,36 @@ export class PokerSessionService {
     this.baseUrl = environment.backendApi;
   }
 
+  public Estimate(model: PokerSessionJoinRequest): Observable<number> {
+    return this.http.post<number>(`${this.baseUrl}/estimations`, model);
+  }
+
   public Join(model: PokerSessionJoinRequest): Observable<PokerSession> {
     return this.http.post<PokerSession>(
       `${this.baseUrl}/pokersessions/join`,
       model
     );
   }
+
+  public Leave(model: PokerSessionLeaveRequest): Observable<boolean> {
+    return this.http.post<boolean>(
+      `${this.baseUrl}/pokersessions/leave`,
+      model
+    );
+  }
+
+  public Start(pokerSessionId: string): Observable<boolean> {
+    return this.http.get<boolean>(
+      `${this.baseUrl}/pokersessions/${pokerSessionId}/start`
+    );
+  }
+
+  public Reset(pokerSessionId: string): Observable<boolean> {
+    return this.http.get<boolean>(
+      `${this.baseUrl}/pokersessions/${pokerSessionId}/reset`
+    );
+  }
+
   public Create(model: PokerSessionCreateRequest): Observable<PokerSession> {
     return this.http.post<PokerSession>(`${this.baseUrl}/pokersessions`, model);
   }

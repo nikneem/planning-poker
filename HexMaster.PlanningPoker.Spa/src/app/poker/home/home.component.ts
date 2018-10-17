@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   errorMessage: string;
   createForm: FormGroup;
   pokerSessionId: string;
+  canEdit: boolean;
 
   private pokerSessionHubConnection: HubConnection | undefined;
 
@@ -36,9 +37,10 @@ export class HomeComponent implements OnInit {
         self.pokerSession = value;
         if (self.pokerSession !== null) {
           if (self.pokerSession.id !== self.pokerSessionId) {
-            self.unregisterSignalRListener();
+            self.registerSignalRListener();
           }
           self.pokerSessionId = self.pokerSession.id;
+          self.canEdit = self.pokerSession.me.canEdit;
         }
       });
     this.store

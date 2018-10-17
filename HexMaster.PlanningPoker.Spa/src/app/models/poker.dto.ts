@@ -18,6 +18,14 @@ export class PokerSessionCreateRequest {
   }
 }
 
+export class PokerSessionLeaveRequest {
+  public pokerSesionId: string;
+  public participantId: string;
+  public constructor(init?: Partial<PokerSessionLeaveRequest>) {
+    Object.assign(this, init);
+  }
+}
+
 export class PokerSession {
   public id: string;
   public name: string;

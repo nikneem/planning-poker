@@ -24,7 +24,7 @@ namespace HexMaster.PlanningPoker.Poker.Controllers
                     return BadRequest();
                 }
 
-                return Accepted();
+                return Ok(true);
             }
             catch (Exception ex)
             {
@@ -44,7 +44,7 @@ namespace HexMaster.PlanningPoker.Poker.Controllers
                     return BadRequest();
                 }
 
-                return Accepted();
+                return Ok(true);
             }
             catch (Exception ex)
             {
@@ -104,7 +104,7 @@ namespace HexMaster.PlanningPoker.Poker.Controllers
                     return BadRequest();
                 }
 
-                return Accepted();
+                return Ok(true);
             }
             catch (Exception ex)
             {

@@ -7,6 +7,7 @@ import { CallbackComponent } from './public/callback/callback.component';
 import { CreateComponent } from './refinement/create/create.component';
 import { JoinComponent } from './refinement/join/join.component';
 import { PbiComponent } from './refinement/pbi/pbi.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -25,7 +26,8 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
+        canActivate: [AuthGuard]
       }
     ]
   },

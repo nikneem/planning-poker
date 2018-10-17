@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import * as auth0 from 'auth0-js';
 import { environment } from 'src/environments/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 (window as any).global = window;
 
@@ -51,9 +52,15 @@ export class AuthService {
     const expiresAt = JSON.stringify(
       authResult.expiresIn * 1000 + new Date().getTime()
     );
+
+    const helper = new JwtHelperService();
+    const decodedToken = helper.decodeToken(authResult.idToken);
+    debugger;
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
+    localStorage.setItem('sub', decodedToken.sub);
+    // decode id token
   }
 
   public logout(): void {
@@ -61,6 +68,7 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('sub');
     // Go back to the home route
     this.router.navigate(['/']);
   }

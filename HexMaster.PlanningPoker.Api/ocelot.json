@@ -25,6 +25,8 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/refinements",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
       "DownstreamPathTemplate": "/api/refinements",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -32,9 +34,7 @@
           "Host": "refinements.planningpoker",
           "Port": 443
         }
-      ],
-      "UpstreamPathTemplate": "/refinements",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      ]
     }
 
   ],
