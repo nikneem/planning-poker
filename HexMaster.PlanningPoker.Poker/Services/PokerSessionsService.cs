@@ -108,8 +108,11 @@ namespace HexMaster.PlanningPoker.Poker.Services
             var result = await Repository.Update(pokerSession);
             if (result)
             {
-                EventService.PublishThroughEventBusAsync(
-                    new PokerSessionParticipantEstimatedEvent(pokerSession.Id, dto.ParticipantId, dto.Estimation));
+                EventService.PublishThroughEventBusAsync(new PokerSessionParticipantEstimatedEvent(pokerSession.Id, dto.ParticipantId, dto.Estimation));
+                if (pokerSession.Participants.All(p => p.Estimation.HasValue))
+                {
+                    EventService.PublishThroughEventBusAsync(new PokerSessionCardRevealEvent(pokerSession.Id));
+                }
             }
 
             return result;

@@ -30,6 +30,10 @@ namespace HexMaster.PlanningPoker.Live.Hubs
         {
             await _context.Clients.Group(pokerSessionId.ToString()).SendAsync("participantLeft", participantId);
         }
+        public async Task RevealCards(Guid pokerSessionId)
+        {
+            await _context.Clients.Group(pokerSessionId.ToString()).SendAsync("reveal");
+        }
 
         public async Task RegisterParticipant(string pokerSession)
         {
@@ -41,6 +45,7 @@ namespace HexMaster.PlanningPoker.Live.Hubs
         {
             _context = context;
         }
+
 
 
     }

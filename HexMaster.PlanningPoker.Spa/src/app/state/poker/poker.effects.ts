@@ -17,7 +17,8 @@ import {
   ActionGenericSucceeded,
   ActionGenericFailed,
   DoStartSession,
-  DoRemoveParticipant
+  DoRemoveParticipant,
+  DoResetSession
 } from './poker.actions';
 
 import { PokerSessionService } from 'src/app/services/poker.service';
@@ -78,6 +79,18 @@ export class PokerEffects {
     .mergeMap((action) => {
       return this.service
         .Start(action.sessionId)
+        .map((data: boolean) => {
+          return new ActionGenericSucceeded();
+        })
+        .catch((err) => of(new ActionGenericFailed(err)));
+    });
+  @Effect()
+  doResetSession$: Observable<Action> = this.actions$
+    .ofType<DoResetSession>(pokerActionTypes.doResetSession)
+    .debounceTime(500)
+    .mergeMap((action) => {
+      return this.service
+        .Reset(action.sessionId)
         .map((data: boolean) => {
           return new ActionGenericSucceeded();
         })

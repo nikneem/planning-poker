@@ -17,7 +17,8 @@ import {
   LiveParticipantEstimated,
   ActionGenericSucceeded,
   ActionGenericFailed,
-  DoParticipantEstimate
+  DoParticipantEstimate,
+  LiveSessionReveal
 } from './poker.actions';
 import { Participant, PokerSession } from 'src/app/models/poker.dto';
 
@@ -59,6 +60,8 @@ export function PokerReducer(state: PokerState, action: any) {
         return liveSessionResetHandler(state, action);
       case pokerActionTypes.liveSessionStarted:
         return liveSessionStartedHandler(state, action);
+      case pokerActionTypes.liveSessionReveal:
+        return liveSessionRevealHandler(state, action);
       case pokerActionTypes.liveParticipantEstimated:
         return liveParticipantEstimatedHandler(state, action);
       default:
@@ -74,6 +77,7 @@ function restoreSessionHandler(
   const copyState: PokerState = Object.assign({}, state);
   copyState.isLoading = true;
   copyState.lastKnownError = null;
+  copyState.revealed = false;
   return copyState;
 }
 function restoreSessionSuccessHandler(
@@ -106,6 +110,7 @@ function createSessionHandler(
   copyState.isLoading = true;
   copyState.lastKnownError = null;
   copyState.gotKicked = false;
+  copyState.revealed = false;
   return copyState;
 }
 
@@ -207,6 +212,7 @@ function liveParticipantAddedHandler(
   targetState.others = newEntries;
 
   copyState.currentSession = targetState;
+  copyState.revealed = false;
 
   return copyState;
 }
@@ -246,8 +252,10 @@ function liveSessionResetHandler(
   for (let index = 0; index < targetState.others.length; index++) {
     targetState.others[index].estimation = null;
   }
+  targetState.me.estimation = null;
 
   copyState.currentSession = targetState;
+  copyState.revealed = false;
 
   return copyState;
 }
@@ -260,7 +268,17 @@ function liveSessionStartedHandler(
   var targetState = _.cloneDeep(copyState.currentSession) as PokerSession;
   targetState.isStarted = true;
   copyState.currentSession = targetState;
+  copyState.revealed = false;
 
+  return copyState;
+}
+
+function liveSessionRevealHandler(
+  state: PokerState,
+  action: LiveSessionReveal
+): PokerState {
+  const copyState: PokerState = Object.assign({}, state);
+  copyState.revealed = true;
   return copyState;
 }
 function liveParticipantEstimatedHandler(

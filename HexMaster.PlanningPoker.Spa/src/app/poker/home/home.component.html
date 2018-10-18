@@ -2,7 +2,8 @@
   <div class="container-fluid">
     <h2 class="h5 no-margin-bottom" *ngIf="!pokerSession">Planning Poker</h2>
     <h2 class="h5 no-margin-bottom" *ngIf="pokerSession">{{pokerSession.name}}
-      <span class="pull-right">Code: {{pokerSession.sessionCode}}</span></h2>
+      <span class="pull-right">Code: {{pokerSession.sessionCode}}</span>
+    </h2>
   </div>
 </div>
 <section class="no-padding-top no-padding-bottom" *ngIf="errorMessage && !isLoading">
@@ -63,16 +64,23 @@
       </div>
       <div class="col-6">
         <div class="details d-flex small-cards-holder pull-right">
-          <div [className]="participant.estimation === null || participant.estimation === 'undefined' ? 'item inactive' : 'item active'"><img
-              src="/assets/images/cards/back.svg" /></div>
+          <div [className]="participant.estimation === null || participant.estimation === 'undefined' ? 'item inactive' : 'item active'">
+            <img src="/assets/images/cards/back.svg" *ngIf="!isRevealed" />
+            <img src="/assets/images/cards/{{getCardName(participant)}}.svg" *ngIf="isRevealed" />
+          </div>
           <button class="btn btn-danger btn-sm kick-button" *ngIf="canEdit" (click)="kickParticipant(participant.id)">Kick</button>
         </div>
       </div>
     </div>
   </div>
 </section>
+<section class="no-padding-top no-padding-bottom" *ngIf="pokerSession && canEdit">
+  <div class="container-fluid">
+    <button class="btn btn-block btn-secondary" (click)="resetRound()">Reset round</button>
+  </div>
+</section>
 
-<section class="no-padding-top no-padding-bottom" *ngIf="pokerSession">
+<section class="no-padding-top no-padding-bottom" *ngIf="pokerSession && showMetrics">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3 col-sm-6">
@@ -84,7 +92,7 @@
             <div class="number dashtext-1">19</div>
           </div>
           <div class="progress progress-template">
-            <div role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
+            <div role="progressbar" style="width: 70%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
           </div>
         </div>
       </div>
