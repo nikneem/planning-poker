@@ -21,7 +21,7 @@ namespace HexMaster.PlanningPoker.Live.IntegrationEvents.Handlers
         public async Task Handle(PokerSessionStartedEvent @event)
         {
             var hub = new PokerSessionHub(Context);
-            await hub.ResetAll(@event.PokerSessionId);
+            await hub.SessionStarted(@event.PokerSessionId);
         }
     }
 }

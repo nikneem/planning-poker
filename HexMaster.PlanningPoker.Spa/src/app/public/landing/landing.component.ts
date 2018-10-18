@@ -61,7 +61,6 @@ export class LandingComponent implements OnInit {
   }
   submitCreate() {
     const createRequest = new PokerSessionCreateRequest(this.createForm.value);
-    console.log(createRequest);
     this.store.dispatch(new CreateSession(createRequest));
   }
 
