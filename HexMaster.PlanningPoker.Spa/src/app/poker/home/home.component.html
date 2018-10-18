@@ -26,25 +26,25 @@
       </div>
       <div class="col-12 col-xl-6">
         <div class="details d-flex cards-holder">
-          <div [className]="pokerSession.me.estimation === 0.5 ? 'active' : 'item'" (click)="participantEstimate(0.5)"><img
+          <div [className]="pokerSession.me.estimation === 0.5 ? 'item active' : 'item inactive'" (click)="participantEstimate(0.5)"><img
               src="/assets/images/cards/half.svg" /></div>
-          <div [className]="pokerSession.me.estimation === 1 ? 'active' : 'item'" (click)="participantEstimate(1)"><img
+          <div [className]="pokerSession.me.estimation === 1 ? 'item active' : 'item inactive'" (click)="participantEstimate(1)"><img
               src="/assets/images/cards/1.svg" /></div>
-          <div [className]="pokerSession.me.estimation === 2 ? 'active' : 'item'" (click)="participantEstimate(2)"><img
+          <div [className]="pokerSession.me.estimation === 2 ? 'item active' : 'item inactive'" (click)="participantEstimate(2)"><img
               src="/assets/images/cards/2.svg" /></div>
-          <div [className]="pokerSession.me.estimation === 3 ? 'active' : 'item'" (click)="participantEstimate(3)"><img
+          <div [className]="pokerSession.me.estimation === 3 ? 'item active' : 'item inactive'" (click)="participantEstimate(3)"><img
               src="/assets/images/cards/3.svg" /></div>
-          <div [className]="pokerSession.me.estimation === 5 ? 'active' : 'item'" (click)="participantEstimate(5)"><img
+          <div [className]="pokerSession.me.estimation === 5 ? 'item active' : 'item inactive'" (click)="participantEstimate(5)"><img
               src="/assets/images/cards/5.svg" /></div>
-          <div [className]="pokerSession.me.estimation === 8 ? 'active' : 'item'" (click)="participantEstimate(8)"><img
+          <div [className]="pokerSession.me.estimation === 8 ? 'item active' : 'item inactive'" (click)="participantEstimate(8)"><img
               src="/assets/images/cards/8.svg" /></div>
-          <div [className]="pokerSession.me.estimation === 13 ? 'active' : 'item'" (click)="participantEstimate(13)"><img
+          <div [className]="pokerSession.me.estimation === 13 ? 'item active' : 'item inactive'" (click)="participantEstimate(13)"><img
               src="/assets/images/cards/13.svg" /></div>
-          <div [className]="pokerSession.me.estimation === 20 ? 'active' : 'item'" (click)="participantEstimate(20)"><img
+          <div [className]="pokerSession.me.estimation === 20 ? 'item active' : 'item inactive'" (click)="participantEstimate(20)"><img
               src="/assets/images/cards/20.svg" /></div>
-          <div [className]="pokerSession.me.estimation === 40 ? 'active' : 'item'" (click)="participantEstimate(40)"><img
+          <div [className]="pokerSession.me.estimation === 40 ? 'item active' : 'item inactive'" (click)="participantEstimate(40)"><img
               src="/assets/images/cards/40.svg" /></div>
-          <div [className]="pokerSession.me.estimation === 100 ? 'active' : 'item'" (click)="participantEstimate(100)"><img
+          <div [className]="pokerSession.me.estimation === 100 ? 'item active' : 'item inactive'" (click)="participantEstimate(100)"><img
               src="/assets/images/cards/100.svg" /></div>
         </div>
       </div>
@@ -63,8 +63,9 @@
       </div>
       <div class="col-6">
         <div class="details d-flex small-cards-holder pull-right">
-          <div [className]="participant.estimation === null ? 'item' : 'active'"><img src="/assets/images/cards/back.svg" /></div>
-          <button class="btn btn-danger btn-sm kick-button" *ngIf="canEdit">Kick</button>
+          <div [className]="participant.estimation === null || participant.estimation === 'undefined' ? 'item inactive' : 'item active'"><img
+              src="/assets/images/cards/back.svg" /></div>
+          <button class="btn btn-danger btn-sm kick-button" *ngIf="canEdit" (click)="kickParticipant(participant.id)">Kick</button>
         </div>
       </div>
     </div>
@@ -130,7 +131,7 @@
   </div>
 </section>
 
-<section class="no-padding-top no-padding-bottom" *ngIf="!pokerSession && !isLoading">
+<section class="no-padding-top no-padding-bottom" *ngIf="!pokerSession && !isLoading && !gotKicked">
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-12">
@@ -138,6 +139,26 @@
           <div class="title"><strong>There's nothing here...</strong></div>
           <div class="block-body">
 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="no-padding-top no-padding-bottom" *ngIf="!pokerSession && !isLoading && gotKicked">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="block clearfix">
+          <div class="pull-right overflow-hide ">
+            <div class="fa fa-eject huge kicked-icon"></div>
+          </div>
+          <div class="title"><strong>You just got kicked</strong></div>
+          <div class="block-body">
+            Too bad mate, one of the session leaders decided to throw you out...
+            <div class="text-muted">Better behave next time ;)</div>
+            <a [routerLink]="['/']">Go home</a>
           </div>
         </div>
       </div>

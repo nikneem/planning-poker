@@ -7,7 +7,7 @@ export class PokerSessionJoinRequest {
   }
 }
 export class PokerSessionLeaveRequest {
-  public pokerSesionId: string;
+  public sessionId: string;
   public participantId: string;
   public constructor(init?: Partial<PokerSessionLeaveRequest>) {
     Object.assign(this, init);

@@ -83,6 +83,7 @@ function restoreSessionSuccessHandler(
   const copyState: PokerState = Object.assign({}, state);
   copyState.isLoading = false;
   copyState.lastKnownError = null;
+  copyState.gotKicked = false;
   copyState.currentSession = action.session;
   return copyState;
 }
@@ -104,6 +105,7 @@ function createSessionHandler(
   const copyState: PokerState = Object.assign({}, state);
   copyState.isLoading = true;
   copyState.lastKnownError = null;
+  copyState.gotKicked = false;
   return copyState;
 }
 
@@ -113,6 +115,7 @@ function createSessionSuccessHandler(
 ): PokerState {
   const copyState: PokerState = Object.assign({}, state);
   copyState.isLoading = false;
+  copyState.gotKicked = false;
   copyState.currentSession = action.session;
   return copyState;
 }
@@ -134,6 +137,7 @@ function joinSessionHandler(
 ): PokerState {
   const copyState: PokerState = Object.assign({}, state);
   copyState.isLoading = true;
+  copyState.gotKicked = false;
   copyState.lastKnownError = null;
   return copyState;
 }
@@ -144,6 +148,7 @@ function joinSessionSuccessHandler(
 ): PokerState {
   const copyState: PokerState = Object.assign({}, state);
   copyState.isLoading = false;
+  copyState.gotKicked = false;
   copyState.currentSession = action.pokerSession;
   return copyState;
 }
@@ -212,18 +217,22 @@ function liveParticipantLeftHandler(
 ): PokerState {
   const copyState: PokerState = Object.assign({}, state);
 
-  var targetState = _.cloneDeep(copyState.currentSession);
-  var originalEntries = copyState.currentSession.others as Array<Participant>;
-  let newEntries = new Array<Participant>(...originalEntries);
+  if (copyState.currentSession.me.id === action.id) {
+    copyState.gotKicked = true;
+    copyState.currentSession = null;
+  } else {
+    var targetState = _.cloneDeep(copyState.currentSession);
+    var originalEntries = copyState.currentSession.others as Array<Participant>;
+    let newEntries = new Array<Participant>(...originalEntries);
 
-  const entry = _.find(newEntries, { id: action.id });
-  const index = newEntries.indexOf(entry, 0);
-  if (index > -1) {
-    newEntries.splice(index, 1);
+    const entry = _.find(newEntries, { id: action.id });
+    const index = newEntries.indexOf(entry, 0);
+    if (index > -1) {
+      newEntries.splice(index, 1);
+    }
+    targetState.others = newEntries;
+    copyState.currentSession = targetState;
   }
-  targetState.others = newEntries;
-
-  copyState.currentSession = targetState;
 
   return copyState;
 }
