@@ -10,6 +10,10 @@ namespace HexMaster.PlanningPoker.Live.Hubs
         protected IHubContext<PokerSessionHub> _context;
 
 
+        public async Task SessionStarted(Guid pokerSessionId)
+        {
+            await _context.Clients.Group(pokerSessionId.ToString()).SendAsync("start");
+        }
         public async Task ResetAll(Guid pokerSessionId)
         {
             await _context.Clients.Group(pokerSessionId.ToString()).SendAsync("reset");
@@ -22,7 +26,11 @@ namespace HexMaster.PlanningPoker.Live.Hubs
         {
             await _context.Clients.Group(pokerSessionId.ToString()).SendAsync("participantJoined", participantId, displayName);
         }
-        
+        public async Task ParticipantLeft(Guid pokerSessionId, Guid participantId)
+        {
+            await _context.Clients.Group(pokerSessionId.ToString()).SendAsync("participantLeft", participantId);
+        }
+
         public async Task RegisterParticipant(string pokerSession)
         {
             await _context.Groups.AddToGroupAsync(Context.ConnectionId, pokerSession);

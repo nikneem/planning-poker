@@ -9,7 +9,14 @@ import {
   CreateSession,
   CreateSessionFailed,
   CreateSessionSuccess,
-  JoinSessionFailed
+  JoinSessionFailed,
+  RestoreSessionSuccess,
+  RestoreSession,
+  RestoreSessionFailed,
+  DoParticipantEstimate,
+  ActionGenericSucceeded,
+  ActionGenericFailed,
+  DoStartSession
 } from './poker.actions';
 
 import { PokerSessionService } from 'src/app/services/poker.service';
@@ -25,6 +32,19 @@ export class PokerEffects {
   ) {}
 
   @Effect()
+  restoreSession$: Observable<Action> = this.actions$
+    .ofType<RestoreSession>(pokerActionTypes.restoreSession)
+    .debounceTime(500)
+    .mergeMap((action) => {
+      return this.service
+        .Restore(action.sessionId, action.participantId)
+        .map((data: PokerSession) => {
+          return new RestoreSessionSuccess(data);
+        })
+        .catch((err) => of(new RestoreSessionFailed(err)));
+    });
+
+  @Effect()
   createSession$: Observable<Action> = this.actions$
     .ofType<CreateSession>(pokerActionTypes.createSession)
     .debounceTime(500)
@@ -34,7 +54,6 @@ export class PokerEffects {
         .map((data: PokerSession) => {
           return new CreateSessionSuccess(data);
         })
-        .do(() => this.router.navigate(['/poker/home']))
         .catch((err) => of(new CreateSessionFailed(err)));
     });
 
@@ -48,7 +67,32 @@ export class PokerEffects {
         .map((data: PokerSession) => {
           return new JoinSessionSuccess(data);
         })
-        .do(() => this.router.navigate(['/poker/home']))
         .catch((err) => of(new JoinSessionFailed(err)));
+    });
+
+  @Effect()
+  doStartSession$: Observable<Action> = this.actions$
+    .ofType<DoStartSession>(pokerActionTypes.doStartSession)
+    .debounceTime(500)
+    .mergeMap((action) => {
+      return this.service
+        .Start(action.sessionId)
+        .map((data: boolean) => {
+          return new ActionGenericSucceeded();
+        })
+        .catch((err) => of(new ActionGenericFailed(err)));
+    });
+
+  @Effect()
+  doParticipantEstimate$: Observable<Action> = this.actions$
+    .ofType<DoParticipantEstimate>(pokerActionTypes.doParticipantEstimate)
+    .debounceTime(500)
+    .mergeMap((action) => {
+      return this.service
+        .Estimate(action.model)
+        .map((data: number) => {
+          return new ActionGenericSucceeded();
+        })
+        .catch((err) => of(new ActionGenericFailed(err)));
     });
 }

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ocelot.DependencyInjection;
@@ -15,7 +10,7 @@ namespace HexMaster.PlanningPoker.Api
     public class Startup
     {
 
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public Startup(IConfiguration config)
         {
@@ -25,6 +20,8 @@ namespace HexMaster.PlanningPoker.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddMvcCore().AddJsonFormatters();
             services.AddOcelot(_configuration);
         }
 
@@ -35,6 +32,7 @@ namespace HexMaster.PlanningPoker.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
 
             await app.UseOcelot();
         }

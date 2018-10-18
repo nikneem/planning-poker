@@ -88,6 +88,10 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
                 throw new Exception("The participant was not found");
             }
             participant.SetPokerValue(estimation);
+            if (participant.State == TrackingState.Modified)
+            {
+                SetState(TrackingState.Modified);
+            }
         }
         
         public PokerSession(Guid id, string name, string sessionCode, ControlType control, List<Participant> participants, DateTimeOffset created, DateTimeOffset? started, DateTimeOffset expires) : base(id)

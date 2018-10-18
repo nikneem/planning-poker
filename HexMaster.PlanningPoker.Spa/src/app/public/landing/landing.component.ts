@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app.state';
-import { GetUserProfile } from '../../state/user/user.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   PokerSessionJoinRequest,
@@ -21,10 +19,18 @@ export class LandingComponent implements OnInit {
   firstName: string;
   constructor(
     private router: Router,
-    private authService: AuthService,
     private store: Store<AppState>,
     private fb: FormBuilder
-  ) {}
+  ) {
+    const self = this;
+
+    this.store
+      .select((str) => str.pokerState.currentSession)
+      .filter((val) => val != null)
+      .subscribe((val) => {
+        self.router.navigate([`/poker/home/${val.id}/${val.me.id}`]);
+      });
+  }
 
   initializeForm() {
     this.firstName = localStorage.getItem('firstName');
@@ -55,21 +61,10 @@ export class LandingComponent implements OnInit {
   }
   submitCreate() {
     const createRequest = new PokerSessionCreateRequest(this.createForm.value);
-    console.log(createRequest);
     this.store.dispatch(new CreateSession(createRequest));
   }
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
-  }
-  authenticate() {
-    this.authService.login();
-  }
-
   ngOnInit() {
-    if (this.isAuthenticated()) {
-      this.store.dispatch(new GetUserProfile());
-    }
     this.initializeForm();
   }
 }

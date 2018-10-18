@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using HexMaster.BuildingBlocks.EventBus;
@@ -15,15 +12,13 @@ using HexMaster.PlanningPoker.Poker.Contracts.Services;
 using HexMaster.PlanningPoker.Poker.IntegrationEvents;
 using HexMaster.PlanningPoker.Poker.Repositories;
 using HexMaster.PlanningPoker.Poker.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
 namespace HexMaster.PlanningPoker.Poker
@@ -55,8 +50,6 @@ namespace HexMaster.PlanningPoker.Poker
             services.AddTransient<IPokerSessionsService, PokerSessionsService>();
 
             services.AddMemoryCache();
-            services.AddMvcCore()
-                .AddJsonFormatters();
 
             services.AddCors(options =>
             {
@@ -68,6 +61,8 @@ namespace HexMaster.PlanningPoker.Poker
             });
             ConfigureEventBus(services, eventBusSettings);
             RegisterEventBus(services, eventBusSettings);
+
+            services.AddMvcCore().AddJsonFormatters();
 
             var container = new ContainerBuilder();
             container.Populate(services);

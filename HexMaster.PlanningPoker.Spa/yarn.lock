@@ -198,10 +198,17 @@
   dependencies:
     tslib "^1.9.0"
 
-"@aspnet/signalr@^1.0.3":
+"@aspnet/signalr@1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@aspnet/signalr/-/signalr-1.0.4.tgz#ab685e59152539e4a49c5c71bb767ce25e7d4900"
   integrity sha512-q7HMlTZPkZCa/0UclsXvEyqNirpjRfRuwhjEeADD1i6pqe0Yx5OwuCO7+Xsc6MNKR8vE1C9MyxnSj0SecvUbTA==
+
+"@auth0/angular-jwt@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@auth0/angular-jwt/-/angular-jwt-2.0.0.tgz#c0b2861824a24fb62d9d2e1fdb03a326e8a1e203"
+  integrity sha512-RVlXFpcqQ+9uCpzboU7Tm1ubaRVO2FrR5+RYuwHtTT4BXquVMEwOSbAuuaArFud/kMc00XYoGgiP1JkCfOAfpA==
+  dependencies:
+    url "^0.11.0"
 
 "@babel/code-frame@^7.0.0":
   version "7.0.0"

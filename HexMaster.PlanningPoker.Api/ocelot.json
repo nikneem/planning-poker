@@ -13,9 +13,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/pokersessions/join",
-      "UpstreamHttpMethod": [ "POST", "OPTIONS" ],
-      "DownstreamPathTemplate": "/api/pokersessions/join",
+      "UpstreamPathTemplate": "/pokersessions/{path}",
+      "UpstreamHttpMethod": [ "POST", "GET", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/pokersessions/{path}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -25,6 +25,32 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/pokersessions/{path}/{action}",
+      "UpstreamHttpMethod": [ "POST", "GET", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/pokersessions/{path}/{action}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "poker.planningpoker",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/estimations",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/estimations",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "poker.planningpoker",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/refinements",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
       "DownstreamPathTemplate": "/api/refinements",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -32,9 +58,7 @@
           "Host": "refinements.planningpoker",
           "Port": 443
         }
-      ],
-      "UpstreamPathTemplate": "/refinements",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      ]
     }
 
   ],
