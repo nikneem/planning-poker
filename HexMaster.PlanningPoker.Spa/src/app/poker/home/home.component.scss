@@ -1,5 +1,5 @@
 div.cards-holder {
-  .item {
+  .inactive {
     opacity: 0.5;
   }
   .active {
@@ -15,7 +15,7 @@ div.cards-holder {
   }
 }
 div.small-cards-holder {
-  .item {
+  .inactive {
     opacity: 0.2;
   }
   .active {
@@ -68,4 +68,13 @@ section.full-page-cover {
 div.middle {
   width: 100%;
   text-align: center;
+}
+.huge {
+  font-size: 20rem;
+}
+.overflow-hide {
+  overflow: hidden;
+}
+.kicked-icon {
+  opacity: 0.2;
 }

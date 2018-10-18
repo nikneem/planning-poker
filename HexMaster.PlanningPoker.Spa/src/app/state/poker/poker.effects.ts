@@ -16,7 +16,8 @@ import {
   DoParticipantEstimate,
   ActionGenericSucceeded,
   ActionGenericFailed,
-  DoStartSession
+  DoStartSession,
+  DoRemoveParticipant
 } from './poker.actions';
 
 import { PokerSessionService } from 'src/app/services/poker.service';
@@ -91,6 +92,19 @@ export class PokerEffects {
       return this.service
         .Estimate(action.model)
         .map((data: number) => {
+          return new ActionGenericSucceeded();
+        })
+        .catch((err) => of(new ActionGenericFailed(err)));
+    });
+
+  @Effect()
+  doRemoveParticipant$: Observable<Action> = this.actions$
+    .ofType<DoRemoveParticipant>(pokerActionTypes.doRemoveParticipant)
+    .debounceTime(500)
+    .mergeMap((action) => {
+      return this.service
+        .Leave(action.model)
+        .map((data: boolean) => {
           return new ActionGenericSucceeded();
         })
         .catch((err) => of(new ActionGenericFailed(err)));

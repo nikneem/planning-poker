@@ -4,7 +4,8 @@ import { AppState } from 'src/app/state/app.state';
 import {
   PokerSession,
   PokerSessionCreateRequest,
-  Estimation
+  Estimation,
+  PokerSessionLeaveRequest
 } from 'src/app/models/poker.dto';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -16,7 +17,8 @@ import {
   LiveSessionStarted,
   LiveSessionReset,
   DoParticipantEstimate,
-  DoStartSession
+  DoStartSession,
+  DoRemoveParticipant
 } from 'src/app/state/poker/poker.actions';
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
@@ -35,6 +37,7 @@ export class HomeComponent implements OnInit {
   pokerSessionId: string;
   canEdit: boolean;
   isStarted: boolean;
+  gotKicked: boolean;
 
   private pokerSessionHubConnection: HubConnection | undefined;
 
@@ -63,6 +66,9 @@ export class HomeComponent implements OnInit {
     this.store
       .select((state) => state.pokerState.lastKnownError)
       .subscribe((value) => (self.errorMessage = value));
+    this.store
+      .select((state) => state.pokerState.gotKicked)
+      .subscribe((value) => (self.gotKicked = value));
   }
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
@@ -90,6 +96,13 @@ export class HomeComponent implements OnInit {
       estimation: estimation
     });
     this.store.dispatch(new DoParticipantEstimate(model));
+  }
+  kickParticipant(id: string) {
+    const model = new PokerSessionLeaveRequest({
+      sessionId: this.pokerSessionId,
+      participantId: id
+    });
+    this.store.dispatch(new DoRemoveParticipant(model));
   }
 
   registerSignalRListener() {

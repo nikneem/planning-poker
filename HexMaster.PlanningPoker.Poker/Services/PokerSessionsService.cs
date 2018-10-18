@@ -52,14 +52,14 @@ namespace HexMaster.PlanningPoker.Poker.Services
 
         public async Task<bool> Leave(PokerSessionLeaveRequestDto model)
         {
-            var pokerSession = await Repository.Get(model.PokerSessionId);
+            var pokerSession = await Repository.Get(model.SessionId);
             if (pokerSession != null)
             {
                 pokerSession.RemoveParticipant(model.ParticipantId);
                 if (await Repository.Update(pokerSession))
                 {
                     EventService.PublishThroughEventBusAsync(
-                        new PokerSessionParticipantLeftEvent(model.PokerSessionId, model.ParticipantId));
+                        new PokerSessionParticipantLeftEvent(model.SessionId, model.ParticipantId));
                     return true;
                 }
             }
