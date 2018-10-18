@@ -25,6 +25,30 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/pokersessions/{path}/{action}",
+      "UpstreamHttpMethod": [ "POST", "GET", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/pokersessions/{path}/{action}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "poker.planningpoker",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/estimations",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/estimations",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "poker.planningpoker",
+          "Port": 80
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/refinements",
       "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
       "DownstreamPathTemplate": "/api/refinements",

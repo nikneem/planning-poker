@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using HexMaster.BuildingBlocks.EventBus;
@@ -14,7 +11,6 @@ using HexMaster.PlanningPoker.Live.IntegrationEvents.Events;
 using HexMaster.PlanningPoker.Live.IntegrationEvents.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
@@ -143,6 +139,9 @@ namespace HexMaster.PlanningPoker.Live
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
             services.AddTransient<PokerSessionParticipantEstimatedEventHandler>();
             services.AddTransient<PokerSessionParticipantJoinedEventHandler>();
+            services.AddTransient<PokerSessionParticipantLeftEventHandler>();
+            services.AddTransient<PokerSessionRoundResetEventHandler>();
+            services.AddTransient<PokerSessionStartedEventHandler>();
         }
 
         protected virtual void ConfigureEventBus(IApplicationBuilder app)
@@ -150,6 +149,9 @@ namespace HexMaster.PlanningPoker.Live
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
             eventBus.Subscribe<PokerSessionParticipantEstimatedEvent, PokerSessionParticipantEstimatedEventHandler>();
             eventBus.Subscribe<PokerSessionParticipantJoinedEvent, PokerSessionParticipantJoinedEventHandler>();
+            eventBus.Subscribe<PokerSessionParticipantLeftEvent, PokerSessionParticipantLeftEventHandler>();
+            eventBus.Subscribe<PokerSessionRoundResetEvent, PokerSessionRoundResetEventHandler>();
+            eventBus.Subscribe<PokerSessionStartedEvent, PokerSessionStartedEventHandler>();
         }
 
     }

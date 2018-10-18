@@ -5,6 +5,7 @@ using HexMaster.PlanningPoker.Poker.Contracts.Repositories;
 using HexMaster.PlanningPoker.Poker.Contracts.Services;
 using HexMaster.PlanningPoker.Poker.DataTransferObjects;
 using HexMaster.PlanningPoker.Poker.DomainModels;
+using HexMaster.PlanningPoker.Poker.Infrastructure.Enums;
 using HexMaster.PlanningPoker.Poker.IntegrationEvents;
 using HexMaster.PlanningPoker.Poker.IntegrationEvents.Events;
 using HexMaster.PlanningPoker.Poker.Mapping;
@@ -33,9 +34,8 @@ namespace HexMaster.PlanningPoker.Poker.Services
             var pokerSession = await Repository.Get(model.SessionCode);
             if (pokerSession != null)
             {
-                var participant = Participant.Create(model.FirstName, model.LastName);
+                var participant = Participant.Create(model.FirstName, model.LastName, pokerSession.ControlType == ControlType.Shared);
                 pokerSession.AddParticipant(participant);
-
 
                 if (await Repository.Update(pokerSession))
                 {
@@ -47,7 +47,6 @@ namespace HexMaster.PlanningPoker.Poker.Services
                     return pokerSession.ToDataTransferObject(participant.Id);
                 }
             }
-
             return null;
         }
 

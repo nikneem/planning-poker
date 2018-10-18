@@ -12,7 +12,11 @@ import {
   JoinSessionFailed,
   RestoreSessionSuccess,
   RestoreSession,
-  RestoreSessionFailed
+  RestoreSessionFailed,
+  DoParticipantEstimate,
+  ActionGenericSucceeded,
+  ActionGenericFailed,
+  DoStartSession
 } from './poker.actions';
 
 import { PokerSessionService } from 'src/app/services/poker.service';
@@ -64,5 +68,31 @@ export class PokerEffects {
           return new JoinSessionSuccess(data);
         })
         .catch((err) => of(new JoinSessionFailed(err)));
+    });
+
+  @Effect()
+  doStartSession$: Observable<Action> = this.actions$
+    .ofType<DoStartSession>(pokerActionTypes.doStartSession)
+    .debounceTime(500)
+    .mergeMap((action) => {
+      return this.service
+        .Start(action.sessionId)
+        .map((data: boolean) => {
+          return new ActionGenericSucceeded();
+        })
+        .catch((err) => of(new ActionGenericFailed(err)));
+    });
+
+  @Effect()
+  doParticipantEstimate$: Observable<Action> = this.actions$
+    .ofType<DoParticipantEstimate>(pokerActionTypes.doParticipantEstimate)
+    .debounceTime(500)
+    .mergeMap((action) => {
+      return this.service
+        .Estimate(action.model)
+        .map((data: number) => {
+          return new ActionGenericSucceeded();
+        })
+        .catch((err) => of(new ActionGenericFailed(err)));
     });
 }

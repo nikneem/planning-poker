@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app.state';
-import { GetUserProfile } from '../../state/user/user.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   PokerSessionJoinRequest,
@@ -29,7 +28,6 @@ export class LandingComponent implements OnInit {
       .select((str) => str.pokerState.currentSession)
       .filter((val) => val != null)
       .subscribe((val) => {
-        debugger;
         self.router.navigate([`/poker/home/${val.id}/${val.me.id}`]);
       });
   }

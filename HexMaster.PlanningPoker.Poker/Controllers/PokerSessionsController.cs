@@ -42,7 +42,7 @@ namespace HexMaster.PlanningPoker.Poker.Controllers
         }
 
         [HttpGet("{pokerSessionId:guid}/start")]
-        public async Task<IActionResult> Start([FromQuery] Guid pokerSessionId)
+        public async Task<IActionResult> Start([FromRoute] Guid pokerSessionId)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace HexMaster.PlanningPoker.Poker.Controllers
         }
 
         [HttpGet("{pokerSessionId:guid}/reset")]
-        public async Task<IActionResult> Reset([FromQuery] Guid pokerSessionId)
+        public async Task<IActionResult> Reset([FromRoute] Guid pokerSessionId)
         {
             try
             {

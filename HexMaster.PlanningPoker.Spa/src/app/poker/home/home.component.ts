@@ -3,13 +3,20 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
 import {
   PokerSession,
-  PokerSessionCreateRequest
+  PokerSessionCreateRequest,
+  Estimation
 } from 'src/app/models/poker.dto';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   CreateSession,
-  AddParticipant,
-  RestoreSession
+  RestoreSession,
+  LiveParticipantAdded,
+  LiveParticipantLeft,
+  LiveParticipantEstimated,
+  LiveSessionStarted,
+  LiveSessionReset,
+  DoParticipantEstimate,
+  DoStartSession
 } from 'src/app/state/poker/poker.actions';
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
@@ -27,6 +34,7 @@ export class HomeComponent implements OnInit {
   createForm: FormGroup;
   pokerSessionId: string;
   canEdit: boolean;
+  isStarted: boolean;
 
   private pokerSessionHubConnection: HubConnection | undefined;
 
@@ -46,6 +54,7 @@ export class HomeComponent implements OnInit {
           }
           self.pokerSessionId = self.pokerSession.id;
           self.canEdit = self.pokerSession.me.canEdit;
+          self.isStarted = self.pokerSession.isStarted;
         }
       });
     this.store
@@ -71,6 +80,18 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  startCurrentSession() {
+    this.store.dispatch(new DoStartSession(this.pokerSessionId));
+  }
+  participantEstimate(estimation: number) {
+    const model = new Estimation({
+      sessionId: this.pokerSessionId,
+      participantId: this.pokerSession.me.id,
+      estimation: estimation
+    });
+    this.store.dispatch(new DoParticipantEstimate(model));
+  }
+
   registerSignalRListener() {
     const self = this;
 
@@ -86,10 +107,29 @@ export class HomeComponent implements OnInit {
           'participantJoined',
           (id: string, name: string) => {
             console.log(`New participant joined: ${name}`);
-            self.store.dispatch(new AddParticipant(id, name));
+            self.store.dispatch(new LiveParticipantAdded(id, name));
           }
         );
-        console.log(`Registering ${self.pokerSession.id}`);
+        self.pokerSessionHubConnection.on('participantLeft', (id: string) => {
+          console.log(`Participant left: ${id}`);
+          self.store.dispatch(new LiveParticipantLeft(id));
+        });
+
+        self.pokerSessionHubConnection.on(
+          'participantEstimation',
+          (participantId: string, estimation: number) => {
+            self.store.dispatch(
+              new LiveParticipantEstimated(participantId, estimation)
+            );
+          }
+        );
+        self.pokerSessionHubConnection.on('start', () => {
+          self.store.dispatch(new LiveSessionStarted());
+        });
+        self.pokerSessionHubConnection.on('reset', () => {
+          self.store.dispatch(new LiveSessionReset());
+        });
+
         self.pokerSessionHubConnection.invoke(
           'RegisterParticipant',
           self.pokerSession.id

@@ -6,7 +6,8 @@ import {
   PokerSessionJoinRequest,
   PokerSession,
   PokerSessionCreateRequest,
-  PokerSessionLeaveRequest
+  PokerSessionLeaveRequest,
+  Estimation
 } from '../models/poker.dto';
 
 @Injectable({
@@ -28,7 +29,7 @@ export class PokerSessionService {
     );
   }
 
-  public Estimate(model: PokerSessionJoinRequest): Observable<number> {
+  public Estimate(model: Estimation): Observable<number> {
     return this.http.post<number>(`${this.baseUrl}/estimations`, model);
   }
 

@@ -26,16 +26,26 @@
       </div>
       <div class="col-12 col-xl-6">
         <div class="details d-flex cards-holder">
-          <div class="item"><img src="/assets/images/cards/half.svg" /></div>
-          <div class="item"><img src="/assets/images/cards/1.svg" /></div>
-          <div class="item"><img src="/assets/images/cards/2.svg" /></div>
-          <div class="item"><img src="/assets/images/cards/3.svg" /></div>
-          <div class="item"><img src="/assets/images/cards/5.svg" /></div>
-          <div class="item"><img src="/assets/images/cards/8.svg" /></div>
-          <div class="item"><img src="/assets/images/cards/13.svg" /></div>
-          <div class="item"><img src="/assets/images/cards/20.svg" /></div>
-          <div class="item"><img src="/assets/images/cards/40.svg" /></div>
-          <div class="item"><img src="/assets/images/cards/100.svg" /></div>
+          <div [className]="pokerSession.me.estimation === 0.5 ? 'active' : 'item'" (click)="participantEstimate(0.5)"><img
+              src="/assets/images/cards/half.svg" /></div>
+          <div [className]="pokerSession.me.estimation === 1 ? 'active' : 'item'" (click)="participantEstimate(1)"><img
+              src="/assets/images/cards/1.svg" /></div>
+          <div [className]="pokerSession.me.estimation === 2 ? 'active' : 'item'" (click)="participantEstimate(2)"><img
+              src="/assets/images/cards/2.svg" /></div>
+          <div [className]="pokerSession.me.estimation === 3 ? 'active' : 'item'" (click)="participantEstimate(3)"><img
+              src="/assets/images/cards/3.svg" /></div>
+          <div [className]="pokerSession.me.estimation === 5 ? 'active' : 'item'" (click)="participantEstimate(5)"><img
+              src="/assets/images/cards/5.svg" /></div>
+          <div [className]="pokerSession.me.estimation === 8 ? 'active' : 'item'" (click)="participantEstimate(8)"><img
+              src="/assets/images/cards/8.svg" /></div>
+          <div [className]="pokerSession.me.estimation === 13 ? 'active' : 'item'" (click)="participantEstimate(13)"><img
+              src="/assets/images/cards/13.svg" /></div>
+          <div [className]="pokerSession.me.estimation === 20 ? 'active' : 'item'" (click)="participantEstimate(20)"><img
+              src="/assets/images/cards/20.svg" /></div>
+          <div [className]="pokerSession.me.estimation === 40 ? 'active' : 'item'" (click)="participantEstimate(40)"><img
+              src="/assets/images/cards/40.svg" /></div>
+          <div [className]="pokerSession.me.estimation === 100 ? 'active' : 'item'" (click)="participantEstimate(100)"><img
+              src="/assets/images/cards/100.svg" /></div>
         </div>
       </div>
     </div>
@@ -53,8 +63,8 @@
       </div>
       <div class="col-6">
         <div class="details d-flex small-cards-holder pull-right">
-          <div class="item"><img src="/assets/images/cards/back.svg" /></div>
-          <button class="btn btn-danger btn-sm kick-button">Kick</button>
+          <div [className]="participant.estimation === null ? 'item' : 'active'"><img src="/assets/images/cards/back.svg" /></div>
+          <button class="btn btn-danger btn-sm kick-button" *ngIf="canEdit">Kick</button>
         </div>
       </div>
     </div>
@@ -129,6 +139,42 @@
           <div class="block-body">
 
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="full-page-cover" *ngIf="pokerSession && !isStarted">
+  <div class="background"></div>
+  <div class="foreground">
+    <div class="container">
+      <div class="jumbotron">
+        <h3>Session not started</h3>
+        <p>This poker session is live, but not started yet.
+          Awaiting the session leader to start the session</p>
+        <div class="middle" *ngIf="!canEdit">
+          <svg width="100px" height="100px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
+            preserveAspectRatio="xMidYMid" class="lds-double-ring">
+            <circle cx="50" cy="50" r="40px" stroke-width="1px" stroke="1px" dasharray="2px" fill="none" stroke-linecap="round"
+              r="40" stroke-width="1" stroke="#444444" stroke-dasharray="62.83185307179586 62.83185307179586" transform="rotate(3.87024 50 50)">
+              <animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;360 50 50"
+                keyTimes="0;1" dur="1.5s" begin="0s" repeatCount="indefinite"></animateTransform>
+            </circle>
+            <circle cx="50" cy="50" r="44px" stroke-width="1px" stroke="5px" stroke-dasharray="62.83185307179586 62.83185307179586"
+              stroke-dashoffset="62.83185307179586 62.83185307179586" fill="none" stroke-linecap="round" r="38"
+              stroke-width="1" stroke="#888888" stroke-dasharray="59.690260418206066 59.690260418206066"
+              stroke-dashoffset="59.690260418206066" transform="rotate(-3.87024 50 50)">
+              <animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;-360 50 50"
+                keyTimes="0;1" dur="1.5s" begin="0s" repeatCount="indefinite"></animateTransform>
+            </circle>
+          </svg>
+        </div>
+        <div class="edit" *ngIf="canEdit">
+          <h5>Good news!</h5>
+          <p>You are a session leader, so you can start this session</p>
+          <p>Start sharing your session with session code: {{pokerSession.sessionCode}}</p>
+          <button class="btn btn-block btn-primary" (click)="startCurrentSession()">Start session</button>
         </div>
       </div>
     </div>
