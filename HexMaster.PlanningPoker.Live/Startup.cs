@@ -137,6 +137,7 @@ namespace HexMaster.PlanningPoker.Live
             }
 
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+            services.AddTransient<PokerSessionCardRevealEventHandler>();
             services.AddTransient<PokerSessionParticipantEstimatedEventHandler>();
             services.AddTransient<PokerSessionParticipantJoinedEventHandler>();
             services.AddTransient<PokerSessionParticipantLeftEventHandler>();
@@ -147,6 +148,7 @@ namespace HexMaster.PlanningPoker.Live
         protected virtual void ConfigureEventBus(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<PokerSessionCardRevealEvent, PokerSessionCardRevealEventHandler>();
             eventBus.Subscribe<PokerSessionParticipantEstimatedEvent, PokerSessionParticipantEstimatedEventHandler>();
             eventBus.Subscribe<PokerSessionParticipantJoinedEvent, PokerSessionParticipantJoinedEventHandler>();
             eventBus.Subscribe<PokerSessionParticipantLeftEvent, PokerSessionParticipantLeftEventHandler>();

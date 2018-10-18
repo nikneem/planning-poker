@@ -32,6 +32,7 @@ export const pokerActionTypes = {
   liveParticipantLeft: '[PokerActions] liveParticipantLeft',
   liveSessionStarted: '[PokerActions] liveSessionStarted',
   liveSessionReset: '[PokerActions] liveSessionReset',
+  liveSessionReveal: '[PokerActions] liveSessionReveal',
   liveParticipantEstimated: '[PokerActions] liveParticipantEstimated'
 };
 
@@ -115,6 +116,10 @@ export class LiveSessionStarted implements Action {
 }
 export class LiveSessionReset implements Action {
   readonly type = pokerActionTypes.liveSessionReset;
+  constructor() {}
+}
+export class LiveSessionReveal implements Action {
+  readonly type = pokerActionTypes.liveSessionReveal;
   constructor() {}
 }
 export class LiveParticipantEstimated implements Action {

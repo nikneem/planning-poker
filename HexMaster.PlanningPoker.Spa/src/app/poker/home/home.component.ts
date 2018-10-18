@@ -5,7 +5,8 @@ import {
   PokerSession,
   PokerSessionCreateRequest,
   Estimation,
-  PokerSessionLeaveRequest
+  PokerSessionLeaveRequest,
+  Participant
 } from 'src/app/models/poker.dto';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -18,7 +19,9 @@ import {
   LiveSessionReset,
   DoParticipantEstimate,
   DoStartSession,
-  DoRemoveParticipant
+  DoRemoveParticipant,
+  LiveSessionReveal,
+  DoResetSession
 } from 'src/app/state/poker/poker.actions';
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
@@ -38,6 +41,8 @@ export class HomeComponent implements OnInit {
   canEdit: boolean;
   isStarted: boolean;
   gotKicked: boolean;
+  isRevealed: boolean;
+  showMetrics: boolean;
 
   private pokerSessionHubConnection: HubConnection | undefined;
 
@@ -69,6 +74,9 @@ export class HomeComponent implements OnInit {
     this.store
       .select((state) => state.pokerState.gotKicked)
       .subscribe((value) => (self.gotKicked = value));
+    this.store
+      .select((state) => state.pokerState.revealed)
+      .subscribe((value) => (self.isRevealed = value));
   }
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
@@ -103,6 +111,9 @@ export class HomeComponent implements OnInit {
       participantId: id
     });
     this.store.dispatch(new DoRemoveParticipant(model));
+  }
+  resetRound() {
+    this.store.dispatch(new DoResetSession(this.pokerSessionId));
   }
 
   registerSignalRListener() {
@@ -142,6 +153,9 @@ export class HomeComponent implements OnInit {
         self.pokerSessionHubConnection.on('reset', () => {
           self.store.dispatch(new LiveSessionReset());
         });
+        self.pokerSessionHubConnection.on('reveal', () => {
+          self.store.dispatch(new LiveSessionReveal());
+        });
 
         self.pokerSessionHubConnection.invoke(
           'RegisterParticipant',
@@ -161,6 +175,13 @@ export class HomeComponent implements OnInit {
     const createRequest = new PokerSessionCreateRequest(this.createForm.value);
     console.log(createRequest);
     this.store.dispatch(new CreateSession(createRequest));
+  }
+
+  getCardName(p: Participant): string {
+    if (p.estimation > 0 && p.estimation < 1) {
+      return 'half';
+    }
+    return p.estimation.toString();
   }
 
   ngOnInit() {
