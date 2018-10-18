@@ -9,7 +9,10 @@ import {
   CreateSession,
   CreateSessionFailed,
   CreateSessionSuccess,
-  JoinSessionFailed
+  JoinSessionFailed,
+  RestoreSessionSuccess,
+  RestoreSession,
+  RestoreSessionFailed
 } from './poker.actions';
 
 import { PokerSessionService } from 'src/app/services/poker.service';
@@ -25,6 +28,19 @@ export class PokerEffects {
   ) {}
 
   @Effect()
+  restoreSession$: Observable<Action> = this.actions$
+    .ofType<RestoreSession>(pokerActionTypes.restoreSession)
+    .debounceTime(500)
+    .mergeMap((action) => {
+      return this.service
+        .Restore(action.sessionId, action.participantId)
+        .map((data: PokerSession) => {
+          return new RestoreSessionSuccess(data);
+        })
+        .catch((err) => of(new RestoreSessionFailed(err)));
+    });
+
+  @Effect()
   createSession$: Observable<Action> = this.actions$
     .ofType<CreateSession>(pokerActionTypes.createSession)
     .debounceTime(500)
@@ -34,7 +50,6 @@ export class PokerEffects {
         .map((data: PokerSession) => {
           return new CreateSessionSuccess(data);
         })
-        .do(() => this.router.navigate(['/poker/home']))
         .catch((err) => of(new CreateSessionFailed(err)));
     });
 
@@ -48,7 +63,6 @@ export class PokerEffects {
         .map((data: PokerSession) => {
           return new JoinSessionSuccess(data);
         })
-        .do(() => this.router.navigate(['/poker/home']))
         .catch((err) => of(new JoinSessionFailed(err)));
     });
 }

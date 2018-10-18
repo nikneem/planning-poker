@@ -8,11 +8,12 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   CreateSession,
-  AddParticipant
+  AddParticipant,
+  RestoreSession
 } from 'src/app/state/poker/poker.actions';
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
-import { CanDeactivate } from '@angular/router';
+import { CanDeactivate, Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +30,11 @@ export class HomeComponent implements OnInit {
 
   private pokerSessionHubConnection: HubConnection | undefined;
 
-  constructor(private store: Store<AppState>, private fb: FormBuilder) {
+  constructor(
+    private store: Store<AppState>,
+    private fb: FormBuilder,
+    private route: ActivatedRoute
+  ) {
     const self = this;
     this.store
       .select((state) => state.pokerState.currentSession)
@@ -107,6 +112,16 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
+    const sessionId = this.route.snapshot.params.sessionId;
+    const participantId = this.route.snapshot.params.participantId;
+    if (
+      typeof sessionId !== 'undefined' &&
+      typeof participantId !== 'undefined'
+    ) {
+      if (this.pokerSessionId !== sessionId) {
+        this.store.dispatch(new RestoreSession(sessionId, participantId));
+      }
+    }
   }
 }
 

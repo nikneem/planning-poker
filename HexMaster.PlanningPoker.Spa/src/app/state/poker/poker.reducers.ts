@@ -7,13 +7,22 @@ import {
   CreateSessionFailed,
   JoinSessionSuccess,
   JoinSessionFailed,
-  AddParticipant
+  AddParticipant,
+  RestoreSession,
+  RestoreSessionSuccess,
+  RestoreSessionFailed
 } from './poker.actions';
 import { Participant } from 'src/app/models/poker.dto';
 
 export function PokerReducer(state: PokerState, action: any) {
   {
     switch (action.type) {
+      case pokerActionTypes.restoreSession:
+        return restoreSessionHandler(state, action);
+      case pokerActionTypes.restoreSessionSuccess:
+        return restoreSessionSuccessHandler(state, action);
+      case pokerActionTypes.restoreSessionFailed:
+        return restoreSessionFailedHandler(state, action);
       case pokerActionTypes.createSession:
         return createSessionHandler(state, action);
       case pokerActionTypes.createSessionSuccess:
@@ -32,6 +41,36 @@ export function PokerReducer(state: PokerState, action: any) {
         return state;
     }
   }
+}
+
+function restoreSessionHandler(
+  state: PokerState,
+  action: RestoreSession
+): PokerState {
+  const copyState: PokerState = Object.assign({}, state);
+  copyState.isLoading = true;
+  copyState.lastKnownError = null;
+  return copyState;
+}
+function restoreSessionSuccessHandler(
+  state: PokerState,
+  action: RestoreSessionSuccess
+): PokerState {
+  const copyState: PokerState = Object.assign({}, state);
+  copyState.isLoading = false;
+  copyState.lastKnownError = null;
+  copyState.currentSession = action.session;
+  return copyState;
+}
+function restoreSessionFailedHandler(
+  state: PokerState,
+  action: RestoreSessionFailed
+): PokerState {
+  const copyState: PokerState = Object.assign({}, state);
+  copyState.isLoading = false;
+  copyState.lastKnownError = action.error;
+  copyState.currentSession = null;
+  return copyState;
 }
 
 function createSessionHandler(

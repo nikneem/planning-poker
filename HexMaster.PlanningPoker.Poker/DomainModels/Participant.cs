@@ -12,6 +12,7 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
         public decimal? Estimation { get; private set; }
         public bool IsConnected { get; private set; }
         public DateTimeOffset LastActivityOn { get; private set; }
+        public string SubjectId { get; set; }
 
         public void SetFirstname(string value)
         {
@@ -71,7 +72,7 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
 
 
 
-        public Participant(Guid id, string firstName, string lastName, bool isOwner, bool isConnected, decimal? estimation, DateTimeOffset lastActivity) : base(id)
+        public Participant(Guid id, string firstName, string lastName, bool isOwner, bool isConnected, decimal? estimation, DateTimeOffset lastActivity, string subjectId = null) : base(id)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -79,6 +80,7 @@ namespace HexMaster.PlanningPoker.Poker.DomainModels
             IsConnected = isConnected;
             Estimation = estimation;
             LastActivityOn = lastActivity;
+            SubjectId = SubjectId;
         }
         private Participant() : base(Guid.NewGuid(), TrackingState.Added)
         {

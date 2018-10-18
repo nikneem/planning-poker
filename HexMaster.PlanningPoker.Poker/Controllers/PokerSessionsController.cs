@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using HexMaster.PlanningPoker.Poker.Contracts.Services;
 using HexMaster.PlanningPoker.Poker.DataTransferObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HexMaster.PlanningPoker.Poker.Controllers
@@ -12,6 +13,33 @@ namespace HexMaster.PlanningPoker.Poker.Controllers
     public class PokerSessionsController : ControllerBase
     {
         public IPokerSessionsService Service { get; }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            try
+            {
+                // ID Must be two guids
+                if (id?.Length == 72)
+                {
+                    if (Guid.TryParse(id.Substring(0, 36), out Guid sessionId))
+                    {
+                        if (Guid.TryParse(id.Substring(36, 36), out Guid participantId))
+                        {
+                            var session = await Service.Get(sessionId, participantId);
+                            return Ok(session);
+                        }
+                    }
+                }
+
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                throw;
+            }
+        }
 
         [HttpGet("{pokerSessionId:guid}/start")]
         public async Task<IActionResult> Start([FromQuery] Guid pokerSessionId)

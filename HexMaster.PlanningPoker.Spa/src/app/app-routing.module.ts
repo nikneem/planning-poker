@@ -3,11 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './user-interface/layout/layout.component';
 import { HomeComponent } from './poker/home/home.component';
 import { LandingComponent } from './public/landing/landing.component';
-import { CallbackComponent } from './public/callback/callback.component';
 import { CreateComponent } from './refinement/create/create.component';
 import { JoinComponent } from './refinement/join/join.component';
 import { PbiComponent } from './refinement/pbi/pbi.component';
-import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -16,18 +14,12 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'callback',
-    component: CallbackComponent,
-    pathMatch: 'full'
-  },
-  {
     path: 'poker',
     component: LayoutComponent,
     children: [
       {
-        path: 'home',
-        component: HomeComponent,
-        canActivate: [AuthGuard]
+        path: 'home/:sessionId/:participantId',
+        component: HomeComponent
       }
     ]
   },

@@ -116,6 +116,16 @@ namespace HexMaster.PlanningPoker.Poker.Services
             return result;
         }
 
+        public async Task<PokerSessionDto> Get(Guid sessionId, Guid participantId)
+        {
+            var pokerSession = await Repository.Get(sessionId);
+            if (pokerSession.Participants.Any(x => x.Id == participantId))
+            {
+                return pokerSession.ToDataTransferObject(participantId);
+            }
+            return null;
+        }
+
         public PokerSessionsService(IPokerSessionsRepository repository, IPlanningPokerEventsService eventService)
         {
             Repository = repository;

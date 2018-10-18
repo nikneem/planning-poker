@@ -13,9 +13,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/pokersessions/join",
-      "UpstreamHttpMethod": [ "POST", "OPTIONS" ],
-      "DownstreamPathTemplate": "/api/pokersessions/join",
+      "UpstreamPathTemplate": "/pokersessions/{path}",
+      "UpstreamHttpMethod": [ "POST", "GET", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/pokersessions/{path}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

@@ -12,5 +12,6 @@ namespace HexMaster.PlanningPoker.Poker.Contracts.Services
         Task<bool> Start(Guid pokerSessionId);
         Task<bool> Reset(Guid pokerSessionId);
         Task<bool> Estimate(PokerEstimationDto dto);
+        Task<PokerSessionDto> Get(Guid sessionId, Guid participantId);
     }
 }

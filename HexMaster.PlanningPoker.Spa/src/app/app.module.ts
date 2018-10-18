@@ -8,9 +8,7 @@ import { AppComponent } from './app.component';
 import { UserInterfaceModule } from './user-interface/user-interface.module';
 import { PokerModule } from './poker/poker.module';
 import { PublicModule } from './public/public.module';
-import { AuthService } from './services/auth.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { environment } from '../environments/environment';
 
 import { StoreModule } from '@ngrx/store';
@@ -50,10 +48,7 @@ if (environment.production === false) {
     RefinementModule,
     StoreRouterConnectingModule
   ],
-  providers: [
-    AuthService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

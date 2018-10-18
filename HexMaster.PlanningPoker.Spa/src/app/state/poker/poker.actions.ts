@@ -6,6 +6,10 @@ import {
 } from '../../models/poker.dto';
 
 export const pokerActionTypes = {
+  restoreSession: '[PokerActions] restoreSession',
+  restoreSessionSuccess: '[PokerActions] restoreSessionSuccess',
+  restoreSessionFailed: '[PokerActions] restoreSessionFailed',
+
   createSession: '[PokerActions] createSession',
   createSessionSuccess: '[PokerActions] createSessionSuccess',
   createSessionFailed: '[PokerActions] createSessionFailed',
@@ -16,6 +20,19 @@ export const pokerActionTypes = {
 
   addParticipant: '[PokerActions] addParticipant'
 };
+
+export class RestoreSession implements Action {
+  readonly type = pokerActionTypes.restoreSession;
+  constructor(public sessionId: string, public participantId: string) {}
+}
+export class RestoreSessionSuccess implements Action {
+  readonly type = pokerActionTypes.restoreSessionSuccess;
+  constructor(public session: PokerSession) {}
+}
+export class RestoreSessionFailed implements Action {
+  readonly type = pokerActionTypes.restoreSessionFailed;
+  constructor(public error: any) {}
+}
 
 export class CreateSession implements Action {
   readonly type = pokerActionTypes.createSession;

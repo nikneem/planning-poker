@@ -20,6 +20,7 @@ services:
             dockerfile: HexMaster.PlanningPoker.Api/Dockerfile
         depends_on:
             - refinements.planningpoker
+            - poker.planningpoker
             - live.planningpoker
         networks:
             - planningpoker
@@ -67,6 +68,8 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
+        depends_on:
+            - rabbitmq
         ports:
             - '27017:27017'
         networks:

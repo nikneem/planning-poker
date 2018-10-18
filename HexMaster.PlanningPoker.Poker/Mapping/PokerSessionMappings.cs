@@ -18,7 +18,7 @@ namespace HexMaster.PlanningPoker.Poker.Mapping
         }
         public static Participant ToDomainModel(this ParticipantEntity entity)
         {
-            return new Participant(entity.Id, entity.FirstName, entity.Lastname, entity.IsOwner, entity.IsConnected, entity.Estimation, entity.LastActivityOn);
+            return new Participant(entity.Id, entity.FirstName, entity.Lastname, entity.IsOwner, entity.IsConnected, entity.Estimation, entity.LastActivityOn, entity.SubjectId);
         }
 
 
@@ -49,7 +49,8 @@ namespace HexMaster.PlanningPoker.Poker.Mapping
                 IsConnected = domainModel.IsConnected,
                 IsOwner = domainModel.IsOwner,
                 LastActivityOn = domainModel.LastActivityOn,
-                Estimation = domainModel.Estimation
+                Estimation = domainModel.Estimation,
+                SubjectId = domainModel.SubjectId
             };
         }
 
@@ -76,7 +77,8 @@ namespace HexMaster.PlanningPoker.Poker.Mapping
                 Id = domainModel.Id,
                 DisplayName = string.IsNullOrEmpty(domainModel.LastName) ? domainModel.FirstName : $"{domainModel.FirstName} {domainModel.LastName}",
                 CanEdit= domainModel.IsOwner,
-                Estimation = domainModel.Estimation
+                Estimation = domainModel.Estimation,
+                SubjectId =  domainModel.SubjectId
             };
         }
         

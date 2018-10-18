@@ -19,6 +19,15 @@ export class PokerSessionService {
     this.baseUrl = environment.backendApi;
   }
 
+  public Restore(
+    sessionId: string,
+    participantId: string
+  ): Observable<PokerSession> {
+    return this.http.get<PokerSession>(
+      `${this.baseUrl}/pokersessions/${sessionId}${participantId}`
+    );
+  }
+
   public Estimate(model: PokerSessionJoinRequest): Observable<number> {
     return this.http.post<number>(`${this.baseUrl}/estimations`, model);
   }

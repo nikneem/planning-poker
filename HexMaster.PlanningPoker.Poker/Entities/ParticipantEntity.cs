@@ -13,5 +13,6 @@ namespace HexMaster.PlanningPoker.Poker.Entities
         public decimal? Estimation { get;  set; }
         public bool IsConnected { get;  set; }
         public DateTimeOffset LastActivityOn { get;  set; }
+        public string SubjectId { get; set; }
     }
 }
