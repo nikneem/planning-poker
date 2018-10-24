@@ -276,6 +276,10 @@ pre {
   padding: 0;
   /*margin-top: 21px;*/
   border: 1px solid #393c43;
+  left: auto;
+  right: 0;
+  bottom: auto;
+  top: 0;
 }
 
 .dropdown-menu a {
@@ -536,8 +540,7 @@ nav.navbar .search-inner input:-ms-input-placeholder {
 }
 
 nav.navbar .dropdown-menu {
-  min-width: 300px;
-  margin-top: 21px;
+  min-width: 500px;
   left: auto;
   right: 0;
 }
@@ -546,13 +549,8 @@ nav.navbar .messages a {
   padding: 15px !important;
 }
 
-nav.navbar .dropdown-item {
-  padding: 1rem !important;
-  border-bottom: 1px solid #393c43;
-}
-
 nav.navbar .dropdown-item:hover {
-  background: #282b2f;
+  background: #2d3035;
 }
 
 nav.navbar .dropdown-item:last-of-type {
@@ -568,57 +566,34 @@ nav.navbar .dropdown-item.message li:last-of-type a {
   border-bottom: none;
 }
 
-nav.navbar .dropdown-item.message .profile {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 15px;
-  position: relative;
+nav.navbar .dropdown-item.header {
+  background: $gray-900;
+  color: $white;
+  h4 {
+    margin: 0.5rem;
+  }
 }
-
-nav.navbar .dropdown-item.message .profile img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
-
-nav.navbar .dropdown-item.message .profile .status {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  position: absolute;
-  top: 2px;
-  right: 2px;
-}
-
-nav.navbar .dropdown-item.message .profile .status.online {
-  background: #28a745;
-}
-
-nav.navbar .dropdown-item.message .profile .status.away {
-  background: #ffc107;
-}
-
-nav.navbar .dropdown-item.message .profile .status.busy {
-  background: #dc3545;
-}
-
-nav.navbar .dropdown-item.message .profile .status.offline {
-  background: #999;
-}
-
-nav.navbar .dropdown-item.message .content strong {
-  font-size: 1rem;
-}
-
-nav.navbar .dropdown-item.message .content span {
-  font-weight: 300;
-  font-size: 0.85rem;
-}
-
-nav.navbar .dropdown-item.message .content .date {
-  color: #70737a;
+nav.navbar .dropdown-item.message {
+  padding: 0.5rem;
+  .content {
+    border-radius: 20px;
+    padding: 0.5rem;
+    background-color: $gray-800;
+    font-size: 1rem;
+    span {
+      font-weight: 400;
+      font-size: 0.85rem;
+    }
+    .date {
+      float: right;
+      color: #70737a;
+    }
+  }
+  .from-me {
+    float: right;
+    background: $orange;
+    color: black;
+  }
 }
 
 nav.navbar .tasks-list strong {
