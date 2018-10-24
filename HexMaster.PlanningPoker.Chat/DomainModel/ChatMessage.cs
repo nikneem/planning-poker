@@ -7,7 +7,6 @@ namespace HexMaster.PlanningPoker.Chat.DomainModel
     public sealed class ChatMessage : DomainModelBase<Guid>
     {
 
-        public Guid ChannelId { get; set; }
         public Guid ParticipantId { get; set; }
         public string SenderName { get; set; }
         public string Message { get; set; }
@@ -15,13 +14,18 @@ namespace HexMaster.PlanningPoker.Chat.DomainModel
         public bool MarkedAsNew { get; set; }
         public DateTimeOffset CreatedOn { get; private set; }
 
-        public ChatMessage(Guid id, TrackingState state = TrackingState.Unchanged) : base(id, state)
+        public ChatMessage(Guid id,  Guid participantId, string senderName, string message, bool isOriginator, bool isNew, DateTimeOffset createdOn) : base(id)
         {
+            ParticipantId = participantId;
+            SenderName = senderName;
+            Message = message;
+            IsOriginator = isOriginator;
+            MarkedAsNew = isNew;
+            CreatedOn = createdOn;
         }
 
-        private ChatMessage(Guid channelId, Guid participantId, string senderName, string message, bool isOriginator) : base(Guid.NewGuid(), TrackingState.Added)
+        private ChatMessage( Guid participantId, string senderName, string message, bool isOriginator) : base(Guid.NewGuid(), TrackingState.Added)
         {
-            ChannelId = channelId;
             ParticipantId = participantId;
             SenderName = senderName;
             Message = message;
@@ -30,10 +34,10 @@ namespace HexMaster.PlanningPoker.Chat.DomainModel
             CreatedOn = DateTimeOffset.UtcNow;
         }
 
-        public static ChatMessage Create(Guid channelId, Guid participantId, string senderName, string message,
+        public static ChatMessage Create( Guid participantId, string senderName, string message,
             bool isOriginator)
         {
-            return new ChatMessage(channelId, participantId, senderName, message, isOriginator);
+            return new ChatMessage( participantId, senderName, message, isOriginator);
         }
 
         public void Delete()

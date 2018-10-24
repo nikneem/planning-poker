@@ -35,31 +35,9 @@ namespace HexMaster.PlanningPoker.Chat.DomainModel
                 SetState(TrackingState.Modified);
             }
         }
-        public void AddMessage(AddChatMessageDto dto)
+        public void AddMessage(ChatMessage msg)
         {
-            var eventList = new List<ChatMessageArrivedEvent>();
-            var sender = _participants.FirstOrDefault(p => p.Id == dto.ParticipantId);
-            if (sender != null)
-            {
-                foreach (var participant in _participants)
-                {
-                    var message = ChatMessage.Create(
-                        dto.ChannelId, 
-                        participant.Id, 
-                        sender.Name,
-                        dto.Message,
-                        sender.Id == participant.Id);
-                    _messages.Add(message);
-                    //eventList.Add(new ChatMessageArrivedEvent(message.Id, message.ChannelId, participant.Id, sender.Name, message.Message, message.CreatedOn));
-
-                    var removableMessages = _messages
-                        .Where(msg => msg.ParticipantId == participant.Id)
-                        .OrderByDescending(msg => msg.CreatedOn)
-                        .Skip(40)
-                        .ToList();
-                    removableMessages.ForEach(m => m.Delete());
-                }
-            }
+                    _messages.Add(msg);
         }
 
 
