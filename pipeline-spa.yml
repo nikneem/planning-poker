@@ -9,8 +9,6 @@ pool:
 variables:
   imageName: 'nikneem/planningpoker-spa:$(build.buildId)'
   latestImageName: 'nikneem/planningpoker-spa:latest'
-  dockerId: 'nikneem'
-  pswd: 'HexMaster01'
 
 steps:
   - script: |
