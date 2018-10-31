@@ -1,0 +1,15 @@
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+variables:
+  imageName: 'nikneem/planningpoker-live:$(build.buildId)'
+  latestImageName: 'nikneem/planningpoker-live:latest'
+
+steps:
+  - script: |
+      docker build -f HexMaster.PlanningPoker.Live/Dockerfile -t $(latestImageName) .
+      docker build -f HexMaster.PlanningPoker.Live/Dockerfile -t $(imageName) .
+      docker login -u $(dockerId) -p $(pswd)
+      docker push $(latestImageName)
+      docker push $(imageName)
+    displayName: 'docker build'
