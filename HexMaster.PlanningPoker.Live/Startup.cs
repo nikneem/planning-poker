@@ -84,6 +84,7 @@ namespace HexMaster.PlanningPoker.Live
                 {
                     var logger = sp.GetRequiredService<ILogger<DefaultServiceBusPersisterConnection>>();
                     var serviceBusConnection = new ServiceBusConnectionStringBuilder(settings.EventBusConnection);
+                    serviceBusConnection.EntityPath = settings.SubscriptionClientName;
                     return new DefaultServiceBusPersisterConnection(serviceBusConnection, logger);
                 });
             }

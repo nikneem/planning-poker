@@ -15,7 +15,7 @@ namespace HexMaster.PlanningPoker.Chat.Repositories
     public class ChatRepository : MongoRepositoryBase<ChannelEntity>, IChatRepository
     {
 
-        private const string CollectionName = "Channels";
+        private const string CollectionName = "planningpoker";
 
 
 
