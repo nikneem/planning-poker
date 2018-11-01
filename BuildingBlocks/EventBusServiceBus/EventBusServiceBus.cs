@@ -44,18 +44,26 @@ namespace HexMaster.BuildingBlocks.EventBusServiceBus
             var jsonMessage = JsonConvert.SerializeObject(@event);
             var body = Encoding.UTF8.GetBytes(jsonMessage);
 
-            var message = new Message
+            try
             {
-                MessageId = Guid.NewGuid().ToString(),
-                Body = body,
-                Label = eventName,
-            };
+                var message = new Message
+                {
+                    MessageId = Guid.NewGuid().ToString(),
+                    Body = body,
+                    Label = eventName,
+                };
 
-            var topicClient = _serviceBusPersisterConnection.CreateModel();
+                var topicClient = _serviceBusPersisterConnection.CreateModel();
 
-            topicClient.SendAsync(message)
-                .GetAwaiter()
-                .GetResult();
+                topicClient.SendAsync(message)
+                    .GetAwaiter()
+                    .GetResult();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
         }
 
         public void SubscribeDynamic<TH>(string eventName)
