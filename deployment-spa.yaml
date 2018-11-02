@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: planningpoker-spa
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: planningpoker-spa
+    spec:
+      containers:
+        - name: planningpoker-spa
+          image: nikneem/planningpoker-spa:latest
+          ports:
+            - containerPort: 80
