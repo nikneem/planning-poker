@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: planningpoker-live
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: planningpoker-live
+    spec:
+      containers:
+        - name: planningpoker-live
+          image: nikneem/planningpoker-live:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: secrets
+              mountPath: /app/secrets
+              readOnly: true
+      volumes:
+        - name: secrets
+          secret:
+            secretName: live-appsettings

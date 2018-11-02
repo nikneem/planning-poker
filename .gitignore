@@ -7,6 +7,9 @@
 *.userosscache
 *.sln.docstates
 
+# Deployment secrets used in docker
+*.secret.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
