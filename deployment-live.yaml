@@ -1,7 +1,7 @@
-apiVersion: extensions/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: v
+  name: planningpoker-live
 spec:
   replicas: 3
   template:
