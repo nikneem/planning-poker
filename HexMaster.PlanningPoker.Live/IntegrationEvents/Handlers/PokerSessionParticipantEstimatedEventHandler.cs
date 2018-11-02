@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using HexMaster.BuildingBlocks.EventBus.Abstractions;
 using HexMaster.PlanningPoker.Live.Hubs;
 using HexMaster.PlanningPoker.Live.IntegrationEvents.Events;
@@ -17,6 +18,7 @@ namespace HexMaster.PlanningPoker.Live.IntegrationEvents.Handlers
 
         public async Task Handle(PokerSessionParticipantEstimatedEvent @event)
         {
+            Console.WriteLine("ESTIMATE EVENT ARRIVED AT TOPIC SUBSCRIPTION");
             var hub = new PokerSessionHub(Context);
             await hub.ParticipantEstimated(@event.PokerSessionId, @event.ParticipantId, @event.PokerValue);
         }
