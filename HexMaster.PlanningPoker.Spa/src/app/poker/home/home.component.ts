@@ -26,6 +26,7 @@ import {
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
 import { CanDeactivate, Router, ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -120,7 +121,7 @@ export class HomeComponent implements OnInit {
     const self = this;
 
     this.pokerSessionHubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:54403/pokersession')
+      .withUrl(`${environment.liveApi}/pokersession`)
       .configureLogging(signalR.LogLevel.Information)
       .build();
 
