@@ -20,12 +20,12 @@ namespace HexMaster.PlanningPoker.Poker
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((builderContext, config) =>
+                .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    IHostingEnvironment env = builderContext.HostingEnvironment;
-
-                    config.AddJsonFile("appsettings.json", false, true)
-                        .AddJsonFile("secrets/poker.secret.json", true);
+                    config.SetBasePath(Directory.GetCurrentDirectory());
+                    config.AddJsonFile("appsettings.json");
+                    config.AddUserSecrets("4efb5c0a-e9db-4b2d-b423-fbb129424fba");
+                    config.AddJsonFile("secrets/poker.secret.json", true, reloadOnChange: false);
                 })
                 .UseStartup<Startup>();
     }

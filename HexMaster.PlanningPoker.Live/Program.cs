@@ -19,12 +19,12 @@ namespace HexMaster.PlanningPoker.Live
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((builderContext, config) =>
+                .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    IHostingEnvironment env = builderContext.HostingEnvironment;
-
-                    config.AddJsonFile("appsettings.json", false, true)
-                        .AddJsonFile("secrets/live.secret.json", true);
+                    config.SetBasePath(Directory.GetCurrentDirectory());
+                    config.AddJsonFile("appsettings.json");
+                    config.AddUserSecrets("a57a57f0-f6b9-476d-a0a0-7a1b90858d8a");
+                    config.AddJsonFile("secrets/live.secret.json", true, reloadOnChange: false);
                 })
                 .UseStartup<Startup>();
     }

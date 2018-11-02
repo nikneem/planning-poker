@@ -73,14 +73,9 @@ namespace HexMaster.PlanningPoker.Poker
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
 
-            if (env.IsDevelopment())
-            {
+
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                //app.UseHsts();
-            }
+
 
             ConfigureEventBus(app);
             app.UseCors("CorsPolicy");
