@@ -29,9 +29,8 @@ namespace HexMaster.BuildingBlocks.EventBusServiceBus
             _serviceBusPersisterConnection = serviceBusPersisterConnection;
             _logger = logger;
             _subsManager = subsManager ?? new InMemoryEventBusSubscriptionsManager();
-
-            _subscriptionClient = new SubscriptionClient(serviceBusPersisterConnection.ServiceBusConnectionStringBuilder,
-                subscriptionClientName);
+            
+            _subscriptionClient = new SubscriptionClient(serviceBusPersisterConnection.ServiceBusConnectionStringBuilder, subscriptionClientName);
             _autofac = autofac;
 
             RemoveDefaultRule();
@@ -44,18 +43,26 @@ namespace HexMaster.BuildingBlocks.EventBusServiceBus
             var jsonMessage = JsonConvert.SerializeObject(@event);
             var body = Encoding.UTF8.GetBytes(jsonMessage);
 
-            var message = new Message
+            try
             {
-                MessageId = Guid.NewGuid().ToString(),
-                Body = body,
-                Label = eventName,
-            };
+                var message = new Message
+                {
+                    MessageId = Guid.NewGuid().ToString(),
+                    Body = body,
+                    Label = eventName,
+                };
 
-            var topicClient = _serviceBusPersisterConnection.CreateModel();
+                var topicClient = _serviceBusPersisterConnection.CreateModel();
 
-            topicClient.SendAsync(message)
-                .GetAwaiter()
-                .GetResult();
+                topicClient.SendAsync(message)
+                    .GetAwaiter()
+                    .GetResult();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
         }
 
         public void SubscribeDynamic<TH>(string eventName)
@@ -124,19 +131,28 @@ namespace HexMaster.BuildingBlocks.EventBusServiceBus
 
         private void RegisterSubscriptionClientMessageHandler()
         {
-            _subscriptionClient.RegisterMessageHandler(
-                async (message, token) =>
-                {
-                    var eventName = $"{message.Label}{INTEGRATION_EVENT_SUFIX}";
-                    var messageData = Encoding.UTF8.GetString(message.Body);
-
-                    // Complete the message so that it is not received again.
-                    if (await ProcessEvent(eventName, messageData))
+            try
+            {
+                _subscriptionClient.RegisterMessageHandler(
+                    async (message, token) =>
                     {
-                        await _subscriptionClient.CompleteAsync(message.SystemProperties.LockToken);
-                    }
-                },
-               new MessageHandlerOptions(ExceptionReceivedHandler) { MaxConcurrentCalls = 10, AutoComplete = false });
+                        var eventName = $"{message.Label}{INTEGRATION_EVENT_SUFIX}";
+                        var messageData = Encoding.UTF8.GetString(message.Body);
+
+                        // Complete the message so that it is not received again.
+                        if (await ProcessEvent(eventName, messageData))
+                        {
+                            await _subscriptionClient.CompleteAsync(message.SystemProperties.LockToken);
+                        }
+                    },
+                    new MessageHandlerOptions(ExceptionReceivedHandler)
+                        {MaxConcurrentCalls = 10, AutoComplete = false});
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
         }
 
         private Task ExceptionReceivedHandler(ExceptionReceivedEventArgs exceptionReceivedEventArgs)
@@ -153,6 +169,7 @@ namespace HexMaster.BuildingBlocks.EventBusServiceBus
         private async Task<bool> ProcessEvent(string eventName, string message)
         {
             var processed = false;
+             eventName = eventName.Replace(INTEGRATION_EVENT_SUFIX, "");
             if (_subsManager.HasSubscriptionsForEvent(eventName))
             {
                 using (var scope = _autofac.BeginLifetimeScope(AUTOFAC_SCOPE_NAME))

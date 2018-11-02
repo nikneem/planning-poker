@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using HexMaster.BuildingBlocks.EventBus;
@@ -6,19 +9,24 @@ using HexMaster.BuildingBlocks.EventBus.Abstractions;
 using HexMaster.BuildingBlocks.EventBus.Configuration;
 using HexMaster.BuildingBlocks.EventBusRabbitMQ;
 using HexMaster.BuildingBlocks.EventBusServiceBus;
-using HexMaster.PlanningPoker.Live.Hubs;
-using HexMaster.PlanningPoker.Live.IntegrationEvents.Events;
-using HexMaster.PlanningPoker.Live.IntegrationEvents.Handlers;
+using HexMaster.Helpers.Configuration;
+using HexMaster.PlanningPoker.Chat.Contracts.Repositories;
+using HexMaster.PlanningPoker.Chat.Contracts.Services;
+using HexMaster.PlanningPoker.Chat.IntegrationEvents;
+using HexMaster.PlanningPoker.Chat.Repositories;
+using HexMaster.PlanningPoker.Chat.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
-namespace HexMaster.PlanningPoker.Live
+namespace HexMaster.PlanningPoker.Chat
 {
     public class Startup
     {
@@ -32,12 +40,21 @@ namespace HexMaster.PlanningPoker.Live
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-
             var settingsSection = Configuration.GetSection("EventBus");
             var eventBusSettings = settingsSection.Get<EventBusSettings>();
             services.Configure<EventBusSettings>(settingsSection);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            var mongoSettingsSection = Configuration.GetSection(MongoDbSettings.SettingName);
+            var mongoSettings = mongoSettingsSection.Get<MongoDbSettings>();
+            services.Configure<MongoDbSettings>(mongoSettingsSection);
+
+            services.AddScoped<IChatRepository, ChatRepository>();
+            services.AddScoped<IPlanningPokerChatEventService, PlanningPokerChatEventService>();
+
+            services.AddTransient<IChatService, ChatService>();
+
+            services.AddMemoryCache();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -46,10 +63,10 @@ namespace HexMaster.PlanningPoker.Live
                         .AllowAnyHeader()
                         .AllowCredentials());
             });
-            services.AddSignalR();
-
             ConfigureEventBus(services, eventBusSettings);
             RegisterEventBus(services, eventBusSettings);
+
+            services.AddMvcCore().AddJsonFormatters();
 
             var container = new ContainerBuilder();
             container.Populate(services);
@@ -70,11 +87,9 @@ namespace HexMaster.PlanningPoker.Live
 
             ConfigureEventBus(app);
             app.UseCors("CorsPolicy");
-            app.UseSignalR(routes => { routes.MapHub<PokerSessionHub>("/pokersession"); });
             //app.UseHttpsRedirection();
             app.UseMvc();
         }
-
 
         private void ConfigureEventBus(IServiceCollection services, EventBusSettings settings)
         {
@@ -117,7 +132,8 @@ namespace HexMaster.PlanningPoker.Live
                     var logger = sp.GetRequiredService<ILogger<EventBusServiceBus>>();
                     var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
 
-                    return new EventBusServiceBus(serviceBusPersisterConnection, logger, eventBusSubcriptionsManager, subscriptionClientName, iLifetimeScope);
+                    return new EventBusServiceBus(serviceBusPersisterConnection, logger,
+                        eventBusSubcriptionsManager, subscriptionClientName, iLifetimeScope);
                 });
 
             }
@@ -136,24 +152,15 @@ namespace HexMaster.PlanningPoker.Live
             }
 
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
-            services.AddTransient<PokerSessionCardRevealEventHandler>();
-            services.AddTransient<PokerSessionParticipantEstimatedEventHandler>();
-            services.AddTransient<PokerSessionParticipantJoinedEventHandler>();
-            services.AddTransient<PokerSessionParticipantLeftEventHandler>();
-            services.AddTransient<PokerSessionRoundResetEventHandler>();
-            services.AddTransient<PokerSessionStartedEventHandler>();
+            //services.AddTransient<OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
+            //services.AddTransient<OrderStatusChangedToPaidIntegrationEventHandler>();
         }
 
         protected virtual void ConfigureEventBus(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            eventBus.Subscribe<PokerSessionCardRevealEvent, PokerSessionCardRevealEventHandler>();
-            eventBus.Subscribe<PokerSessionParticipantEstimatedEvent, PokerSessionParticipantEstimatedEventHandler>();
-            eventBus.Subscribe<PokerSessionParticipantJoinedEvent, PokerSessionParticipantJoinedEventHandler>();
-            eventBus.Subscribe<PokerSessionParticipantLeftEvent, PokerSessionParticipantLeftEventHandler>();
-            eventBus.Subscribe<PokerSessionRoundResetEvent, PokerSessionRoundResetEventHandler>();
-            eventBus.Subscribe<PokerSessionStartedEvent, PokerSessionStartedEventHandler>();
+            //eventBus.Subscribe<OrderStatusChangedToAwaitingValidationIntegrationEvent, OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
+            //eventBus.Subscribe<OrderStatusChangedToPaidIntegrationEvent, OrderStatusChangedToPaidIntegrationEventHandler>();
         }
-
     }
 }

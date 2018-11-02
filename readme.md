@@ -1,3 +1,9 @@
+| Service               | Status             |
+| --------------------- | -----------------: |
+| Single Page Front-End | ![alt text](https://dev.azure.com/ekeilholz/PlanningPoker/_apis/build/status/PlanningPoker%20Live?branchName=master 'Build status of the front-end SPA') |
+| Backend API           | ![alt text](https://dev.azure.com/ekeilholz/PlanningPoker/_apis/build/status/PlanningPoker%20Poker?branchName=master 'Build status of the poker microservice') |
+| Poker Microservice    | ![alt text](https://dev.azure.com/ekeilholz/PlanningPoker/_apis/build/status/PlanningPoker%20Live?branchName=master 'Build status of the live microservice') |
+
 # Planning Poker on containers
 
 This project started off as a hobby project, trying to learn and understand docker containers

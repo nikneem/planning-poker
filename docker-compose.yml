@@ -61,6 +61,18 @@ services:
         networks:
             - planningpoker
 
+    chat.planningpoker:
+        image: nikneem/planningpoker-chat
+        hostname: chat.planningpoker
+        build:
+            context: .
+            dockerfile: HexMaster.PlanningPoker.Chat/Dockerfile
+        depends_on:
+            - mongo
+            - rabbitmq
+        networks:
+            - planningpoker
+
     mongo:
         image: mongo
         hostname: 'mongo'

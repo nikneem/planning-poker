@@ -15,7 +15,7 @@ namespace HexMaster.PlanningPoker.Poker.Repositories
     public class PokerSessionsRepository : MongoRepositoryBase<PokerSessionEntity>, IPokerSessionsRepository
     {
 
-        private const string CollectionName = "PokerSessions";
+        private const string CollectionName = "planningpoker";
 
 
 
