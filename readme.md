@@ -1,8 +1,9 @@
-| Service               | Status             |
-| --------------------- | -----------------: |
-| Single Page Front-End | ![alt text](https://dev.azure.com/ekeilholz/PlanningPoker/_apis/build/status/PlanningPoker%20Live?branchName=master 'Build status of the front-end SPA') |
-| Backend API           | ![alt text](https://dev.azure.com/ekeilholz/PlanningPoker/_apis/build/status/PlanningPoker%20Poker?branchName=master 'Build status of the poker microservice') |
-| Poker Microservice    | ![alt text](https://dev.azure.com/ekeilholz/PlanningPoker/_apis/build/status/PlanningPoker%20Live?branchName=master 'Build status of the live microservice') |
+| Service                |                                                                                                                                                                                     Status |
+| ---------------------- | -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| Single Page Front-End  |  [![Build Status](https://dev.azure.com/ekeilholz/PlanningPoker/_apis/build/status/PlanningPoker%20Spa%20CI)](https://dev.azure.com/ekeilholz/PlanningPoker/_build/latest?definitionId=10) |
+| Backend API            |   [![Build Status](https://dev.azure.com/ekeilholz/PlanningPoker/_apis/build/status/PlanningPoker%20Api%20CI)](https://dev.azure.com/ekeilholz/PlanningPoker/_build/latest?definitionId=9) |
+| Poker Microservice     | [![Build Status](https://dev.azure.com/ekeilholz/PlanningPoker/_apis/build/status/PlanningPoker%20Poker%20CI)](https://dev.azure.com/ekeilholz/PlanningPoker/_build/latest?definitionId=7) |
+| Real-time Microservice |  [![Build Status](https://dev.azure.com/ekeilholz/PlanningPoker/_apis/build/status/PlanningPoker%20Live%20CI)](https://dev.azure.com/ekeilholz/PlanningPoker/_build/latest?definitionId=8) |
 
 # Planning Poker on containers
 
