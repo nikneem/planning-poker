@@ -1,75 +1,74 @@
 version: '3.4'
 
 services:
-    spa.planningpoker:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_URLS=https://+:443;http://+:80
-            - ASPNETCORE_HTTPS_PORT=44338
-        ports:
-            - '54000:80'
-            - '55000:443'
-        volumes:
-            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  planningpoker-spa:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44338
+    ports:
+      - '54000:80'
+      - '55000:443'
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
-    api.planningpoker:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_URLS=https://+:443;http://+:80
-            - ASPNETCORE_HTTPS_PORT=44322
-        ports:
-            - '54400:80'
-            - '55500:443'
-        volumes:
-            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  planningpoker-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44322
+    ports:
+      - '54400:80'
+      - '55500:443'
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
-    refinements.planningpoker:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_URLS=https://+:443;http://+:80
-            - ASPNETCORE_HTTPS_PORT=44359
-        ports:
-            - '54401:80'
-            - '55501:443'
-        volumes:
-            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  planningpoker-refinements:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44359
+    ports:
+      - '54401:80'
+      - '55501:443'
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
-    poker.planningpoker:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_URLS=https://+:443;http://+:80
-            - ASPNETCORE_HTTPS_PORT=44358
-        ports:
-            - '54402:80'
-            - '55502:443'
-        volumes:
-            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  planningpoker-poker:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44358
+    ports:
+      - '54402:80'
+      - '55502:443'
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
-    live.planningpoker:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_URLS=https://+:443;http://+:80
-            - ASPNETCORE_HTTPS_PORT=44384
-        ports:
-            - '54403:80'
-            - '55503:443'
-        volumes:
-            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  planningpoker-live:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44384
+    ports:
+      - '54403:80'
+      - '55503:443'
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
-    chat.planningpoker:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_URLS=https://+:443;http://+:80
-            - ASPNETCORE_HTTPS_PORT=44384
-        ports:
-            - '54404:80'
-            - '55504:443'
-        volumes:
-            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-
+  chat:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44384
+    ports:
+      - '54404:80'
+      - '55504:443'
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro

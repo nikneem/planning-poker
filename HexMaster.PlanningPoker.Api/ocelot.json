@@ -2,68 +2,67 @@
   "ReRoutes": [
     {
       "UpstreamPathTemplate": "/pokersessions",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "OPTIONS" ],
+      "UpstreamHttpMethod": ["POST", "PUT", "GET", "OPTIONS"],
       "DownstreamPathTemplate": "/api/pokersessions",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "poker.planningpoker",
+          "Host": "planningpoker-poker",
           "Port": 80
         }
       ]
     },
     {
       "UpstreamPathTemplate": "/pokersessions/{path}",
-      "UpstreamHttpMethod": [ "POST", "GET", "OPTIONS" ],
+      "UpstreamHttpMethod": ["POST", "GET", "OPTIONS"],
       "DownstreamPathTemplate": "/api/pokersessions/{path}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "poker.planningpoker",
+          "Host": "planningpoker-poker",
           "Port": 80
         }
       ]
     },
     {
       "UpstreamPathTemplate": "/pokersessions/{path}/{action}",
-      "UpstreamHttpMethod": [ "POST", "GET", "OPTIONS" ],
+      "UpstreamHttpMethod": ["POST", "GET", "OPTIONS"],
       "DownstreamPathTemplate": "/api/pokersessions/{path}/{action}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "poker.planningpoker",
+          "Host": "planningpoker-poker",
           "Port": 80
         }
       ]
     },
     {
       "UpstreamPathTemplate": "/estimations",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "OPTIONS" ],
+      "UpstreamHttpMethod": ["POST", "PUT", "GET", "OPTIONS"],
       "DownstreamPathTemplate": "/api/estimations",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "poker.planningpoker",
+          "Host": "planningpoker-poker",
           "Port": 80
         }
       ]
     },
     {
       "UpstreamPathTemplate": "/refinements",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "UpstreamHttpMethod": ["POST", "PUT", "GET"],
       "DownstreamPathTemplate": "/api/refinements",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "refinements.planningpoker",
-          "Port": 443
+          "Host": "planningpoker-refinements",
+          "Port": 80
         }
       ]
     }
-
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:55500",
+    "BaseUrl": "http://www.planning-poker.net",
     "SkipSslValidation": true
   }
 }
