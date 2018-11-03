@@ -1,105 +1,105 @@
 version: '3.4'
 
 services:
-    spa.planningpoker:
-        image: nikneem/planningpoker-spa
-        hostname: spa.planningpoker
-        build:
-            context: .
-            dockerfile: HexMaster.PlanningPoker.Spa/Dockerfile
-        depends_on:
-            - api.planningpoker
-        networks:
-            - planningpoker
+  planningpoker-spa:
+    image: nikneem/planningpoker-spa
+    hostname: planningpoker-spa
+    build:
+      context: .
+      dockerfile: HexMaster.PlanningPoker.Spa/Dockerfile
+    depends_on:
+      - planningpoker-api
+    networks:
+      - planningpoker
 
-    api.planningpoker:
-        image: nikneem/planningpoker-api
-        hostname: api.planningpoker
-        build:
-            context: .
-            dockerfile: HexMaster.PlanningPoker.Api/Dockerfile
-        depends_on:
-            - refinements.planningpoker
-            - poker.planningpoker
-            - live.planningpoker
-        networks:
-            - planningpoker
+  planningpoker-api:
+    image: nikneem/planningpoker-api
+    hostname: planningpoker-api
+    build:
+      context: .
+      dockerfile: HexMaster.PlanningPoker.Api/Dockerfile
+    depends_on:
+      - planningpoker-refinements
+      - planningpoker-poker
+      - planningpoker-live
+    networks:
+      - planningpoker
 
-    refinements.planningpoker:
-        image: nikneem/planningpoker-refinements
-        hostname: refinements.planningpoker
-        build:
-            context: .
-            dockerfile: HexMaster.PlanningPoker.Refinements/Dockerfile
-        depends_on:
-            - mongo
-            - rabbitmq
-        networks:
-            - planningpoker
+  planningpoker-refinements:
+    image: nikneem/planningpoker-refinements
+    hostname: planningpoker-refinements
+    build:
+      context: .
+      dockerfile: HexMaster.PlanningPoker.Refinements/Dockerfile
+    depends_on:
+      - mongo
+      - rabbitmq
+    networks:
+      - planningpoker
 
-    poker.planningpoker:
-        image: nikneem/planningpoker-poker
-        hostname: poker.planningpoker
-        build:
-            context: .
-            dockerfile: HexMaster.PlanningPoker.Poker/Dockerfile
-        depends_on:
-            - mongo
-            - rabbitmq
-        networks:
-            - planningpoker
+  planningpoker-poker:
+    image: nikneem/planningpoker-poker
+    hostname: planningpoker-poker
+    build:
+      context: .
+      dockerfile: HexMaster.PlanningPoker.Poker/Dockerfile
+    depends_on:
+      - mongo
+      - rabbitmq
+    networks:
+      - planningpoker
 
-    live.planningpoker:
-        image: nikneem/planningpoker-live
-        hostname: live.planningpoker
-        build:
-            context: .
-            dockerfile: HexMaster.PlanningPoker.Live/Dockerfile
-        depends_on:
-            - mongo
-            - rabbitmq
-        networks:
-            - planningpoker
+  planningpoker-live:
+    image: nikneem/planningpoker-live
+    hostname: planningpoker-live
+    build:
+      context: .
+      dockerfile: HexMaster.PlanningPoker.Live/Dockerfile
+    depends_on:
+      - mongo
+      - rabbitmq
+    networks:
+      - planningpoker
 
-    chat.planningpoker:
-        image: nikneem/planningpoker-chat
-        hostname: chat.planningpoker
-        build:
-            context: .
-            dockerfile: HexMaster.PlanningPoker.Chat/Dockerfile
-        depends_on:
-            - mongo
-            - rabbitmq
-        networks:
-            - planningpoker
+  planningpoker-chat:
+    image: nikneem/planningpoker-chat
+    hostname: planningpoker-chat
+    build:
+      context: .
+      dockerfile: HexMaster.PlanningPoker.Chat/Dockerfile
+    depends_on:
+      - mongo
+      - rabbitmq
+    networks:
+      - planningpoker
 
-    mongo:
-        image: mongo
-        hostname: 'mongo'
-        restart: always
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: example
-        depends_on:
-            - rabbitmq
-        ports:
-            - '27017:27017'
-        networks:
-            - planningpoker
+  mongo:
+    image: mongo
+    hostname: 'mongo'
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    depends_on:
+      - rabbitmq
+    ports:
+      - '27017:27017'
+    networks:
+      - planningpoker
 
-    rabbitmq:
-        image: 'rabbitmq:3-management'
-        hostname: 'rabbitmq'
-        environment:
-            RABBITMQ_DEFAULT_USER: 'rabbitmq'
-            RABBITMQ_DEFAULT_PASS: 'rabbitmq'
-            RABBITMQ_DEFAULT_VHOST: '/'
-        ports:
-            - '15672:15672'
-            - '5672:5672'
-        networks:
-            - planningpoker
+  rabbitmq:
+    image: 'rabbitmq:3-management'
+    hostname: 'rabbitmq'
+    environment:
+      RABBITMQ_DEFAULT_USER: 'rabbitmq'
+      RABBITMQ_DEFAULT_PASS: 'rabbitmq'
+      RABBITMQ_DEFAULT_VHOST: '/'
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    networks:
+      - planningpoker
 
 networks:
-    planningpoker:
-        driver: 'bridge'
+  planningpoker:
+    driver: 'bridge'

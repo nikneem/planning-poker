@@ -18,7 +18,6 @@ namespace HexMaster.PlanningPoker.Live.IntegrationEvents.Handlers
 
         public async Task Handle(PokerSessionParticipantEstimatedEvent @event)
         {
-            Console.WriteLine("ESTIMATE EVENT ARRIVED AT TOPIC SUBSCRIPTION");
             var hub = new PokerSessionHub(Context);
             await hub.ParticipantEstimated(@event.PokerSessionId, @event.ParticipantId, @event.PokerValue);
         }
