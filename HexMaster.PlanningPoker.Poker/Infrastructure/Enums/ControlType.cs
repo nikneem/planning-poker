@@ -3,6 +3,8 @@
     public enum ControlType : byte
     {
         Shared = 0,
-        Individual = 1
+        Individual = 1,
+        All=2,
+        Self=3
     }
-}
+}\}

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using HexMaster.PlanningPoker.Poker.Contracts.Services;
 using HexMaster.PlanningPoker.Poker.DataTransferObjects;
+using HexMaster.PlanningPoker.Poker.Infrastructure.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -86,6 +87,22 @@ namespace HexMaster.PlanningPoker.Poker.Controllers
         {
             try
             {
+                if (model.ControlType == ControlType.All)
+                {
+                    model.ControlType = ControlType.Shared;
+                }
+                if (model.ControlType == ControlType.Self)
+                {
+                    model.ControlType = ControlType.Individual;
+                }
+                if (model.StartType == StartType.Immidiate)
+                {
+                    model.StartType = StartType.Automatically;
+                }
+                if (model.StartType == StartType.Delayed)
+                {
+                    model.StartType = StartType.Manually;
+                }
                 var result = await Service.Create(model);
                 if (result == null)
                 {
