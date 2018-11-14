@@ -23,9 +23,7 @@ namespace HexMaster.PlanningPoker.Api
         {
             services.AddMemoryCache();
 
-            var settingsSection = _configuration.GetSection("EventBus");
-            var eventBusSettings = settingsSection.Get<LetsEncryptConfiguration>();
-            services.Configure<LetsEncryptConfiguration>(settingsSection);
+
 
             services.AddLetsEncrypt();
             services.AddMvcCore().AddJsonFormatters();
